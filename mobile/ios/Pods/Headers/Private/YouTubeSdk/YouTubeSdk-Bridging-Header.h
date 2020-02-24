@@ -1,0 +1,1 @@
+../../../../../node_modules/react-native-youtube-sdk/ios/YouTubeSdk-Bridging-Header.h

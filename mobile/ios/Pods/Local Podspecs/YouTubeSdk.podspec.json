@@ -1,0 +1,29 @@
+{
+  "name": "YouTubeSdk",
+  "version": "1.0.4",
+  "summary": "YouTube SDK for react native",
+  "description": "YouTube SDK for react native",
+  "homepage": "https://github.com/srfaytkn/react-native-youtube-sdk#readme",
+  "license": "Apache 2.0",
+  "authors": "srfaytkn",
+  "source": {
+    "git": "https://github.com/srfaytkn/react-native-youtube-sdk.git",
+    "tag": "master"
+  },
+  "platforms": {
+    "ios": "9.0"
+  },
+  "preserve_paths": [
+    "LICENSE",
+    "package.json"
+  ],
+  "source_files": "ios/*.{h,m,swift}",
+  "dependencies": {
+    "React": [
+
+    ]
+  },
+  "resources": [
+    "assets/YTPlayerView.html"
+  ]
+}

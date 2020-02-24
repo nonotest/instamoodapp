@@ -1,0 +1,6 @@
+module Pods_InstaMood {
+  umbrella header "Pods-InstaMood-umbrella.h"
+
+  export *
+  module * { export * }
+}
