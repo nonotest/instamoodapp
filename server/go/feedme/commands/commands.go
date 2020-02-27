@@ -12,21 +12,15 @@ func Execute(args []string) {
 	conn := store.Pool()[store.RedisMoodsPoolName].Get()
 	defer conn.Close()
 
-	var err error
-	switch args[0] {
-	case "instagram":
-		// todo interface.
-		ig := NewIGImporter(conn)
-		err = ig.Import()
+	twitterTrends := NewTwitterTrendsImporter(conn)
+	err := twitterTrends.Import()
 
-	case "quotable":
-		quotable := NewQuotableImporter(conn)
-		err = quotable.Import()
-
-	case "youtube":
-		yt := NewYTImporter(conn)
-		err = yt.Import()
-	}
+	// yt := NewYTImporter(conn)
+	// err = yt.Import()
+	// ig := NewIGImporter(conn)
+	// err = ig.Import()
+	// quotable := NewQuotableImporter(conn)
+	// err = quotable.Import()
 
 	if err != nil {
 		panic(err)

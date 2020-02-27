@@ -76,6 +76,11 @@ function storeReducer(state: StoreProviderState, action) {
         ...state,
         userMoods: action.payload.moods,
       };
+    case storeActions.TRENDS_RECEIVED:
+      return {
+        ...state,
+        trends: action.payload.trends,
+      };
     default:
       return state;
   }

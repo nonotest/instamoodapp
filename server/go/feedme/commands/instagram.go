@@ -143,7 +143,7 @@ func (I *IGImporter) getMediaBytes(node IGNode, mood string) ([]byte, error) {
 // webGet returns a hashtag feed based on a call to ig web api.
 func webGetIG(mood string) (*IGResponse, error) {
 	url := baseInstagramURL + mood + "/"
-	params := &IGParams{ISJson: 1}
+	params := &IGRequestParams{ISJson: 1}
 
 	feed := new(IGResponse)
 	apiErr := new(IGError)

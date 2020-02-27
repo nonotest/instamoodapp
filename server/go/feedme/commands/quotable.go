@@ -132,7 +132,7 @@ func (I *QuotableImporter) getQuotes() ([]QuotableQuote, error) {
 func webGetQuotable(perPage int, offset int) (*QuotableListResponse, error) {
 
 	url := baseQuotableURL
-	params := &QuotableParams{Skip: offset, Limit: perPage}
+	params := &QuotableRequestParams{Skip: offset, Limit: perPage}
 
 	quotes := new(QuotableListResponse)
 	apiErr := new(QuotableError)

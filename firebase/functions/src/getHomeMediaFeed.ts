@@ -1,13 +1,5 @@
 import * as functions from 'firebase-functions'
-import * as admin from 'firebase-admin'
-import * as redis from 'redis'
-// import * as util from 'util'
-
-admin.initializeApp(functions.config().firebase)
-
-const REDISHOST = process.env.REDIS_HOST || 'localhost'
-const redisClient = redis.createClient(6379, REDISHOST)
-redisClient.on('error', err => console.error('ERR:REDIS:', err))
+import redisClient from './redis'
 
 const dateSources = ['instagram']
 // const randomSources = ['quotable']

@@ -13,7 +13,7 @@ type QuotableListResponse struct {
 	Results       []QuotableQuote `json:"results"`
 }
 
-type QuotableParams struct {
+type QuotableRequestParams struct {
 	Limit int `url:"limit"`
 	Skip  int `url:"skip"`
 }
