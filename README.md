@@ -1,3 +1,5 @@
+![](current-instamood.gif)
+
 # Description
 
 1. Import at regular interval posts matching specific keywords from a number of social sources:
