@@ -29,7 +29,7 @@ type YTMediaData struct {
 type YTMedia struct {
 	Data            YTMediaData `json:"data"`
 	MediaSourceName string      `json:"mediaSourceName"`
-	MoodName        string      `json:"moodName"`
+	TrendName       string      `json:"trendName"`
 	InternalID      string      `json:"internalId"`
 	InsertedAt      time.Time   `json:"insertedAt"`
 	ID              string      `json:"ID"`
@@ -38,17 +38,19 @@ type YTMedia struct {
 type YTImporter struct {
 	AppEnv     string
 	StoreConn  redis.Conn
-	MediaStore *store.RedisMediaStore
+	MediaStore *store.RedisStore
+	Trends     []Trend
 }
 
-func NewYTImporter(conn redis.Conn) *YTImporter {
-	s := store.NewRedisMediaStore()
+func NewYTImporter(conn redis.Conn, trends []Trend) *YTImporter {
+	s := store.NewRedisStore()
 	appEnv := util.GetEnv("APP_ENV", "dev")
 
 	return &YTImporter{
 		StoreConn:  conn,
 		MediaStore: s,
 		AppEnv:     appEnv,
+		Trends:     trends,
 	}
 }
 
@@ -59,28 +61,25 @@ func (I *YTImporter) Import() error {
 		return err
 	}
 
-	for mood, medias := range mediasByMood {
+	for trend, medias := range mediasByMood {
 		I.StoreConn.Do("MULTI")
 		for _, node := range medias {
-			mediaBytes, err := I.getMediaBytes(node, mood)
+			mediaBytes, err := I.getMediaBytes(node, trend)
 			if err != nil {
 				return err
 			}
 
-			err = I.StoreConn.Send(I.MediaStore.SetZRangeMediaForKey("youtube-"+mood, int(node.Snippet.PublishedAt.Unix()), mediaBytes))
+			score := int(node.Snippet.PublishedAt.Unix()) + 500
+			err = I.StoreConn.Send(I.MediaStore.SetZRangeMediaForKey(trend, score, mediaBytes))
 			if err != nil {
-				return errors.New("error while redis setting ig for mood " + mood + ": " + err.Error())
+				return errors.New("error while redis setting yt for trend " + trend + ": " + err.Error())
 			}
 
-			err = I.StoreConn.Send(I.MediaStore.SetZRangeMediaForKey("youtube", int(node.Snippet.PublishedAt.Unix()), mediaBytes))
-			if err != nil {
-				return errors.New("error while redis setting ig: " + err.Error())
-			}
 		}
 
 		repl, err := I.StoreConn.Do("EXEC")
 		if err != nil {
-			return errors.New("error while redis exec ig: " + err.Error())
+			return errors.New("error while redis exec yt: " + err.Error())
 		}
 
 		fmt.Printf("Redis Reply For Batch: %+v", repl)
@@ -92,9 +91,6 @@ func (I *YTImporter) Import() error {
 
 func (I *YTImporter) getMediasByMood() (map[string][]YTResult, error) {
 
-	// list of moods
-	moods := []string{"perthstorm", "loving", "blessed", "upset", "happy", "scenery", "beauty"}
-
 	var feed *YTResponse
 	var err error
 
@@ -102,31 +98,31 @@ func (I *YTImporter) getMediasByMood() (map[string][]YTResult, error) {
 	// EdgeHashtagToMedia
 	allMedias := make(map[string][]YTResult, 0)
 
-	for _, mood := range moods {
+	for _, trend := range I.Trends {
 		if I.AppEnv == "dev" {
 			feed, err = localGetYT()
 		} else {
-			feed, err = webGetYT(mood)
+			feed, err = webGetYT(trend.Name)
 		}
 		if err != nil {
 			return nil, err
 		}
 
-		allMedias[mood] = feed.Items
+		allMedias[trend.Name] = feed.Items
 	}
 
 	return allMedias, nil
 }
 
 // getMediaBytes returns a marshalled media ready for redis.
-func (I *YTImporter) getMediaBytes(node YTResult, mood string) ([]byte, error) {
+func (I *YTImporter) getMediaBytes(node YTResult, trend string) ([]byte, error) {
 	m := Media{
 		Data: YTMediaData{
 			VideoID:  node.ID.VideoID,
 			Username: "",
 		},
 		MediaSourceName: "youtube",
-		MoodName:        mood,
+		TrendName:       trend,
 		InternalID:      node.ID.VideoID,
 		InsertedAt:      node.Snippet.PublishedAt,
 		ID:              node.ID.VideoID + "-youtube",

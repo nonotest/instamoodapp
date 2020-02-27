@@ -22,16 +22,16 @@ const (
 type TwitterTrendsImporter struct {
 	AppEnv     string
 	StoreConn  redis.Conn
-	TrendStore *store.RedisTrendStore
+	RedisStore *store.RedisStore
 }
 
 func NewTwitterTrendsImporter(conn redis.Conn) *TwitterTrendsImporter {
-	t := store.NewRedisTrendStore()
+	t := store.NewRedisStore()
 	appEnv := util.GetEnv("APP_ENV", "dev")
 
 	return &TwitterTrendsImporter{
 		StoreConn:  conn,
-		TrendStore: t,
+		RedisStore: t,
 		AppEnv:     appEnv,
 	}
 }
@@ -64,7 +64,7 @@ func (I *TwitterTrendsImporter) Import() error {
 			return errors.New("error while getting media bytes: " + err.Error())
 		}
 
-		err = I.StoreConn.Send(I.TrendStore.SetZRangeTrendForKey(asOf, mJSON))
+		err = I.StoreConn.Send(I.RedisStore.SetZRangeTrendForKey(asOf, mJSON))
 		if err != nil {
 			return errors.New("error while redis setting ig for trend " + t.Name + ": " + err.Error())
 		}
@@ -89,7 +89,7 @@ func (I *TwitterTrendsImporter) getTrends() (*TwitterTrendingResponse, error) {
 	if I.AppEnv == "dev" {
 		trends, err = localGetTwitterTrends()
 	} else {
-		trends, err = webGetTwitterTrends()
+		trends, err = localGetTwitterTrends()
 	}
 	if err != nil {
 		return nil, err

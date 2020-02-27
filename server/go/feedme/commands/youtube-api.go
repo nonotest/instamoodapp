@@ -10,7 +10,6 @@ type YTParams struct {
 	Key            string    `url:"key"`
 	MaxResults     int       `url:"maxResults"`
 	Order          string    `url:"order"`
-	ViewCount      int       `url:"viewCount"`
 	Type           string    `url:"type"`
 	PublishedAfter time.Time `url:"publishedAfter"`
 }
