@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useState, useEffect } from 'react';
 import { SafeAreaView, StatusBar } from 'react-native';
 
 import {
@@ -9,10 +9,34 @@ import {
   storeActions,
 } from './context/StoreContext';
 import { ThemeProvider } from './themes';
+import storage from './services/storage';
 import HomeScreen from './screens/HomeScreen';
 
 const App: () => React$Node = () => {
   const [state, dispatch] = useReducer(storeReducer, getInitialStore());
+  const [appLoaded, setAppLoaded] = useState(false);
+
+  useEffect(() => {
+    // looks for user set moods in the async storage store.
+    // if there are none, prompt them to enter a few via our modal screen.
+    async function loadStore() {
+      // await storage.set('favouriteMoods', JSON.stringify([]));
+      const moods = await storage.get('favouriteMoods');
+      if (moods) {
+        dispatch({
+          type: storeActions.USER_MOODS_RECEIVED,
+          payload: { moods: JSON.parse(moods) },
+        });
+      }
+
+      setAppLoaded(true);
+    }
+    loadStore();
+  }, []);
+
+  if (!appLoaded) {
+    return null;
+  }
 
   return (
     <>
@@ -48,13 +72,9 @@ function storeReducer(state: StoreProviderState, action) {
         moods: action.payload.moods,
       };
     case storeActions.USER_MOODS_RECEIVED:
-      const userMoods = Object.keys(action.payload.moods).map(
-        key => action.payload.moods[key],
-      );
-
       return {
         ...state,
-        userMoods,
+        userMoods: action.payload.moods,
       };
     default:
       return state;

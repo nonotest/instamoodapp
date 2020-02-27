@@ -16,18 +16,18 @@ import (
 )
 
 const (
-	baseInstagramURL = "https://www.instagram.com/explore/tags/"
+	baseYoutubeURL = "https://www.googleapis.com/youtube/v3/search"
 )
 
-// IGMediaData to store.
-type IGMediaData struct {
-	URL    string `json:"url"`
-	UserID int    `json:"userId,omitempty"`
+// YTMediaData to store.
+type YTMediaData struct {
+	VideoID  string `json:"videoId"`
+	Username string `json:"username,omitempty"`
 }
 
-// IGMedia to store.
-type IGMedia struct {
-	Data            IGMediaData `json:"data"`
+// YTMedia to store.
+type YTMedia struct {
+	Data            YTMediaData `json:"data"`
 	MediaSourceName string      `json:"mediaSourceName"`
 	MoodName        string      `json:"moodName"`
 	InternalID      string      `json:"internalId"`
@@ -35,17 +35,17 @@ type IGMedia struct {
 	ID              string      `json:"ID"`
 }
 
-type IGImporter struct {
+type YTImporter struct {
 	AppEnv     string
 	StoreConn  redis.Conn
 	MediaStore *store.RedisMediaStore
 }
 
-func NewIGImporter(conn redis.Conn) *IGImporter {
+func NewYTImporter(conn redis.Conn) *YTImporter {
 	s := store.NewRedisMediaStore()
 	appEnv := util.GetEnv("APP_ENV", "dev")
 
-	return &IGImporter{
+	return &YTImporter{
 		StoreConn:  conn,
 		MediaStore: s,
 		AppEnv:     appEnv,
@@ -53,7 +53,7 @@ func NewIGImporter(conn redis.Conn) *IGImporter {
 }
 
 // Import imports.
-func (I *IGImporter) Import() error {
+func (I *YTImporter) Import() error {
 	mediasByMood, err := I.getMediasByMood()
 	if err != nil {
 		return err
@@ -62,17 +62,17 @@ func (I *IGImporter) Import() error {
 	for mood, medias := range mediasByMood {
 		I.StoreConn.Do("MULTI")
 		for _, node := range medias {
-			mediaBytes, err := I.getMediaBytes(node.Node, mood)
+			mediaBytes, err := I.getMediaBytes(node, mood)
 			if err != nil {
 				return err
 			}
 
-			err = I.StoreConn.Send(I.MediaStore.SetZRangeMediaForKey("instagram-"+mood, node.Node.TakenAtTimestamp, mediaBytes))
+			err = I.StoreConn.Send(I.MediaStore.SetZRangeMediaForKey("youtube-"+mood, int(node.Snippet.PublishedAt.Unix()), mediaBytes))
 			if err != nil {
 				return errors.New("error while redis setting ig for mood " + mood + ": " + err.Error())
 			}
 
-			err = I.StoreConn.Send(I.MediaStore.SetZRangeMediaForKey("instagram", node.Node.TakenAtTimestamp, mediaBytes))
+			err = I.StoreConn.Send(I.MediaStore.SetZRangeMediaForKey("youtube", int(node.Snippet.PublishedAt.Unix()), mediaBytes))
 			if err != nil {
 				return errors.New("error while redis setting ig: " + err.Error())
 			}
@@ -90,45 +90,46 @@ func (I *IGImporter) Import() error {
 	return nil
 }
 
-func (I *IGImporter) getMediasByMood() (map[string][]IGEdge, error) {
+func (I *YTImporter) getMediasByMood() (map[string][]YTResult, error) {
 
 	// list of moods
 	moods := []string{"perthstorm", "loving", "blessed", "upset", "happy", "scenery", "beauty"}
 
-	var feed *IGResponse
+	var feed *YTResponse
 	var err error
 
 	// EdgeHashtagToTopPosts
 	// EdgeHashtagToMedia
-	allMedias := make(map[string][]IGEdge, 0)
+	allMedias := make(map[string][]YTResult, 0)
 
 	for _, mood := range moods {
 		if I.AppEnv == "dev" {
-			feed, err = localGetIG()
+			feed, err = localGetYT()
 		} else {
-			feed, err = webGetIG(mood)
+			feed, err = webGetYT(mood)
 		}
 		if err != nil {
 			return nil, err
 		}
 
-		allMedias[mood] = feed.Graphql.Hashtag.EdgeHashtagToMedia.Edges
+		allMedias[mood] = feed.Items
 	}
 
 	return allMedias, nil
 }
 
 // getMediaBytes returns a marshalled media ready for redis.
-func (I *IGImporter) getMediaBytes(node IGNode, mood string) ([]byte, error) {
+func (I *YTImporter) getMediaBytes(node YTResult, mood string) ([]byte, error) {
 	m := Media{
-		Data: IGMediaData{
-			URL: node.DisplayURL,
+		Data: YTMediaData{
+			VideoID:  node.ID.VideoID,
+			Username: "",
 		},
-		MediaSourceName: "instagram",
+		MediaSourceName: "youtube",
 		MoodName:        mood,
-		InternalID:      node.ID,
-		InsertedAt:      time.Unix(int64(node.TakenAtTimestamp), 0),
-		ID:              node.ID + "-instagram",
+		InternalID:      node.ID.VideoID,
+		InsertedAt:      node.Snippet.PublishedAt,
+		ID:              node.ID.VideoID + "-youtube",
 	}
 
 	mJSON, err := json.Marshal(m)
@@ -141,12 +142,21 @@ func (I *IGImporter) getMediaBytes(node IGNode, mood string) ([]byte, error) {
 }
 
 // webGet returns a hashtag feed based on a call to ig web api.
-func webGetIG(mood string) (*IGResponse, error) {
-	url := baseInstagramURL + mood + "/"
-	params := &IGParams{ISJson: 1}
+func webGetYT(mood string) (*YTResponse, error) {
+	url := baseYoutubeURL + mood + "/"
+	t, _ := time.Parse(time.RFC3339, "2020-02-25T00:00:00Z")
+	params := &YTParams{
+		Q:              "perth storm",
+		Part:           "snippet",
+		Key:            "AIzaSyCwLBjR7pIxVPKevjbIP0qj8vkxyUZUuKo",
+		MaxResults:     50,
+		Order:          "viewCount",
+		Type:           "video",
+		PublishedAfter: t,
+	}
 
-	feed := new(IGResponse)
-	apiErr := new(IGError)
+	feed := new(YTResponse)
+	apiErr := new(YTError)
 	_, err := sling.New().Get(url).QueryStruct(params).Receive(feed, apiErr)
 	if err != nil {
 		return nil, err
@@ -156,8 +166,8 @@ func webGetIG(mood string) (*IGResponse, error) {
 }
 
 // localGet returns a hashtag feed based on a local file.
-func localGetIG() (*IGResponse, error) {
-	jsonFile, err := os.Open("instagram.json")
+func localGetYT() (*YTResponse, error) {
+	jsonFile, err := os.Open("youtube.json")
 	if err != nil {
 		fmt.Printf("%+v", err)
 		return nil, err
@@ -165,7 +175,7 @@ func localGetIG() (*IGResponse, error) {
 
 	defer jsonFile.Close()
 	byteValue, _ := ioutil.ReadAll(jsonFile)
-	var feed IGResponse
+	var feed YTResponse
 
 	json.Unmarshal(byteValue, &feed)
 

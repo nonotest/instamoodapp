@@ -13,6 +13,7 @@ import { Button, Icon } from 'react-native-elements';
 
 import { useTheme } from '../../themes';
 import { Mood } from '../../core';
+import storage from '../../services/storage';
 import {
   useDispatch,
   useStore,
@@ -48,10 +49,16 @@ function MoodSelectorModalScreen({ setVisible }: Props) {
     [selectedMoods],
   );
 
-  const onPressSubmit = useCallback(() => {
+  const onPressSubmit = useCallback(async () => {
+    const userMoods = Object.keys(selectedMoods).map(
+      key => selectedMoods[key].name,
+    );
+
+    await storage.set('favouriteMoods', JSON.stringify(userMoods));
+
     dispatch({
       type: storeActions.USER_MOODS_RECEIVED,
-      payload: { moods: selectedMoods },
+      payload: { moods: userMoods },
     });
     setVisible(false);
   }, [selectedMoods]);

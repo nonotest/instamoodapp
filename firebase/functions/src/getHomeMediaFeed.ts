@@ -83,14 +83,15 @@ export const getHomeMediaFeed = functions.https.onCall(
 const getMedias = (data: GetHomeMediaFeedRequest) =>
   new Promise((resolve, reject) => {
     const currentPage = data.page || 0
-    const moods = data.moods.length > 0 ? data.moods : allMoods
+    let moods = data.moods && data.moods.length > 0 ? data.moods : allMoods
+    moods = ['angry']
     const multi = redisClient.multi()
 
     // should always be 10
     let postCountLeftToFetch: number = 10
 
     // add in required random records
-    const postFromRandomSourcePerPage = 2
+    const postFromRandomSourcePerPage = 0
     for (let i = 0; i < postFromRandomSourcePerPage; ++i) {
       multi.srandmember('quotable')
     }
@@ -104,25 +105,19 @@ const getMedias = (data: GetHomeMediaFeedRequest) =>
     // todo: quotient for this too
     postCountLeftToFetch = postCountLeftToFetch / dateSources.length
     // TODO: Remainder if we need to complete.
-    let remainder = postCountLeftToFetch % moods.length
+    // let remainder = postCountLeftToFetch % moods.length
     postCountLeftToFetch = Math.floor(postCountLeftToFetch / moods.length)
 
     const currentOffset =
       currentPage === 0 ? 0 : currentPage * postCountLeftToFetch
     const nextOffset = currentOffset + postCountLeftToFetch - 1 // 0 index inclusive
 
-    console.log(
-      'All',
-      {
-        remainder,
-        postCountLeftToFetch,
-        currentOffset,
-        nextOffset
-      },
-      '\n'
-    )
     for (let j = 0; j < moods.length; ++j) {
       multi.zrevrange(`instagram-${moods[j]}`, currentOffset, nextOffset)
+    }
+
+    for (let j = 0; j < moods.length; ++j) {
+      multi.zrevrange(`youtube-${moods[j]}`, currentOffset, nextOffset)
     }
 
     // later, we can complete the posts if needed
@@ -160,5 +155,7 @@ function shuffle(array: Array<any>) {
     array[randomIndex] = temporaryValue
   }
 
-  return array
+  // slice first 10
+
+  return array.slice(0, 10)
 }

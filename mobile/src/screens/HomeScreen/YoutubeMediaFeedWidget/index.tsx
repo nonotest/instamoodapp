@@ -57,8 +57,7 @@ const YoutubeMediaFeedWidget: React.FC<Props> = ({ media, mood }) => {
             <MoodBox containerStyle={{ marginLeft: 10 }} mood={mood} />
           </View>
           <Text style={{ color: 'white' }}>
-            @{media.data.username} •{' '}
-            <FirebaseDateWidget firebaseDate={media.createdate} />
+            <FirebaseDateWidget firebaseDate={media.insertedAt} />
           </Text>
         </View>
         <Icon name="more-horiz" color="white" />

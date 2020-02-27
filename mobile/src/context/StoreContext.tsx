@@ -11,7 +11,7 @@ export interface StoreProviderState {
   medias: Array<Media>;
   mediaSources: Array<MediaSource>;
   moods: Array<Mood>;
-  userMoods: Array<Mood>;
+  userMoods: string[];
 }
 
 export function getInitialStore(): StoreProviderState {

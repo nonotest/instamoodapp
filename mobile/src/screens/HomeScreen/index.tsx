@@ -24,6 +24,7 @@ import {
 import Text from '../../components/Typography/Text';
 import { getHomeMediaFeed } from '../../services/firebase';
 import { useTheme } from '../../themes';
+
 import FeedItem from './FeedItem';
 
 // todo: move to utils
@@ -40,7 +41,7 @@ const getMood = (
 
 type Props = {};
 
-const HomeScreen: React.FC<Props> = ({}) => {
+const HomeScreen: React.FC<Props> = () => {
   // Subscribe to firebase collections update.
   // keep for now as it loads data for popup first screen
   useListenToMoodsChanges();
@@ -51,7 +52,7 @@ const HomeScreen: React.FC<Props> = ({}) => {
   const [moodModalVisible, setMoodModalVisible] = useState(false);
   const [settingsModalVisible, setSettingsModalVisible] = useState(false);
   const [moodSelectorModalVisible, setMoodSelectorModalVisible] = useState(
-    true,
+    false,
   );
 
   const [mood, setMood] = useState<Mood | null>(null);
@@ -72,7 +73,7 @@ const HomeScreen: React.FC<Props> = ({}) => {
 
     let params: { page: number; moods: string[] } = {
       page: dataIndex.current,
-      moods: store.userMoods.map(m => m.name),
+      moods: store.userMoods,
     };
 
     const result = await getHomeMediaFeed(params);
@@ -103,8 +104,14 @@ const HomeScreen: React.FC<Props> = ({}) => {
   }, [refreshing, store.userMoods]);
 
   useEffect(() => {
-    getInitialData();
+    if (store.userMoods.length === 0) {
+      setMoodSelectorModalVisible(true);
+    }
   }, []);
+
+  useEffect(() => {
+    getInitialData();
+  }, [store.userMoods]);
 
   return (
     <>
@@ -114,35 +121,41 @@ const HomeScreen: React.FC<Props> = ({}) => {
           <Icon
             name="settings"
             size={icons.regular.size}
-            onPress={() => setSettingsModalVisible(true)}
+            onPress={() => setMoodSelectorModalVisible(true)}
             color={colors.text}
           />
         </View>
         <View style={styles.moodListWrapper}>
           <ScrollView horizontal>
-            {store.userMoods.map(item => (
-              <Button
-                key={item.id}
-                ViewComponent={LinearGradient}
-                linearGradientProps={item.linearGradient}
-                title={item.name}
-                titleStyle={{
-                  textTransform: 'capitalize',
-                  color: colors.text,
-                  ...fonts.medium,
-                }}
-                buttonStyle={{
-                  paddingVertical: 4,
-                }}
-                containerStyle={{
-                  marginHorizontal: 10,
-                }}
-                onPress={() => {
-                  setMoodModalVisible(true);
-                  setMood(item);
-                }}
-              />
-            ))}
+            {store.userMoods.map(item => {
+              const mood = store.moods.find(m => m.name === item);
+              if (!mood) {
+                return null;
+              }
+              return (
+                <Button
+                  key={mood.id}
+                  ViewComponent={LinearGradient}
+                  linearGradientProps={mood.linearGradient}
+                  title={mood.name}
+                  titleStyle={{
+                    textTransform: 'capitalize',
+                    color: colors.text,
+                    ...fonts.medium,
+                  }}
+                  buttonStyle={{
+                    paddingVertical: 4,
+                  }}
+                  containerStyle={{
+                    marginHorizontal: 10,
+                  }}
+                  onPress={() => {
+                    setMoodModalVisible(true);
+                    setMood(mood);
+                  }}
+                />
+              );
+            })}
           </ScrollView>
         </View>
         {loading === true ? (

@@ -16,7 +16,6 @@ import ViewPager from '@react-native-community/viewpager';
 import MediaWidget from './MediaWidget';
 import { Mood } from '../../core';
 import { useDispatch, useStore } from '../../context/StoreContext';
-import { getRandomMedia } from '../../services/firebase';
 
 type Props = {
   mood: Mood;
@@ -26,7 +25,6 @@ type Props = {
 function MoodModalScreen({ setVisible, mood }: Props) {
   const [fetching, setFetching] = useState(false);
   const viewPagerRef = useRef<ViewPager>(null);
-  const dispatch = useDispatch();
   const store = useStore();
 
   async function fetchMoodMedia() {
@@ -36,16 +34,6 @@ function MoodModalScreen({ setVisible, mood }: Props) {
 
     setFetching(true);
 
-    const res = await getRandomMedia(mood.id);
-
-    if (!res.error) {
-      dispatch({
-        type: 'MEDIA_RECEIVED',
-        payload: {
-          media: res,
-        },
-      });
-    }
     // else display error
     setFetching(false);
   }

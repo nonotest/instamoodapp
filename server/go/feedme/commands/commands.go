@@ -22,6 +22,10 @@ func Execute(args []string) {
 	case "quotable":
 		quotable := NewQuotableImporter(conn)
 		err = quotable.Import()
+
+	case "youtube":
+		yt := NewYTImporter(conn)
+		err = yt.Import()
 	}
 
 	if err != nil {

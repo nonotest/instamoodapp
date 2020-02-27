@@ -1,5 +1,3 @@
-import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
-
 type MediaProps = {
   id?: string;
   insertedAt?: string;

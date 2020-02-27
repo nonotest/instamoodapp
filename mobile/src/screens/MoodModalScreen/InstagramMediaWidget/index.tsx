@@ -8,7 +8,6 @@ import { InstagramMedia } from '../../../core/medias';
 
 type Props = {
   media: InstagramMedia;
-  mood: Mood;
 };
 
 function TestIG({ media }: Props) {

@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@callstack/react-theme-provider": "^2.1.0",
+    "@react-native-community/async-storage-backend-legacy": "^2.0.0-rc.2",
     "@react-native-community/viewpager": "^3.3.0",
     "@react-native-firebase/app": "^6.2.0",
     "@react-native-firebase/auth": "^6.2.0",

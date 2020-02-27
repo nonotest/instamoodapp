@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-import YoutubeLifter from '../YoutubeLifter';
+import YoutubeMediaWidget from '../YoutubeMediaWidget';
 import QuotableMediaWidget from '../QuotableMediaWidget';
 import InstagramMediaWidget from '../InstagramMediaWidget';
 import MemeMediaWidget from '../MemeMediaWidget';
@@ -22,7 +22,7 @@ type Props = {
 function MediaWidget({ mediaTypeId, media }: Props) {
   switch (mediaTypeId) {
     case 1:
-      return <YoutubeLifter media={media as YoutubeMedia} />;
+      return <YoutubeMediaWidget media={media as YoutubeMedia} />;
     case 2:
       return <InstagramMediaWidget media={media as InstagramMedia} />;
     case 3:

@@ -18,7 +18,7 @@ type Props = {
   media: YoutubeMedia;
 };
 
-const YoutubeLifter: React.FC<Props> = ({ media }) => {
+const YoutubeMediaWidget: React.FC<Props> = ({ media }) => {
   const [loading, setLoading] = useState(true);
   const youtubeRef = useRef<YouTubePlayer>(null);
   const currentAppState = useAppState();
@@ -96,4 +96,4 @@ const styles = StyleSheet.create<IStyles>({
   },
 });
 
-export default YoutubeLifter;
+export default YoutubeMediaWidget;
