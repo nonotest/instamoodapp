@@ -41,10 +41,9 @@ type IGImporter struct {
 	AppEnv    string
 	StoreConn redis.Conn
 	Store     *store.RedisStore
-	Trends    []Trend
 }
 
-func NewIGImporter(conn redis.Conn, trends []Trend) *IGImporter {
+func NewIGImporter(conn redis.Conn) *IGImporter {
 	s := store.NewRedisStore()
 	appEnv := util.GetEnv("APP_ENV", "dev")
 
@@ -52,13 +51,12 @@ func NewIGImporter(conn redis.Conn, trends []Trend) *IGImporter {
 		StoreConn: conn,
 		Store:     s,
 		AppEnv:    appEnv,
-		Trends:    trends,
 	}
 }
 
 // Import imports.
-func (I *IGImporter) Import() error {
-	mediasByMood, err := I.getMediasByMood()
+func (I *IGImporter) Import(trends []string) error {
+	mediasByMood, err := I.getMediasByMood(trends)
 	if err != nil {
 		return err
 	}
@@ -92,7 +90,7 @@ func (I *IGImporter) Import() error {
 	return nil
 }
 
-func (I *IGImporter) getMediasByMood() (map[string][]IGEdge, error) {
+func (I *IGImporter) getMediasByMood(trends []string) (map[string][]IGEdge, error) {
 	var feed *IGResponse
 	var err error
 
@@ -100,19 +98,19 @@ func (I *IGImporter) getMediasByMood() (map[string][]IGEdge, error) {
 	// EdgeHashtagToMedia
 	allMedias := make(map[string][]IGEdge, 0)
 
-	for _, trend := range I.Trends {
+	for _, trend := range trends {
 
 		if I.AppEnv == "dev" {
 			feed, err = localGetIG()
 		} else {
-			feed, err = webGetIG(trend.Name)
+			feed, err = webGetIG(trend)
 		}
 		if err != nil {
 			fmt.Printf("%+v", nil)
 			continue
 		}
 
-		allMedias[trend.Name] = feed.Graphql.Hashtag.EdgeHashtagToMedia.Edges
+		allMedias[trend] = feed.Graphql.Hashtag.EdgeHashtagToMedia.Edges
 	}
 
 	return allMedias, nil
@@ -144,8 +142,6 @@ func (I *IGImporter) getMediaBytes(node IGNode, trend string) ([]byte, error) {
 func webGetIG(trend string) (*IGResponse, error) {
 	url := baseInstagramURL + url.PathEscape(strings.Replace(trend, " ", "", -1)) + "/"
 	params := &IGRequestParams{ISJson: 1}
-
-	fmt.Printf("URL: %+v \n", url)
 
 	feed := new(IGResponse)
 	apiErr := new(IGError)

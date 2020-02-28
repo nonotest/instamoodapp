@@ -101,11 +101,11 @@ const HomeScreen: React.FC<Props> = () => {
     setShowRefreshingIndicator(false);
   }, [refreshing, store.userMoods]);
 
-  useEffect(() => {
-    if (store.userMoods.length === 0) {
-      setMoodSelectorModalVisible(true);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (store.userMoods.length === 0) {
+  //     setMoodSelectorModalVisible(true);
+  //   }
+  // }, []);
 
   useEffect(() => {
     getInitialData();
@@ -128,8 +128,8 @@ const HomeScreen: React.FC<Props> = () => {
             {store.trends.map(trend => {
               return (
                 <Button
-                  key={trend.name}
-                  title={`#${trend.name}`}
+                  key={trend}
+                  title={`#${trend}`}
                   titleStyle={{
                     textTransform: 'capitalize',
                     color: colors.text,
@@ -192,9 +192,9 @@ const HomeScreen: React.FC<Props> = () => {
           <Text>Advertising</Text>
         </View>
       </View>
-      {moodSelectorModalVisible === true && (
+      {/* {moodSelectorModalVisible === true && (
         <MoodSelectorModalScreen setVisible={setMoodSelectorModalVisible} />
-      )}
+      )} */}
       {moodModalVisible === true && (
         <MoodModalScreen mood={mood} setVisible={setMoodModalVisible} />
       )}

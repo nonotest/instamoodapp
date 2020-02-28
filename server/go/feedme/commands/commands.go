@@ -1,7 +1,6 @@
 package commands
 
 import (
-	"encoding/json"
 	"feedme/store"
 
 	"github.com/gomodule/redigo/redis"
@@ -19,23 +18,23 @@ func Execute(args []string) {
 
 	// TODO: return from import or?
 	// get trends
-	trends := make([]Trend, 0, 0)
-	trendBytes, _ := redis.ByteSlices(conn.Do(twitterTrends.RedisStore.GetRevRangeTrends(0, 5)))
+	trends := make([]string, 0, 0)
+	trendBytes, _ := redis.ByteSlices(conn.Do(twitterTrends.RedisStore.GetRevRangeTrends(0, 10)))
 	for _, tb := range trendBytes {
-		var trend Trend
-		json.Unmarshal(tb, &trend)
-		trends = append(trends, trend)
+		// var trend Trend
+		// json.Unmarshal(tb, &trend)
+		trends = append(trends, string(tb))
 	}
 
 	// Import IG related to the trends
-	ig := NewIGImporter(conn, trends)
-	err = ig.Import()
+	ig := NewIGImporter(conn)
+	err = ig.Import(trends)
 	if err != nil {
 		panic(err)
 	}
 
-	yt := NewYTImporter(conn, trends)
-	err = yt.Import()
+	yt := NewYTImporter(conn)
+	err = yt.Import(trends)
 	if err != nil {
 		panic(err)
 	}

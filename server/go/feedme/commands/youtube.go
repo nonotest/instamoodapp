@@ -39,10 +39,9 @@ type YTImporter struct {
 	AppEnv     string
 	StoreConn  redis.Conn
 	MediaStore *store.RedisStore
-	Trends     []Trend
 }
 
-func NewYTImporter(conn redis.Conn, trends []Trend) *YTImporter {
+func NewYTImporter(conn redis.Conn) *YTImporter {
 	s := store.NewRedisStore()
 	appEnv := util.GetEnv("APP_ENV", "dev")
 
@@ -50,13 +49,12 @@ func NewYTImporter(conn redis.Conn, trends []Trend) *YTImporter {
 		StoreConn:  conn,
 		MediaStore: s,
 		AppEnv:     appEnv,
-		Trends:     trends,
 	}
 }
 
 // Import imports.
-func (I *YTImporter) Import() error {
-	mediasByMood, err := I.getMediasByMood()
+func (I *YTImporter) Import(trends []string) error {
+	mediasByMood, err := I.getMediasByMood(trends)
 	if err != nil {
 		return err
 	}
@@ -89,7 +87,7 @@ func (I *YTImporter) Import() error {
 	return nil
 }
 
-func (I *YTImporter) getMediasByMood() (map[string][]YTResult, error) {
+func (I *YTImporter) getMediasByMood(trends []string) (map[string][]YTResult, error) {
 
 	var feed *YTResponse
 	var err error
@@ -98,17 +96,17 @@ func (I *YTImporter) getMediasByMood() (map[string][]YTResult, error) {
 	// EdgeHashtagToMedia
 	allMedias := make(map[string][]YTResult, 0)
 
-	for _, trend := range I.Trends {
+	for _, trend := range trends {
 		if I.AppEnv == "dev" {
 			feed, err = localGetYT()
 		} else {
-			feed, err = webGetYT(trend.Name)
+			feed, err = webGetYT(trend)
 		}
 		if err != nil {
 			return nil, err
 		}
 
-		allMedias[trend.Name] = feed.Items
+		allMedias[trend] = feed.Items
 	}
 
 	return allMedias, nil

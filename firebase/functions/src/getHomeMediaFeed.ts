@@ -1,19 +1,6 @@
 import * as functions from 'firebase-functions'
+import * as fs from 'fs'
 import redisClient from './redis'
-
-const dateSources = ['instagram']
-// const randomSources = ['quotable']
-
-// always need a even number
-const allMoods = [
-  'angry',
-  'happy',
-  'upset',
-  'loving',
-  'blessed',
-  'scenery',
-  'beauty'
-]
 
 type GetHomeMediaFeedRequest = {
   page?: number
@@ -26,6 +13,16 @@ type GetHomeMediaFeedResponse = {
   hasNextPage: boolean
 }
 
+let lua = {
+  find: {
+    script: fs.readFileSync(`${__dirname}/../get-medias.lua`, {
+      encoding: 'utf8'
+    }),
+    sha: null // This is set by lured.load()
+  }
+}
+const lured = require('lured').create(redisClient, lua)
+
 // getHomeMediaFeed({})
 /**
  * curl -X POST https://us-central1-instamooddev.cloudfunctions.net/getHomeMediaFeed -H "Content-Type:application/json"  -d '{}'
@@ -36,24 +33,19 @@ export const getHomeMediaFeed = functions.https.onCall(
     context
   ): Promise<GetHomeMediaFeedResponse> => {
     try {
-      const redisRes = (await getMedias(data)) as string[] | Object[]
+      const redisRes = (await getMedias(data)) as string[][]
       let medias = []
       for (let i = 0; i < redisRes.length; ++i) {
-        if (typeof redisRes[i] === 'string') {
-          const json = redisRes[i] as string
-          const media: Object = JSON.parse(json)
+        for (let j = 0; j < redisRes[i].length; ++j) {
+          const media: Object = JSON.parse(redisRes[i][j])
+          console.log({ media })
           medias.push(media)
-        } else if (typeof redisRes[i] === 'object') {
-          const mediasJSON = redisRes[i] as string[]
-          for (let j = 0; j < mediasJSON.length; ++j) {
-            const media: Object = JSON.parse(mediasJSON[j])
-            medias.push(media)
-          }
         }
       }
 
       medias = shuffle(medias)
 
+      console.log('================')
       console.log('LENGHT:', medias.length)
 
       // const totalCount = await zcountAsnyc(mood, '-inf', '+inf')
@@ -75,52 +67,38 @@ export const getHomeMediaFeed = functions.https.onCall(
 const getMedias = (data: GetHomeMediaFeedRequest) =>
   new Promise((resolve, reject) => {
     const currentPage = data.page || 0
-    let moods = data.moods && data.moods.length > 0 ? data.moods : allMoods
-    moods = ['angry']
-    const multi = redisClient.multi()
+    // let moods = data.moods && data.moods.length > 0 ? data.moods : []
 
-    // should always be 10
-    let postCountLeftToFetch: number = 10
-
-    // add in required random records
-    const postFromRandomSourcePerPage = 0
-    for (let i = 0; i < postFromRandomSourcePerPage; ++i) {
-      multi.srandmember('quotable')
-    }
-
-    // post left to fetch, remove random count
-    postCountLeftToFetch = postCountLeftToFetch - postFromRandomSourcePerPage
+    // 2 posts per "source"
+    let postCountLeftToFetch: number = 2
 
     // Further refine.
     // should always be one
 
-    // todo: quotient for this too
-    postCountLeftToFetch = postCountLeftToFetch / dateSources.length
-    // TODO: Remainder if we need to complete.
-    // let remainder = postCountLeftToFetch % moods.length
-    postCountLeftToFetch = Math.floor(postCountLeftToFetch / moods.length)
-
     const currentOffset =
       currentPage === 0 ? 0 : currentPage * postCountLeftToFetch
     const nextOffset = currentOffset + postCountLeftToFetch - 1 // 0 index inclusive
+    // @ts-ignore
+    lured.load(err => {
+      if (err) {
+        reject(err)
+      }
 
-    for (let j = 0; j < moods.length; ++j) {
-      multi.zrevrange(`instagram-${moods[j]}`, currentOffset, nextOffset)
-    }
+      redisClient.evalsha(
+        // @ts-ignore
+        lua.find.sha,
+        2,
+        `${currentOffset}`,
+        `${nextOffset}`,
+        // @ts-ignore
+        (e, data) => {
+          if (e) {
+            reject(e)
+          }
 
-    for (let j = 0; j < moods.length; ++j) {
-      multi.zrevrange(`youtube-${moods[j]}`, currentOffset, nextOffset)
-    }
-
-    // later, we can complete the posts if needed
-    // for (let j = 0; j < remainder; ++j) {
-    //   console.log(`instagram-${moods[j]}`)
-    //   multi.zrevrange(`instagram-${moods[j]}`, currentOffset, nextOffset)
-    // }
-
-    multi.exec((err, response) => {
-      if (err) reject(err)
-      resolve(response)
+          resolve(data)
+        }
+      )
     })
   })
 

@@ -59,12 +59,12 @@ func (I *TwitterTrendsImporter) Import() error {
 	for _, trend := range trends.Trends {
 
 		t := NewTwitterTrend(trend, asOf)
-		mJSON, err := json.Marshal(t)
-		if err != nil {
-			return errors.New("error while getting media bytes: " + err.Error())
-		}
+		// mJSON, err := json.Marshal(t)
+		// if err != nil {
+		// 	return errors.New("error while getting media bytes: " + err.Error())
+		// }
 
-		err = I.StoreConn.Send(I.RedisStore.SetZRangeTrendForKey(asOf, mJSON))
+		err = I.StoreConn.Send(I.RedisStore.SetZRangeTrendForKey(asOf, []byte(t.Name)))
 		if err != nil {
 			return errors.New("error while redis setting ig for trend " + t.Name + ": " + err.Error())
 		}

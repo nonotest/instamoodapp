@@ -27,7 +27,10 @@ function InstagramMediaFeedWidget({ media, mood }: Props) {
             <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold' }}>
               Instagram
             </Text>
-            <MoodBox mood={mood} containerStyle={{ marginLeft: 10 }} />
+            <Text style={{ color: 'white', fontWeight: '500' }}>
+              {' '}
+              • {media.trendName}
+            </Text>
           </View>
           <Text style={{ color: 'white' }}>
             <Text

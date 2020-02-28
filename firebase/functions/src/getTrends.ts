@@ -5,10 +5,8 @@ import redisClient from './redis'
 
 type GetTrendsRequest = {}
 
-type Trend = {}
-
 type GetTrendsResponse = {
-  data: Trend[]
+  data: string[]
 }
 
 const zrevrangeAsync = promisify(redisClient.zrevrange).bind(redisClient)
@@ -25,7 +23,7 @@ export const getTrends = functions.https.onCall(
 
       let trends = []
       for (let i = 0; i < redisRes.length; ++i) {
-        trends.push(JSON.parse(redisRes[i]))
+        trends.push(redisRes[i])
       }
 
       return {
