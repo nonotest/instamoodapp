@@ -13,12 +13,13 @@ type GetHomeMediaFeedResponse = {
   hasNextPage: boolean
 }
 
+// load our redis lua script
 const lua = {
   find: {
     script: fs.readFileSync(`${__dirname}/../get-medias.lua`, {
       encoding: 'utf8'
     }),
-    sha: null // This is set by lured.load()
+    sha: null
   }
 }
 const lured = require('lured').create(redisClient, lua)
@@ -38,14 +39,15 @@ export const getHomeMediaFeed = functions.https.onCall(
       for (let i = 0; i < redisRes.length; ++i) {
         for (let j = 0; j < redisRes[i].length; ++j) {
           const media: Object = JSON.parse(redisRes[i][j])
-          console.log({ media })
           medias.push(media)
         }
       }
 
       medias = shuffle(medias)
 
+      // later, total count and hasnextpage
       // const totalCount = await zcountAsnyc(mood, '-inf', '+inf')
+
       return {
         data: medias,
         hasNextPage: true //totalCount > nextOffset
@@ -64,13 +66,9 @@ export const getHomeMediaFeed = functions.https.onCall(
 const getMedias = (data: GetHomeMediaFeedRequest) =>
   new Promise((resolve, reject) => {
     const currentPage = data.page || 0
-    // let moods = data.moods && data.moods.length > 0 ? data.moods : []
 
     // 2 posts per "source"
     let postCountLeftToFetch: number = 2
-
-    // Further refine.
-    // should always be one
 
     const currentOffset =
       currentPage === 0 ? 0 : currentPage * postCountLeftToFetch

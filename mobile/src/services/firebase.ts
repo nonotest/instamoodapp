@@ -8,7 +8,7 @@ const COLLECTIONS = {
 
 // TODO: add ignore stuff there
 if (__DEV__) {
-  // functions().useFunctionsEmulator('http://localhost:5001');
+  functions().useFunctionsEmulator('http://localhost:5001');
 }
 
 /**

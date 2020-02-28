@@ -17,7 +17,6 @@ async function seedTest() {
   // Add data before apply rules
   for (let i = 0; i < medias.medias.length; ++i) {
     const key = `medias/${medias.medias[i].id}`
-    console.log({ key })
     const ref = db.doc(key)
     await ref.set(medias.medias[i])
   }

@@ -1,0 +1,110 @@
+[debug] [2020-02-28T21:58:03.250Z] ----------------------------------------------------------------------
+[debug] [2020-02-28T21:58:03.251Z] Command:       /Users/devacc/.nvm/versions/node/v8.17.0/bin/node /Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/.bin/firebase functions:shell
+[debug] [2020-02-28T21:58:03.251Z] CLI Version:   7.12.1
+[debug] [2020-02-28T21:58:03.251Z] Platform:      darwin
+[debug] [2020-02-28T21:58:03.251Z] Node Version:  v8.17.0
+[debug] [2020-02-28T21:58:03.252Z] Time:          Sat Feb 29 2020 05:58:03 GMT+0800 (AWST)
+[debug] [2020-02-28T21:58:03.252Z] ----------------------------------------------------------------------
+[debug] [2020-02-28T21:58:03.252Z] 
+[debug] [2020-02-28T21:58:03.262Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-02-28T21:58:03.263Z] > authorizing via signed-in user
+[debug] [2020-02-28T21:58:03.263Z] [iam] checking project instamooddev for permissions ["firebase.projects.get"]
+[debug] [2020-02-28T21:58:03.264Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2020-02-28T21:58:03.264Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2020-02-28T21:58:03.859Z] <<< HTTP RESPONSE 200
+[debug] [2020-02-28T21:58:03.871Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/instamooddev:testIamPermissions  
+
+[debug] [2020-02-28T21:58:05.632Z] <<< HTTP RESPONSE 200
+[debug] [2020-02-28T21:58:05.645Z] [functions] Using node@8 from host.
+[info] ✔  functions: Emulator started at http://localhost:5000
+[debug] [2020-02-28T21:58:05.908Z] [functions] Watching "/Users/devacc/src/arnaud/InstaMood/firebase/functions" for Cloud Functions...
+[debug] [2020-02-28T21:58:05.919Z] DEBUG: [worker-pool] addWorker(~diagnostic~)
+[debug] [2020-02-28T21:58:05.919Z] DEBUG: [worker-pool] Adding worker with key ~diagnostic~, total=1
+[debug] [2020-02-28T21:58:05.919Z] DEBUG: [worker-pool] submitWork(triggerId=)
+[debug] [2020-02-28T21:58:05.919Z] DEBUG: [worker-~diagnostic~-b9659304-43c6-48cc-8998-4bc2d774ecf1]: Assigning socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_35513.sock
+[debug] [2020-02-28T21:58:05.920Z] DEBUG: [worker-~diagnostic~-b9659304-43c6-48cc-8998-4bc2d774ecf1]: BUSY
+[debug] [2020-02-28T21:58:06.125Z] DEBUG: [runtime-status] [35513] Functions runtime initialized. {"cwd":"/Users/devacc/src/arnaud/InstaMood/firebase/functions","node_version":"8.17.0"}
+[debug] [2020-02-28T21:58:06.126Z] DEBUG: [runtime-status] [35513] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"admin_stubs":true,"pubsub_emulator":true}
+[debug] [2020-02-28T21:58:06.127Z] DEBUG: [runtime-status] [35513] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.9.2","resolution":"/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2020-02-28T21:58:06.128Z] DEBUG: [runtime-status] [35513] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-02-28T21:58:06.129Z] DEBUG: [runtime-status] [35513] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-02-28T21:58:06.169Z] [functions[getHomeMediaFeed]] http function initialized (http://localhost:5000/instamooddev/us-central1/getHomeMediaFeed).
+[debug] [2020-02-28T21:58:06.169Z] [functions[getTrends]] http function initialized (http://localhost:5000/instamooddev/us-central1/getTrends).
+[info] i  functions: Loaded functions: getHomeMediaFeed, getTrends
+[debug] [2020-02-28T21:58:06.174Z] DEBUG: [worker-~diagnostic~-b9659304-43c6-48cc-8998-4bc2d774ecf1]: IDLE
+[debug] [2020-02-28T21:58:08.491Z] ----------------------------------------------------------------------
+[debug] [2020-02-28T21:58:08.493Z] Command:       /Users/devacc/.nvm/versions/node/v8.17.0/bin/node /Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/.bin/firebase emulators:start
+[debug] [2020-02-28T21:58:08.493Z] CLI Version:   7.12.1
+[debug] [2020-02-28T21:58:08.493Z] Platform:      darwin
+[debug] [2020-02-28T21:58:08.493Z] Node Version:  v8.17.0
+[debug] [2020-02-28T21:58:08.493Z] Time:          Sat Feb 29 2020 05:58:08 GMT+0800 (AWST)
+[debug] [2020-02-28T21:58:08.493Z] ----------------------------------------------------------------------
+[debug] [2020-02-28T21:58:08.493Z] 
+[debug] [2020-02-28T21:58:08.498Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-02-28T21:58:08.498Z] > authorizing via signed-in user
+[info] i  emulators: Starting emulators: functions, firestore
+[info] ✔  functions: Using node@8 from host.
+[info] ✔  functions: Emulator started at http://localhost:5001
+[debug] [2020-02-28T21:58:08.788Z] Ignoring unsupported arg: projectId
+[debug] [2020-02-28T21:58:08.788Z] Ignoring unsupported arg: auto_download
+[debug] [2020-02-28T21:58:08.788Z] Starting emulator firestore with command {"binary":"java","args":["-Duser.language=en","-jar","/Users/devacc/.cache/firebase/emulators/cloud-firestore-emulator-v1.10.2.jar","--host","localhost","--port",8080,"--rules","/Users/devacc/src/arnaud/InstaMood/firebase/firestore.rules","--functions_emulator","localhost:5001"],"optionalArgs":["port","webchannel_port","host","rules","functions_emulator"],"joinArgs":false}
+[info] i  firestore: Emulator logging to firestore-debug.log
+[debug] [2020-02-28T21:58:09.672Z] API endpoint: http://localhost:
+[debug] [2020-02-28T21:58:09.672Z] 8080
+If you are using a library that supports the FIRESTORE_EMULATOR_HOST environment variable, run:
+
+   export FIRESTORE_EMULATOR_HOST=localhost:8080
+
+Dev App Server is now running.
+
+
+[info] ✔  firestore: Emulator started at http://localhost:8080
+[info] i  firestore: For testing set FIRESTORE_EMULATOR_HOST=localhost:8080
+[info] i  functions: Watching "/Users/devacc/src/arnaud/InstaMood/firebase/functions" for Cloud Functions...
+[debug] [2020-02-28T21:58:09.815Z] [worker-pool] addWorker(~diagnostic~)
+[debug] [2020-02-28T21:58:09.815Z] [worker-pool] Adding worker with key ~diagnostic~, total=1
+[debug] [2020-02-28T21:58:09.816Z] [worker-pool] submitWork(triggerId=)
+[debug] [2020-02-28T21:58:09.816Z] [worker-~diagnostic~-8f46ee48-cd26-4d16-8ddc-2c2ff171c2ca]: Assigning socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_35518.sock
+[debug] [2020-02-28T21:58:09.816Z] [worker-~diagnostic~-8f46ee48-cd26-4d16-8ddc-2c2ff171c2ca]: BUSY
+[debug] [2020-02-28T21:58:10.025Z] [runtime-status] [35518] Functions runtime initialized. {"cwd":"/Users/devacc/src/arnaud/InstaMood/firebase/functions","node_version":"8.17.0"}
+[debug] [2020-02-28T21:58:10.026Z] [runtime-status] [35518] Disabled runtime features: undefined
+[debug] [2020-02-28T21:58:10.027Z] [runtime-status] [35518] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.9.2","resolution":"/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2020-02-28T21:58:10.028Z] [runtime-status] [35518] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-02-28T21:58:10.157Z] [runtime-status] [35518] Found google-gax at /Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/google-gax/build/src/index.js
+[debug] [2020-02-28T21:58:10.157Z] [runtime-status] [35518] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"},{"name":"google-gax","status":"mocked"}]
+[debug] [2020-02-28T21:58:10.173Z] [runtime-status] [35518] Checked functions.config() {"config":{}}
+[debug] [2020-02-28T21:58:10.174Z] [runtime-status] [35518] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-02-28T21:58:10.174Z] [runtime-status] [35518] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.9.2","resolution":"/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2020-02-28T21:58:10.175Z] [runtime-status] [35518] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-02-28T21:58:10.203Z] [runtime-status] [35518] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"8.9.2","resolution":"/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/firebase-admin/lib/index.js"}}
+[debug] [2020-02-28T21:58:10.203Z] [runtime-status] [35518] config() parent accessed! {"parentKey":"firebase","parentConfig":{}}
+[debug] [2020-02-28T21:58:10.204Z] [runtime-status] [35518] initializeApp(DEFAULT) {"databaseURL":"https://instamooddev.firebaseio.com","storageBucket":"instamooddev.appspot.com","projectId":"instamooddev"}
+[info] ✔  functions[getHomeMediaFeed]: http function initialized (http://localhost:5001/instamooddev/us-central1/getHomeMediaFeed).
+[info] ✔  functions[getTrends]: http function initialized (http://localhost:5001/instamooddev/us-central1/getTrends).
+[info] ✔  All emulators started, it is now safe to connect.
+[debug] [2020-02-28T21:58:10.264Z] [worker-~diagnostic~-8f46ee48-cd26-4d16-8ddc-2c2ff171c2ca]: IDLE
+[debug] [2020-02-28T21:58:14.076Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2020-02-28T21:58:14.076Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2020-02-28T21:58:14.076Z] Accepted request POST /instamooddev/us-central1/getTrends --> getTrends
+[debug] [2020-02-28T21:58:14.082Z] DEBUG: [worker-pool] addWorker(getTrends)
+[debug] [2020-02-28T21:58:14.082Z] DEBUG: [worker-pool] Adding worker with key getTrends, total=1
+[debug] [2020-02-28T21:58:14.082Z] DEBUG: [worker-pool] submitWork(triggerId=getTrends)
+[debug] [2020-02-28T21:58:14.082Z] DEBUG: [worker-getTrends-58e6eea3-cd53-415a-8563-cf88c9833faf]: Assigning socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_35519.sock
+[debug] [2020-02-28T21:58:14.082Z] DEBUG: [worker-getTrends-58e6eea3-cd53-415a-8563-cf88c9833faf]: BUSY
+[debug] [2020-02-28T21:58:14.284Z] DEBUG: [runtime-status] [35519] Functions runtime initialized. {"cwd":"/Users/devacc/src/arnaud/InstaMood/firebase/functions","node_version":"8.17.0"}
+[debug] [2020-02-28T21:58:14.285Z] DEBUG: [runtime-status] [35519] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"admin_stubs":true,"pubsub_emulator":true}
+[debug] [2020-02-28T21:58:14.286Z] DEBUG: [runtime-status] [35519] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.9.2","resolution":"/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2020-02-28T21:58:14.287Z] DEBUG: [runtime-status] [35519] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-02-28T21:58:14.287Z] DEBUG: [runtime-status] [35519] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-02-28T21:58:14.324Z] DEBUG: [runtime-status] [35519] Trigger "getTrends" has been found, beginning invocation!
+[debug] [2020-02-28T21:58:14.324Z] [functions] Beginning execution of "getTrends"
+[debug] [2020-02-28T21:58:14.324Z] DEBUG: [runtime-status] [35519] triggerDefinition {"httpsTrigger":{},"labels":{"deployment-callable":"true"},"name":"getTrends","entryPoint":"getTrends"}
+[debug] [2020-02-28T21:58:14.325Z] DEBUG: [runtime-status] [35519] Running getTrends in mode HTTPS
+[debug] [2020-02-28T21:58:14.328Z] DEBUG: [runtime-status] [35519] Attempting to listen to socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_35519.sock
+[debug] [2020-02-28T21:58:14.330Z] DEBUG: [functions] Runtime ready! Sending request!
+[debug] [2020-02-28T21:58:14.354Z] DEBUG: [runtime-status] [35519] Ephemeral server handling POST request
+[debug] [2020-02-28T21:58:14.356Z] DEBUG: [runtime-status] [35519] Ephemeral server survived.
+[debug] [2020-02-28T21:58:14.363Z] [functions] Finished "getTrends" in ~1s
+[debug] [2020-02-28T21:58:14.363Z] DEBUG: [worker-getTrends-58e6eea3-cd53-415a-8563-cf88c9833faf]: IDLE
+[debug] [2020-02-28T21:58:14.363Z] [work-queue] {"queueLength":0,"workRunningCount":0}
