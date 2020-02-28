@@ -17,7 +17,7 @@ import MoodModalScreen from '../MoodModalScreen';
 import MoodSelectorModalScreen from '../MoodSelectorModalScreen';
 import SettingsModalScreen from '../SettingsModalScreen';
 import {
-  useListenToMoodsChanges,
+  useFetchTrends,
   useStore,
   StoreProviderState,
 } from '../../context/StoreContext';
@@ -42,9 +42,7 @@ const getMood = (
 type Props = {};
 
 const HomeScreen: React.FC<Props> = () => {
-  // Subscribe to firebase collections update.
-  // keep for now as it loads data for popup first screen
-  useListenToMoodsChanges();
+  useFetchTrends();
   // Context State
   const store = useStore();
   const { colors, fonts, icons } = useTheme();
@@ -103,15 +101,15 @@ const HomeScreen: React.FC<Props> = () => {
     setShowRefreshingIndicator(false);
   }, [refreshing, store.userMoods]);
 
-  useEffect(() => {
-    if (store.userMoods.length === 0) {
-      setMoodSelectorModalVisible(true);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (store.userMoods.length === 0) {
+  //     setMoodSelectorModalVisible(true);
+  //   }
+  // }, []);
 
   useEffect(() => {
     getInitialData();
-  }, [store.userMoods]);
+  }, [store.trends]);
 
   return (
     <>
@@ -127,17 +125,11 @@ const HomeScreen: React.FC<Props> = () => {
         </View>
         <View style={styles.moodListWrapper}>
           <ScrollView horizontal>
-            {store.userMoods.map(item => {
-              const mood = store.moods.find(m => m.name === item);
-              if (!mood) {
-                return null;
-              }
+            {store.trends.map(trend => {
               return (
                 <Button
-                  key={mood.id}
-                  ViewComponent={LinearGradient}
-                  linearGradientProps={mood.linearGradient}
-                  title={mood.name}
+                  key={trend}
+                  title={`#${trend}`}
                   titleStyle={{
                     textTransform: 'capitalize',
                     color: colors.text,
@@ -145,14 +137,14 @@ const HomeScreen: React.FC<Props> = () => {
                   }}
                   buttonStyle={{
                     paddingVertical: 4,
+                    backgroundColor: 'rgb(29, 161, 242)',
                   }}
                   containerStyle={{
                     marginHorizontal: 10,
                   }}
-                  onPress={() => {
-                    setMoodModalVisible(true);
-                    setMood(mood);
-                  }}
+                  onPress={() => {}}
+                  iconRight
+                  icon={{ name: 'close', color: 'white' }}
                 />
               );
             })}
@@ -200,9 +192,9 @@ const HomeScreen: React.FC<Props> = () => {
           <Text>Advertising</Text>
         </View>
       </View>
-      {moodSelectorModalVisible === true && (
+      {/* {moodSelectorModalVisible === true && (
         <MoodSelectorModalScreen setVisible={setMoodSelectorModalVisible} />
-      )}
+      )} */}
       {moodModalVisible === true && (
         <MoodModalScreen mood={mood} setVisible={setMoodModalVisible} />
       )}

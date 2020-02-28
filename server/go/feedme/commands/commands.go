@@ -2,31 +2,45 @@ package commands
 
 import (
 	"feedme/store"
-	"fmt"
+
+	"github.com/gomodule/redigo/redis"
 )
 
 // Execute executes a command.
 func Execute(args []string) {
-	fmt.Printf("args")
 
 	conn := store.Pool()[store.RedisMoodsPoolName].Get()
 	defer conn.Close()
 
-	var err error
-	switch args[0] {
-	case "instagram":
-		// todo interface.
-		ig := NewIGImporter(conn)
-		err = ig.Import()
+	// Get trends
+	twitterTrends := NewTwitterTrendsImporter(conn)
+	err := twitterTrends.Import()
 
-	case "quotable":
-		quotable := NewQuotableImporter(conn)
-		err = quotable.Import()
-
-	case "youtube":
-		yt := NewYTImporter(conn)
-		err = yt.Import()
+	// TODO: return from import or?
+	// get trends
+	trends := make([]string, 0, 0)
+	trendBytes, _ := redis.ByteSlices(conn.Do(twitterTrends.RedisStore.GetRevRangeTrends(0, 10)))
+	for _, tb := range trendBytes {
+		// var trend Trend
+		// json.Unmarshal(tb, &trend)
+		trends = append(trends, string(tb))
 	}
+
+	// Import IG related to the trends
+	ig := NewIGImporter(conn)
+	err = ig.Import(trends)
+	if err != nil {
+		panic(err)
+	}
+
+	yt := NewYTImporter(conn)
+	err = yt.Import(trends)
+	if err != nil {
+		panic(err)
+	}
+
+	// quotable := NewQuotableImporter(conn)
+	// err = quotable.Import()
 
 	if err != nil {
 		panic(err)

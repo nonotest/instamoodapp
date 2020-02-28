@@ -1,7 +1,7 @@
 package commands
 
-// IGParams params to pass ig api.
-type IGParams struct {
+// IGRequestParams params to pass ig api.
+type IGRequestParams struct {
 	ISJson int `url:"__a"`
 }
 

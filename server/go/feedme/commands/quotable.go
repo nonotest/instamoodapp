@@ -28,28 +28,28 @@ type QuotableMediaData struct {
 type QuotableImporter struct {
 	AppEnv     string
 	StoreConn  redis.Conn
-	MediaStore *store.RedisMediaStore
+	RedisStore *store.RedisStore
 }
 
 func NewQuotableImporter(conn redis.Conn) *QuotableImporter {
-	s := store.NewRedisMediaStore()
+	s := store.NewRedisStore()
 	appEnv := util.GetEnv("APP_ENV", "dev")
 
 	return &QuotableImporter{
 		StoreConn:  conn,
-		MediaStore: s,
+		RedisStore: s,
 		AppEnv:     appEnv,
 	}
 }
 
-func NewQuotableMedia(quote QuotableQuote, mood string) Media {
+func NewQuotableMedia(quote QuotableQuote, trend string) Media {
 	return Media{
 		Data: QuotableMediaData{
 			Author:  quote.Author,
 			Content: quote.Content,
 		},
 		MediaSourceName: "quotable",
-		MoodName:        mood,
+		TrendName:       trend,
 		InternalID:      quote.ID,
 		InsertedAt:      time.Now().UTC(), // todo generate random times
 		ID:              quote.ID + "-quotable",
@@ -77,7 +77,7 @@ func (I *QuotableImporter) Import() error {
 			return errors.New("error while getting media bytes: " + err.Error())
 		}
 
-		err = I.StoreConn.Send(I.MediaStore.SetSetMediaForKey(mood, mJSON))
+		err = I.StoreConn.Send(I.RedisStore.SetSetMediaForKey(mood, mJSON))
 		if err != nil {
 			return errors.New("error while redis setting ig for mood " + mood + ": " + err.Error())
 		}
@@ -132,7 +132,7 @@ func (I *QuotableImporter) getQuotes() ([]QuotableQuote, error) {
 func webGetQuotable(perPage int, offset int) (*QuotableListResponse, error) {
 
 	url := baseQuotableURL
-	params := &QuotableParams{Skip: offset, Limit: perPage}
+	params := &QuotableRequestParams{Skip: offset, Limit: perPage}
 
 	quotes := new(QuotableListResponse)
 	apiErr := new(QuotableError)

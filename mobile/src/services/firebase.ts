@@ -84,15 +84,11 @@ export function onMediaSourcesChange(success, error) {
 }
 
 /**
- * Retries a media for a mood.
- * @param moodId
+ * Retrives a list of trends.
  */
-export async function getRandomMedia(moodId: string) {
+export async function getTrends() {
   try {
-    const success = await functions().httpsCallable('getRandomMedia')({
-      moodId,
-    });
-
+    const success = await functions().httpsCallable('getTrends')({});
     return success.data;
   } catch (e) {
     console.error(e);

@@ -1,6 +1,10 @@
 import React, { Dispatch, createContext, useContext, useEffect } from 'react';
-import { Media, MediaSource, Mood } from '../core';
-import { onMediaSourcesChange, onMoodsChange } from '../services/firebase';
+import { Media, MediaSource, Mood, Trend } from '../core';
+import {
+  onMediaSourcesChange,
+  onMoodsChange,
+  getTrends,
+} from '../services/firebase';
 
 export interface StoreProviderProps {
   children?: React.ReactNode;
@@ -12,6 +16,7 @@ export interface StoreProviderState {
   mediaSources: Array<MediaSource>;
   moods: Array<Mood>;
   userMoods: string[];
+  trends: Array<Trend>;
 }
 
 export function getInitialStore(): StoreProviderState {
@@ -20,6 +25,7 @@ export function getInitialStore(): StoreProviderState {
     mediaSources: [],
     moods: [],
     userMoods: [],
+    trends: [],
   };
 }
 
@@ -67,7 +73,26 @@ export const storeActions = {
   MEDIA_SOURCE_RECEIVED: 'MEDIA_SOURCE_RECEIVED',
   MOOD_RECEIVED: 'MOOD_RECEIVED',
   USER_MOODS_RECEIVED: 'USER_MOODS_RECEIVED',
+  TRENDS_RECEIVED: 'TRENDS_RECEIVED',
 };
+
+export function useFetchTrends() {
+  const dispatch = useDispatch();
+
+  const fetchData = async () => {
+    const trends = await getTrends();
+    dispatch({
+      type: storeActions.TRENDS_RECEIVED,
+      payload: {
+        trends: trends.data.slice(0, 10),
+      },
+    });
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+}
 
 export function useListenToMoodsChanges() {
   // Load the initial media.
