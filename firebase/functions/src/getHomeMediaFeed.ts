@@ -13,7 +13,7 @@ type GetHomeMediaFeedResponse = {
   hasNextPage: boolean
 }
 
-let lua = {
+const lua = {
   find: {
     script: fs.readFileSync(`${__dirname}/../get-medias.lua`, {
       encoding: 'utf8'
@@ -44,9 +44,6 @@ export const getHomeMediaFeed = functions.https.onCall(
       }
 
       medias = shuffle(medias)
-
-      console.log('================')
-      console.log('LENGHT:', medias.length)
 
       // const totalCount = await zcountAsnyc(mood, '-inf', '+inf')
       return {
@@ -91,12 +88,12 @@ const getMedias = (data: GetHomeMediaFeedRequest) =>
         `${currentOffset}`,
         `${nextOffset}`,
         // @ts-ignore
-        (e, data) => {
+        (e, dt) => {
           if (e) {
             reject(e)
           }
 
-          resolve(data)
+          resolve(dt)
         }
       )
     })

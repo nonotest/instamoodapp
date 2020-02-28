@@ -78,12 +78,10 @@ func (I *IGImporter) Import(trends []string) error {
 
 		}
 
-		repl, err := I.StoreConn.Do("EXEC")
+		_, err := I.StoreConn.Do("EXEC")
 		if err != nil {
 			return errors.New("error while redis exec ig: " + err.Error())
 		}
-
-		fmt.Printf("Redis Reply For Batch: %+v", repl)
 
 	}
 
@@ -106,7 +104,7 @@ func (I *IGImporter) getMediasByMood(trends []string) (map[string][]IGEdge, erro
 			feed, err = webGetIG(trend)
 		}
 		if err != nil {
-			fmt.Printf("%+v", nil)
+			fmt.Printf("Error but don't stop .. %+v", nil)
 			continue
 		}
 

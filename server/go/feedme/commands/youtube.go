@@ -16,7 +16,7 @@ import (
 )
 
 const (
-	baseYoutubeURL = "https://www.googleapis.com/youtube/v3/search"
+	baseYoutubeURL = "https://www.googleapis.com/youtube/v3/search/"
 )
 
 // YTMediaData to store.
@@ -103,7 +103,8 @@ func (I *YTImporter) getMediasByMood(trends []string) (map[string][]YTResult, er
 			feed, err = webGetYT(trend)
 		}
 		if err != nil {
-			return nil, err
+			fmt.Printf("Err :%+v", err)
+			continue
 		}
 
 		allMedias[trend] = feed.Items
@@ -136,13 +137,14 @@ func (I *YTImporter) getMediaBytes(node YTResult, trend string) ([]byte, error) 
 }
 
 // webGet returns a hashtag feed based on a call to ig web api.
+// AIzaSyCO-LnXrueTOMqlSkZp9F_rUQQdkrqfgOA
 func webGetYT(mood string) (*YTResponse, error) {
-	url := baseYoutubeURL + mood + "/"
+	url := baseYoutubeURL
 	t, _ := time.Parse(time.RFC3339, "2020-02-25T00:00:00Z")
 	params := &YTParams{
-		Q:              "perth storm",
+		Q:              mood,
 		Part:           "snippet",
-		Key:            "AIzaSyCwLBjR7pIxVPKevjbIP0qj8vkxyUZUuKo",
+		Key:            util.GetEnv("YT_API_KEY", "key"),
 		MaxResults:     50,
 		Order:          "viewCount",
 		Type:           "video",
@@ -155,6 +157,8 @@ func webGetYT(mood string) (*YTResponse, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	fmt.Printf("%+v", params)
 
 	return feed, nil
 }
