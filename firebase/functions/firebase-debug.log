@@ -108,3 +108,339 @@ Dev App Server is now running.
 [debug] [2020-02-28T21:58:14.363Z] [functions] Finished "getTrends" in ~1s
 [debug] [2020-02-28T21:58:14.363Z] DEBUG: [worker-getTrends-58e6eea3-cd53-415a-8563-cf88c9833faf]: IDLE
 [debug] [2020-02-28T21:58:14.363Z] [work-queue] {"queueLength":0,"workRunningCount":0}
+[debug] [2020-03-01T07:39:28.480Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2020-03-01T07:39:28.481Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2020-03-01T07:39:28.482Z] Accepted request POST /instamooddev/us-central1/getTrends --> getTrends
+[debug] [2020-03-01T07:39:28.490Z] [worker-pool] addWorker(getTrends)
+[debug] [2020-03-01T07:39:28.490Z] [worker-pool] Adding worker with key getTrends, total=1
+[debug] [2020-03-01T07:39:28.490Z] [worker-pool] submitWork(triggerId=getTrends)
+[debug] [2020-03-01T07:39:28.491Z] [worker-getTrends-f40f7c22-27ce-4293-8f5d-1a63c567656f]: Assigning socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41609.sock
+[debug] [2020-03-01T07:39:28.491Z] [worker-getTrends-f40f7c22-27ce-4293-8f5d-1a63c567656f]: BUSY
+[debug] [2020-03-01T07:39:28.492Z] [work-queue] {"queueLength":1,"workRunningCount":1}
+[debug] [2020-03-01T07:39:28.492Z] [work-queue] {"queueLength":0,"workRunningCount":2}
+[debug] [2020-03-01T07:39:28.492Z] Accepted request POST /instamooddev/us-central1/getHomeMediaFeed --> getHomeMediaFeed
+[debug] [2020-03-01T07:39:28.495Z] [worker-pool] addWorker(getHomeMediaFeed)
+[debug] [2020-03-01T07:39:28.495Z] [worker-pool] Adding worker with key getHomeMediaFeed, total=1
+[debug] [2020-03-01T07:39:28.495Z] [worker-pool] submitWork(triggerId=getHomeMediaFeed)
+[debug] [2020-03-01T07:39:28.495Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: Assigning socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41610.sock
+[debug] [2020-03-01T07:39:28.495Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: BUSY
+[debug] [2020-03-01T07:39:28.883Z] [runtime-status] [41609] Functions runtime initialized. {"cwd":"/Users/devacc/src/arnaud/InstaMood/firebase/functions","node_version":"8.17.0"}
+[debug] [2020-03-01T07:39:28.883Z] [runtime-status] [41610] Functions runtime initialized. {"cwd":"/Users/devacc/src/arnaud/InstaMood/firebase/functions","node_version":"8.17.0"}
+[debug] [2020-03-01T07:39:28.884Z] [runtime-status] [41609] Disabled runtime features: undefined
+[debug] [2020-03-01T07:39:28.884Z] [runtime-status] [41610] Disabled runtime features: undefined
+[debug] [2020-03-01T07:39:28.888Z] [runtime-status] [41609] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.9.2","resolution":"/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2020-03-01T07:39:28.888Z] [runtime-status] [41610] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.9.2","resolution":"/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2020-03-01T07:39:28.889Z] [runtime-status] [41609] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-03-01T07:39:28.890Z] [runtime-status] [41610] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-03-01T07:39:29.171Z] [runtime-status] [41610] Found google-gax at /Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/google-gax/build/src/index.js
+[debug] [2020-03-01T07:39:29.171Z] [runtime-status] [41610] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"},{"name":"google-gax","status":"mocked"}]
+[debug] [2020-03-01T07:39:29.171Z] [runtime-status] [41609] Found google-gax at /Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/google-gax/build/src/index.js
+[debug] [2020-03-01T07:39:29.172Z] [runtime-status] [41609] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"},{"name":"google-gax","status":"mocked"}]
+[debug] [2020-03-01T07:39:29.203Z] [runtime-status] [41610] Checked functions.config() {"config":{}}
+[debug] [2020-03-01T07:39:29.203Z] [runtime-status] [41609] Checked functions.config() {"config":{}}
+[debug] [2020-03-01T07:39:29.203Z] [runtime-status] [41609] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-03-01T07:39:29.203Z] [runtime-status] [41610] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-03-01T07:39:29.204Z] [runtime-status] [41610] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.9.2","resolution":"/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2020-03-01T07:39:29.204Z] [runtime-status] [41609] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.9.2","resolution":"/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2020-03-01T07:39:29.204Z] [runtime-status] [41609] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-03-01T07:39:29.205Z] [runtime-status] [41610] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-03-01T07:39:29.268Z] [runtime-status] [41609] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"8.9.2","resolution":"/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/firebase-admin/lib/index.js"}}
+[debug] [2020-03-01T07:39:29.268Z] [runtime-status] [41610] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"8.9.2","resolution":"/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/firebase-admin/lib/index.js"}}
+[debug] [2020-03-01T07:39:29.269Z] [runtime-status] [41610] config() parent accessed! {"parentKey":"firebase","parentConfig":{}}
+[debug] [2020-03-01T07:39:29.269Z] [runtime-status] [41609] config() parent accessed! {"parentKey":"firebase","parentConfig":{}}
+[debug] [2020-03-01T07:39:29.270Z] [runtime-status] [41609] initializeApp(DEFAULT) {"databaseURL":"https://instamooddev.firebaseio.com","storageBucket":"instamooddev.appspot.com","projectId":"instamooddev"}
+[debug] [2020-03-01T07:39:29.270Z] [runtime-status] [41610] initializeApp(DEFAULT) {"databaseURL":"https://instamooddev.firebaseio.com","storageBucket":"instamooddev.appspot.com","projectId":"instamooddev"}
+[debug] [2020-03-01T07:39:29.363Z] [runtime-status] [41610] Trigger "getHomeMediaFeed" has been found, beginning invocation!
+[debug] [2020-03-01T07:39:29.363Z] [runtime-status] [41609] Trigger "getTrends" has been found, beginning invocation!
+[info] i  functions: Beginning execution of "getTrends"
+[debug] [2020-03-01T07:39:29.365Z] [runtime-status] [41609] triggerDefinition {"httpsTrigger":{},"labels":{"deployment-callable":"true"},"name":"getTrends","entryPoint":"getTrends"}
+[debug] [2020-03-01T07:39:29.365Z] [runtime-status] [41609] Running getTrends in mode HTTPS
+[info] i  functions: Beginning execution of "getHomeMediaFeed"
+[debug] [2020-03-01T07:39:29.365Z] [runtime-status] [41610] triggerDefinition {"httpsTrigger":{},"labels":{"deployment-callable":"true"},"name":"getHomeMediaFeed","entryPoint":"getHomeMediaFeed"}
+[debug] [2020-03-01T07:39:29.365Z] [runtime-status] [41610] Running getHomeMediaFeed in mode HTTPS
+[debug] [2020-03-01T07:39:29.366Z] [runtime-status] [41610] Attempting to listen to socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41610.sock
+[debug] [2020-03-01T07:39:29.366Z] [runtime-status] [41609] Attempting to listen to socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41609.sock
+[debug] [2020-03-01T07:39:29.373Z] [functions] Runtime ready! Sending request!
+[debug] [2020-03-01T07:39:29.380Z] [functions] Runtime ready! Sending request!
+[debug] [2020-03-01T07:39:29.395Z] [runtime-status] [41609] Ephemeral server handling POST request
+[debug] [2020-03-01T07:39:29.395Z] [runtime-status] [41610] Ephemeral server handling POST request
+[debug] [2020-03-01T07:39:29.397Z] [runtime-status] [41609] Ephemeral server survived.
+[debug] [2020-03-01T07:39:29.398Z] [runtime-status] [41610] Ephemeral server survived.
+[info] i  functions: Finished "getTrends" in ~1s
+[debug] [2020-03-01T07:39:29.408Z] [worker-getTrends-f40f7c22-27ce-4293-8f5d-1a63c567656f]: IDLE
+[debug] [2020-03-01T07:39:29.408Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[info] i  functions: Finished "getHomeMediaFeed" in ~1s
+[debug] [2020-03-01T07:39:29.409Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: IDLE
+[debug] [2020-03-01T07:39:29.409Z] [work-queue] {"queueLength":0,"workRunningCount":0}
+[debug] [2020-03-01T07:39:29.587Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2020-03-01T07:39:29.587Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2020-03-01T07:39:29.587Z] Accepted request POST /instamooddev/us-central1/getHomeMediaFeed --> getHomeMediaFeed
+[debug] [2020-03-01T07:39:29.587Z] [worker-pool] submitWork(triggerId=getHomeMediaFeed)
+[debug] [2020-03-01T07:39:29.588Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: Assigning socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41610.sock
+[debug] [2020-03-01T07:39:29.588Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: BUSY
+[debug] [2020-03-01T07:39:29.588Z] [runtime-status] [41610] Trigger "getHomeMediaFeed" has been found, beginning invocation!
+[info] i  functions: Beginning execution of "getHomeMediaFeed"
+[debug] [2020-03-01T07:39:29.588Z] [runtime-status] [41610] triggerDefinition {"httpsTrigger":{},"labels":{"deployment-callable":"true"},"name":"getHomeMediaFeed","entryPoint":"getHomeMediaFeed"}
+[debug] [2020-03-01T07:39:29.588Z] [runtime-status] [41610] Running getHomeMediaFeed in mode HTTPS
+[debug] [2020-03-01T07:39:29.589Z] [runtime-status] [41610] Attempting to listen to socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41610.sock
+[debug] [2020-03-01T07:39:29.589Z] [functions] Runtime ready! Sending request!
+[debug] [2020-03-01T07:39:29.591Z] [runtime-status] [41610] Ephemeral server handling POST request
+[debug] [2020-03-01T07:39:29.591Z] [runtime-status] [41610] Ephemeral server survived.
+[info] i  functions: Finished "getHomeMediaFeed" in ~1s
+[debug] [2020-03-01T07:39:29.597Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: IDLE
+[debug] [2020-03-01T07:39:29.597Z] [work-queue] {"queueLength":0,"workRunningCount":0}
+[debug] [2020-03-01T07:42:29.056Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2020-03-01T07:42:29.059Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2020-03-01T07:42:29.060Z] Accepted request POST /instamooddev/us-central1/getTrends --> getTrends
+[debug] [2020-03-01T07:42:29.061Z] [worker-pool] submitWork(triggerId=getTrends)
+[debug] [2020-03-01T07:42:29.063Z] [worker-getTrends-f40f7c22-27ce-4293-8f5d-1a63c567656f]: Assigning socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41609.sock
+[debug] [2020-03-01T07:42:29.064Z] [worker-getTrends-f40f7c22-27ce-4293-8f5d-1a63c567656f]: BUSY
+[debug] [2020-03-01T07:42:29.065Z] [work-queue] {"queueLength":1,"workRunningCount":1}
+[debug] [2020-03-01T07:42:29.066Z] [work-queue] {"queueLength":0,"workRunningCount":2}
+[debug] [2020-03-01T07:42:29.066Z] Accepted request POST /instamooddev/us-central1/getHomeMediaFeed --> getHomeMediaFeed
+[debug] [2020-03-01T07:42:29.066Z] [worker-pool] submitWork(triggerId=getHomeMediaFeed)
+[debug] [2020-03-01T07:42:29.066Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: Assigning socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41610.sock
+[debug] [2020-03-01T07:42:29.066Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: BUSY
+[debug] [2020-03-01T07:42:29.072Z] [runtime-status] [41609] Trigger "getTrends" has been found, beginning invocation!
+[info] i  functions: Beginning execution of "getTrends"
+[debug] [2020-03-01T07:42:29.075Z] [runtime-status] [41609] triggerDefinition {"httpsTrigger":{},"labels":{"deployment-callable":"true"},"name":"getTrends","entryPoint":"getTrends"}
+[debug] [2020-03-01T07:42:29.075Z] [runtime-status] [41609] Running getTrends in mode HTTPS
+[debug] [2020-03-01T07:42:29.076Z] [runtime-status] [41610] Trigger "getHomeMediaFeed" has been found, beginning invocation!
+[info] i  functions: Beginning execution of "getHomeMediaFeed"
+[debug] [2020-03-01T07:42:29.076Z] [runtime-status] [41610] triggerDefinition {"httpsTrigger":{},"labels":{"deployment-callable":"true"},"name":"getHomeMediaFeed","entryPoint":"getHomeMediaFeed"}
+[debug] [2020-03-01T07:42:29.076Z] [runtime-status] [41610] Running getHomeMediaFeed in mode HTTPS
+[debug] [2020-03-01T07:42:29.080Z] [runtime-status] [41609] Attempting to listen to socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41609.sock
+[debug] [2020-03-01T07:42:29.080Z] [runtime-status] [41610] Attempting to listen to socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41610.sock
+[debug] [2020-03-01T07:42:29.085Z] [functions] Runtime ready! Sending request!
+[debug] [2020-03-01T07:42:29.087Z] [functions] Runtime ready! Sending request!
+[debug] [2020-03-01T07:42:29.093Z] [runtime-status] [41610] Ephemeral server handling POST request
+[debug] [2020-03-01T07:42:29.094Z] [runtime-status] [41609] Ephemeral server handling POST request
+[debug] [2020-03-01T07:42:29.095Z] [runtime-status] [41610] Ephemeral server survived.
+[debug] [2020-03-01T07:42:29.097Z] [runtime-status] [41609] Ephemeral server survived.
+[info] i  functions: Finished "getTrends" in ~1s
+[debug] [2020-03-01T07:42:29.104Z] [worker-getTrends-f40f7c22-27ce-4293-8f5d-1a63c567656f]: IDLE
+[debug] [2020-03-01T07:42:29.104Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[info] i  functions: Finished "getHomeMediaFeed" in ~1s
+[debug] [2020-03-01T07:42:29.108Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: IDLE
+[debug] [2020-03-01T07:42:29.108Z] [work-queue] {"queueLength":0,"workRunningCount":0}
+[debug] [2020-03-01T07:42:30.412Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2020-03-01T07:42:30.412Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2020-03-01T07:42:30.418Z] Accepted request POST /instamooddev/us-central1/getTrends --> getTrends
+[debug] [2020-03-01T07:42:30.418Z] [worker-pool] submitWork(triggerId=getTrends)
+[debug] [2020-03-01T07:42:30.421Z] [worker-getTrends-f40f7c22-27ce-4293-8f5d-1a63c567656f]: Assigning socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41609.sock
+[debug] [2020-03-01T07:42:30.421Z] [worker-getTrends-f40f7c22-27ce-4293-8f5d-1a63c567656f]: BUSY
+[debug] [2020-03-01T07:42:30.421Z] [work-queue] {"queueLength":1,"workRunningCount":1}
+[debug] [2020-03-01T07:42:30.421Z] [work-queue] {"queueLength":0,"workRunningCount":2}
+[debug] [2020-03-01T07:42:30.422Z] Accepted request POST /instamooddev/us-central1/getHomeMediaFeed --> getHomeMediaFeed
+[debug] [2020-03-01T07:42:30.422Z] [worker-pool] submitWork(triggerId=getHomeMediaFeed)
+[debug] [2020-03-01T07:42:30.422Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: Assigning socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41610.sock
+[debug] [2020-03-01T07:42:30.422Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: BUSY
+[debug] [2020-03-01T07:42:30.422Z] [runtime-status] [41609] Trigger "getTrends" has been found, beginning invocation!
+[info] i  functions: Beginning execution of "getTrends"
+[debug] [2020-03-01T07:42:30.422Z] [runtime-status] [41609] triggerDefinition {"httpsTrigger":{},"labels":{"deployment-callable":"true"},"name":"getTrends","entryPoint":"getTrends"}
+[debug] [2020-03-01T07:42:30.422Z] [runtime-status] [41609] Running getTrends in mode HTTPS
+[debug] [2020-03-01T07:42:30.422Z] [runtime-status] [41609] Attempting to listen to socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41609.sock
+[debug] [2020-03-01T07:42:30.423Z] [runtime-status] [41610] Trigger "getHomeMediaFeed" has been found, beginning invocation!
+[info] i  functions: Beginning execution of "getHomeMediaFeed"
+[debug] [2020-03-01T07:42:30.449Z] [runtime-status] [41610] triggerDefinition {"httpsTrigger":{},"labels":{"deployment-callable":"true"},"name":"getHomeMediaFeed","entryPoint":"getHomeMediaFeed"}
+[debug] [2020-03-01T07:42:30.449Z] [runtime-status] [41610] Running getHomeMediaFeed in mode HTTPS
+[debug] [2020-03-01T07:42:30.449Z] [runtime-status] [41610] Attempting to listen to socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41610.sock
+[debug] [2020-03-01T07:42:30.485Z] [functions] Runtime ready! Sending request!
+[debug] [2020-03-01T07:42:30.486Z] [functions] Runtime ready! Sending request!
+[debug] [2020-03-01T07:42:30.492Z] [runtime-status] [41609] Ephemeral server handling POST request
+[debug] [2020-03-01T07:42:30.496Z] [runtime-status] [41610] Ephemeral server handling POST request
+[debug] [2020-03-01T07:42:30.497Z] [runtime-status] [41610] Ephemeral server survived.
+[debug] [2020-03-01T07:42:30.498Z] [runtime-status] [41609] Ephemeral server survived.
+[info] i  functions: Finished "getTrends" in ~1s
+[debug] [2020-03-01T07:42:30.512Z] [worker-getTrends-f40f7c22-27ce-4293-8f5d-1a63c567656f]: IDLE
+[debug] [2020-03-01T07:42:30.512Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[info] i  functions: Finished "getHomeMediaFeed" in ~1s
+[debug] [2020-03-01T07:42:30.540Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: IDLE
+[debug] [2020-03-01T07:42:30.540Z] [work-queue] {"queueLength":0,"workRunningCount":0}
+[debug] [2020-03-01T07:42:31.679Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2020-03-01T07:42:31.680Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2020-03-01T07:42:31.680Z] Accepted request POST /instamooddev/us-central1/getTrends --> getTrends
+[debug] [2020-03-01T07:42:31.680Z] [worker-pool] submitWork(triggerId=getTrends)
+[debug] [2020-03-01T07:42:31.681Z] [worker-getTrends-f40f7c22-27ce-4293-8f5d-1a63c567656f]: Assigning socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41609.sock
+[debug] [2020-03-01T07:42:31.684Z] [worker-getTrends-f40f7c22-27ce-4293-8f5d-1a63c567656f]: BUSY
+[debug] [2020-03-01T07:42:31.685Z] [work-queue] {"queueLength":1,"workRunningCount":1}
+[debug] [2020-03-01T07:42:31.685Z] [work-queue] {"queueLength":0,"workRunningCount":2}
+[debug] [2020-03-01T07:42:31.685Z] Accepted request POST /instamooddev/us-central1/getHomeMediaFeed --> getHomeMediaFeed
+[debug] [2020-03-01T07:42:31.685Z] [worker-pool] submitWork(triggerId=getHomeMediaFeed)
+[debug] [2020-03-01T07:42:31.695Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: Assigning socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41610.sock
+[debug] [2020-03-01T07:42:31.695Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: BUSY
+[debug] [2020-03-01T07:42:31.696Z] [runtime-status] [41609] Trigger "getTrends" has been found, beginning invocation!
+[info] i  functions: Beginning execution of "getTrends"
+[debug] [2020-03-01T07:42:31.697Z] [runtime-status] [41609] triggerDefinition {"httpsTrigger":{},"labels":{"deployment-callable":"true"},"name":"getTrends","entryPoint":"getTrends"}
+[debug] [2020-03-01T07:42:31.697Z] [runtime-status] [41609] Running getTrends in mode HTTPS
+[debug] [2020-03-01T07:42:31.697Z] [runtime-status] [41609] Attempting to listen to socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41609.sock
+[debug] [2020-03-01T07:42:31.697Z] [functions] Runtime ready! Sending request!
+[debug] [2020-03-01T07:42:31.701Z] [runtime-status] [41610] Trigger "getHomeMediaFeed" has been found, beginning invocation!
+[info] i  functions: Beginning execution of "getHomeMediaFeed"
+[debug] [2020-03-01T07:42:31.703Z] [runtime-status] [41610] triggerDefinition {"httpsTrigger":{},"labels":{"deployment-callable":"true"},"name":"getHomeMediaFeed","entryPoint":"getHomeMediaFeed"}
+[debug] [2020-03-01T07:42:31.703Z] [runtime-status] [41610] Running getHomeMediaFeed in mode HTTPS
+[debug] [2020-03-01T07:42:31.704Z] [runtime-status] [41610] Attempting to listen to socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41610.sock
+[debug] [2020-03-01T07:42:31.704Z] [functions] Runtime ready! Sending request!
+[debug] [2020-03-01T07:42:31.707Z] [runtime-status] [41609] Ephemeral server handling POST request
+[debug] [2020-03-01T07:42:31.707Z] [runtime-status] [41609] Ephemeral server survived.
+[debug] [2020-03-01T07:42:31.709Z] [runtime-status] [41610] Ephemeral server handling POST request
+[debug] [2020-03-01T07:42:31.710Z] [runtime-status] [41610] Ephemeral server survived.
+[info] i  functions: Finished "getTrends" in ~1s
+[debug] [2020-03-01T07:42:31.721Z] [worker-getTrends-f40f7c22-27ce-4293-8f5d-1a63c567656f]: IDLE
+[debug] [2020-03-01T07:42:31.721Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[info] i  functions: Finished "getHomeMediaFeed" in ~1s
+[debug] [2020-03-01T07:42:31.732Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: IDLE
+[debug] [2020-03-01T07:42:31.732Z] [work-queue] {"queueLength":0,"workRunningCount":0}
+[debug] [2020-03-01T07:42:32.084Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2020-03-01T07:42:32.104Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2020-03-01T07:42:32.104Z] Accepted request POST /instamooddev/us-central1/getHomeMediaFeed --> getHomeMediaFeed
+[debug] [2020-03-01T07:42:32.104Z] [worker-pool] submitWork(triggerId=getHomeMediaFeed)
+[debug] [2020-03-01T07:42:32.104Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: Assigning socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41610.sock
+[debug] [2020-03-01T07:42:32.104Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: BUSY
+[debug] [2020-03-01T07:42:32.105Z] [runtime-status] [41610] Trigger "getHomeMediaFeed" has been found, beginning invocation!
+[info] i  functions: Beginning execution of "getHomeMediaFeed"
+[debug] [2020-03-01T07:42:32.106Z] [runtime-status] [41610] triggerDefinition {"httpsTrigger":{},"labels":{"deployment-callable":"true"},"name":"getHomeMediaFeed","entryPoint":"getHomeMediaFeed"}
+[debug] [2020-03-01T07:42:32.106Z] [runtime-status] [41610] Running getHomeMediaFeed in mode HTTPS
+[debug] [2020-03-01T07:42:32.108Z] [runtime-status] [41610] Attempting to listen to socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41610.sock
+[debug] [2020-03-01T07:42:32.110Z] [functions] Runtime ready! Sending request!
+[debug] [2020-03-01T07:42:32.113Z] [runtime-status] [41610] Ephemeral server handling POST request
+[debug] [2020-03-01T07:42:32.114Z] [runtime-status] [41610] Ephemeral server survived.
+[info] i  functions: Finished "getHomeMediaFeed" in ~1s
+[debug] [2020-03-01T07:42:32.130Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: IDLE
+[debug] [2020-03-01T07:42:32.131Z] [work-queue] {"queueLength":0,"workRunningCount":0}
+[debug] [2020-03-01T07:42:32.457Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2020-03-01T07:42:32.457Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2020-03-01T07:42:32.457Z] Accepted request POST /instamooddev/us-central1/getHomeMediaFeed --> getHomeMediaFeed
+[debug] [2020-03-01T07:42:32.457Z] [worker-pool] submitWork(triggerId=getHomeMediaFeed)
+[debug] [2020-03-01T07:42:32.457Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: Assigning socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41610.sock
+[debug] [2020-03-01T07:42:32.457Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: BUSY
+[debug] [2020-03-01T07:42:32.457Z] [runtime-status] [41610] Trigger "getHomeMediaFeed" has been found, beginning invocation!
+[info] i  functions: Beginning execution of "getHomeMediaFeed"
+[debug] [2020-03-01T07:42:32.459Z] [runtime-status] [41610] triggerDefinition {"httpsTrigger":{},"labels":{"deployment-callable":"true"},"name":"getHomeMediaFeed","entryPoint":"getHomeMediaFeed"}
+[debug] [2020-03-01T07:42:32.459Z] [runtime-status] [41610] Running getHomeMediaFeed in mode HTTPS
+[debug] [2020-03-01T07:42:32.460Z] [runtime-status] [41610] Attempting to listen to socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41610.sock
+[debug] [2020-03-01T07:42:32.460Z] [functions] Runtime ready! Sending request!
+[debug] [2020-03-01T07:42:32.462Z] [runtime-status] [41610] Ephemeral server handling POST request
+[debug] [2020-03-01T07:42:32.462Z] [runtime-status] [41610] Ephemeral server survived.
+[info] i  functions: Finished "getHomeMediaFeed" in ~1s
+[debug] [2020-03-01T07:42:32.474Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: IDLE
+[debug] [2020-03-01T07:42:32.475Z] [work-queue] {"queueLength":0,"workRunningCount":0}
+[debug] [2020-03-03T04:38:07.236Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2020-03-03T04:38:07.244Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2020-03-03T04:38:07.244Z] Accepted request POST /instamooddev/us-central1/getTrends --> getTrends
+[debug] [2020-03-03T04:38:07.245Z] [worker-pool] submitWork(triggerId=getTrends)
+[debug] [2020-03-03T04:38:07.247Z] [worker-getTrends-f40f7c22-27ce-4293-8f5d-1a63c567656f]: Assigning socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41609.sock
+[debug] [2020-03-03T04:38:07.247Z] [worker-getTrends-f40f7c22-27ce-4293-8f5d-1a63c567656f]: BUSY
+[debug] [2020-03-03T04:38:07.250Z] [work-queue] {"queueLength":1,"workRunningCount":1}
+[debug] [2020-03-03T04:38:07.250Z] [work-queue] {"queueLength":0,"workRunningCount":2}
+[debug] [2020-03-03T04:38:07.251Z] Accepted request POST /instamooddev/us-central1/getHomeMediaFeed --> getHomeMediaFeed
+[debug] [2020-03-03T04:38:07.251Z] [worker-pool] submitWork(triggerId=getHomeMediaFeed)
+[debug] [2020-03-03T04:38:07.251Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: Assigning socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41610.sock
+[debug] [2020-03-03T04:38:07.251Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: BUSY
+[debug] [2020-03-03T04:38:07.264Z] [runtime-status] [41609] Trigger "getTrends" has been found, beginning invocation!
+[info] i  functions: Beginning execution of "getTrends"
+[debug] [2020-03-03T04:38:07.268Z] [runtime-status] [41609] triggerDefinition {"httpsTrigger":{},"labels":{"deployment-callable":"true"},"name":"getTrends","entryPoint":"getTrends"}
+[debug] [2020-03-03T04:38:07.268Z] [runtime-status] [41609] Running getTrends in mode HTTPS
+[debug] [2020-03-03T04:38:07.269Z] [runtime-status] [41610] Trigger "getHomeMediaFeed" has been found, beginning invocation!
+[info] i  functions: Beginning execution of "getHomeMediaFeed"
+[debug] [2020-03-03T04:38:07.270Z] [runtime-status] [41610] triggerDefinition {"httpsTrigger":{},"labels":{"deployment-callable":"true"},"name":"getHomeMediaFeed","entryPoint":"getHomeMediaFeed"}
+[debug] [2020-03-03T04:38:07.270Z] [runtime-status] [41610] Running getHomeMediaFeed in mode HTTPS
+[debug] [2020-03-03T04:38:07.275Z] [runtime-status] [41609] Attempting to listen to socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41609.sock
+[debug] [2020-03-03T04:38:07.275Z] [runtime-status] [41610] Attempting to listen to socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41610.sock
+[debug] [2020-03-03T04:38:07.285Z] [functions] Runtime ready! Sending request!
+[debug] [2020-03-03T04:38:07.287Z] [functions] Runtime ready! Sending request!
+[debug] [2020-03-03T04:38:07.298Z] [runtime-status] [41610] Ephemeral server handling POST request
+[debug] [2020-03-03T04:38:07.303Z] [runtime-status] [41609] Ephemeral server handling POST request
+[debug] [2020-03-03T04:38:07.306Z] [runtime-status] [41610] Ephemeral server survived.
+[debug] [2020-03-03T04:38:07.311Z] [runtime-status] [41609] Ephemeral server survived.
+[info] i  functions: Finished "getTrends" in ~1s
+[debug] [2020-03-03T04:38:07.344Z] [worker-getTrends-f40f7c22-27ce-4293-8f5d-1a63c567656f]: IDLE
+[debug] [2020-03-03T04:38:07.344Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[info] i  functions: Finished "getHomeMediaFeed" in ~1s
+[debug] [2020-03-03T04:38:07.392Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: IDLE
+[debug] [2020-03-03T04:38:07.392Z] [work-queue] {"queueLength":0,"workRunningCount":0}
+[debug] [2020-03-03T04:38:07.400Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2020-03-03T04:38:07.400Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2020-03-03T04:38:07.400Z] Accepted request POST /instamooddev/us-central1/getHomeMediaFeed --> getHomeMediaFeed
+[debug] [2020-03-03T04:38:07.401Z] [worker-pool] submitWork(triggerId=getHomeMediaFeed)
+[debug] [2020-03-03T04:38:07.401Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: Assigning socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41610.sock
+[debug] [2020-03-03T04:38:07.401Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: BUSY
+[debug] [2020-03-03T04:38:07.402Z] [runtime-status] [41610] Trigger "getHomeMediaFeed" has been found, beginning invocation!
+[info] i  functions: Beginning execution of "getHomeMediaFeed"
+[debug] [2020-03-03T04:38:07.403Z] [runtime-status] [41610] triggerDefinition {"httpsTrigger":{},"labels":{"deployment-callable":"true"},"name":"getHomeMediaFeed","entryPoint":"getHomeMediaFeed"}
+[debug] [2020-03-03T04:38:07.403Z] [runtime-status] [41610] Running getHomeMediaFeed in mode HTTPS
+[debug] [2020-03-03T04:38:07.403Z] [runtime-status] [41610] Attempting to listen to socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41610.sock
+[debug] [2020-03-03T04:38:07.404Z] [functions] Runtime ready! Sending request!
+[debug] [2020-03-03T04:38:07.406Z] [runtime-status] [41610] Ephemeral server handling POST request
+[debug] [2020-03-03T04:38:07.407Z] [runtime-status] [41610] Ephemeral server survived.
+[info] i  functions: Finished "getHomeMediaFeed" in ~1s
+[debug] [2020-03-03T04:38:07.419Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: IDLE
+[debug] [2020-03-03T04:38:07.420Z] [work-queue] {"queueLength":0,"workRunningCount":0}
+[debug] [2020-03-03T04:38:07.849Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2020-03-03T04:38:07.849Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2020-03-03T04:38:07.850Z] Accepted request POST /instamooddev/us-central1/getHomeMediaFeed --> getHomeMediaFeed
+[debug] [2020-03-03T04:38:07.850Z] [worker-pool] submitWork(triggerId=getHomeMediaFeed)
+[debug] [2020-03-03T04:38:07.850Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: Assigning socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41610.sock
+[debug] [2020-03-03T04:38:07.866Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: BUSY
+[debug] [2020-03-03T04:38:07.867Z] [runtime-status] [41610] Trigger "getHomeMediaFeed" has been found, beginning invocation!
+[info] i  functions: Beginning execution of "getHomeMediaFeed"
+[debug] [2020-03-03T04:38:07.867Z] [runtime-status] [41610] triggerDefinition {"httpsTrigger":{},"labels":{"deployment-callable":"true"},"name":"getHomeMediaFeed","entryPoint":"getHomeMediaFeed"}
+[debug] [2020-03-03T04:38:07.867Z] [runtime-status] [41610] Running getHomeMediaFeed in mode HTTPS
+[debug] [2020-03-03T04:38:07.868Z] [runtime-status] [41610] Attempting to listen to socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41610.sock
+[debug] [2020-03-03T04:38:07.868Z] [functions] Runtime ready! Sending request!
+[debug] [2020-03-03T04:38:07.870Z] [runtime-status] [41610] Ephemeral server handling POST request
+[debug] [2020-03-03T04:38:07.874Z] [runtime-status] [41610] Ephemeral server survived.
+[info] i  functions: Finished "getHomeMediaFeed" in ~1s
+[debug] [2020-03-03T04:38:07.887Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: IDLE
+[debug] [2020-03-03T04:38:07.887Z] [work-queue] {"queueLength":0,"workRunningCount":0}
+[debug] [2020-03-03T07:16:25.718Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2020-03-03T07:16:25.720Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2020-03-03T07:16:25.720Z] Accepted request POST /instamooddev/us-central1/getHomeMediaFeed --> getHomeMediaFeed
+[debug] [2020-03-03T07:16:25.720Z] [worker-pool] submitWork(triggerId=getHomeMediaFeed)
+[debug] [2020-03-03T07:16:25.720Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: Assigning socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41610.sock
+[debug] [2020-03-03T07:16:25.720Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: BUSY
+[debug] [2020-03-03T07:16:25.721Z] [work-queue] {"queueLength":1,"workRunningCount":1}
+[debug] [2020-03-03T07:16:25.721Z] [work-queue] {"queueLength":0,"workRunningCount":2}
+[debug] [2020-03-03T07:16:25.721Z] Accepted request POST /instamooddev/us-central1/getTrends --> getTrends
+[debug] [2020-03-03T07:16:25.721Z] [worker-pool] submitWork(triggerId=getTrends)
+[debug] [2020-03-03T07:16:25.721Z] [worker-getTrends-f40f7c22-27ce-4293-8f5d-1a63c567656f]: Assigning socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41609.sock
+[debug] [2020-03-03T07:16:25.721Z] [worker-getTrends-f40f7c22-27ce-4293-8f5d-1a63c567656f]: BUSY
+[debug] [2020-03-03T07:16:25.722Z] [runtime-status] [41610] Trigger "getHomeMediaFeed" has been found, beginning invocation!
+[info] i  functions: Beginning execution of "getHomeMediaFeed"
+[debug] [2020-03-03T07:16:25.723Z] [runtime-status] [41610] triggerDefinition {"httpsTrigger":{},"labels":{"deployment-callable":"true"},"name":"getHomeMediaFeed","entryPoint":"getHomeMediaFeed"}
+[debug] [2020-03-03T07:16:25.723Z] [runtime-status] [41610] Running getHomeMediaFeed in mode HTTPS
+[debug] [2020-03-03T07:16:25.723Z] [runtime-status] [41610] Attempting to listen to socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41610.sock
+[debug] [2020-03-03T07:16:25.723Z] [runtime-status] [41609] Trigger "getTrends" has been found, beginning invocation!
+[debug] [2020-03-03T07:16:25.726Z] [functions] Runtime ready! Sending request!
+[info] i  functions: Beginning execution of "getTrends"
+[debug] [2020-03-03T07:16:25.727Z] [runtime-status] [41609] triggerDefinition {"httpsTrigger":{},"labels":{"deployment-callable":"true"},"name":"getTrends","entryPoint":"getTrends"}
+[debug] [2020-03-03T07:16:25.727Z] [runtime-status] [41609] Running getTrends in mode HTTPS
+[debug] [2020-03-03T07:16:25.727Z] [runtime-status] [41609] Attempting to listen to socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41609.sock
+[debug] [2020-03-03T07:16:25.728Z] [functions] Runtime ready! Sending request!
+[debug] [2020-03-03T07:16:25.730Z] [runtime-status] [41610] Ephemeral server handling POST request
+[debug] [2020-03-03T07:16:25.734Z] [runtime-status] [41610] Ephemeral server survived.
+[debug] [2020-03-03T07:16:25.734Z] [runtime-status] [41609] Ephemeral server handling POST request
+[debug] [2020-03-03T07:16:25.734Z] [runtime-status] [41609] Ephemeral server survived.
+[info] i  functions: Finished "getTrends" in ~1s
+[debug] [2020-03-03T07:16:25.741Z] [worker-getTrends-f40f7c22-27ce-4293-8f5d-1a63c567656f]: IDLE
+[debug] [2020-03-03T07:16:25.741Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[info] i  functions: Finished "getHomeMediaFeed" in ~1s
+[debug] [2020-03-03T07:16:25.743Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: IDLE
+[debug] [2020-03-03T07:16:25.743Z] [work-queue] {"queueLength":0,"workRunningCount":0}
+[debug] [2020-03-03T07:16:26.291Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2020-03-03T07:16:26.291Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2020-03-03T07:16:26.291Z] Accepted request POST /instamooddev/us-central1/getHomeMediaFeed --> getHomeMediaFeed
+[debug] [2020-03-03T07:16:26.291Z] [worker-pool] submitWork(triggerId=getHomeMediaFeed)
+[debug] [2020-03-03T07:16:26.292Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: Assigning socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41610.sock
+[debug] [2020-03-03T07:16:26.292Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: BUSY
+[debug] [2020-03-03T07:16:26.293Z] [runtime-status] [41610] Trigger "getHomeMediaFeed" has been found, beginning invocation!
+[info] i  functions: Beginning execution of "getHomeMediaFeed"
+[debug] [2020-03-03T07:16:26.294Z] [runtime-status] [41610] triggerDefinition {"httpsTrigger":{},"labels":{"deployment-callable":"true"},"name":"getHomeMediaFeed","entryPoint":"getHomeMediaFeed"}
+[debug] [2020-03-03T07:16:26.294Z] [runtime-status] [41610] Running getHomeMediaFeed in mode HTTPS
+[debug] [2020-03-03T07:16:26.294Z] [runtime-status] [41610] Attempting to listen to socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41610.sock
+[debug] [2020-03-03T07:16:26.296Z] [functions] Runtime ready! Sending request!
+[debug] [2020-03-03T07:16:26.297Z] [runtime-status] [41610] Ephemeral server handling POST request
+[debug] [2020-03-03T07:16:26.298Z] [runtime-status] [41610] Ephemeral server survived.
+[info] i  functions: Finished "getHomeMediaFeed" in ~1s
+[debug] [2020-03-03T07:16:26.308Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: IDLE
+[debug] [2020-03-03T07:16:26.308Z] [work-queue] {"queueLength":0,"workRunningCount":0}

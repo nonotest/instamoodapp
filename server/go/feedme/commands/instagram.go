@@ -69,7 +69,7 @@ func (I *IGImporter) Import(trends []string) error {
 				return err
 			}
 
-			score := node.Node.TakenAtTimestamp + node.Node.EdgeLikedBy.Count
+			score := getScore(node)
 
 			err = I.StoreConn.Send(I.Store.SetZRangeMediaForKey(trend, score, mediaBytes))
 			if err != nil {
@@ -166,4 +166,14 @@ func localGetIG() (*IGResponse, error) {
 	json.Unmarshal(byteValue, &feed)
 
 	return &feed, nil
+}
+
+// return score used to ranked instagram
+func getScore(edge IGEdge) int64 {
+	// Score can't be purely based on date.
+	// edge_liked_by
+	// edge_media_preview_like
+	// edge_media_to_comment
+
+	return node.Node.TakenAtTimestamp + node.Node.EdgeLikedBy.Count
 }

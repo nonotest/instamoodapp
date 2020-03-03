@@ -10,7 +10,6 @@ import {
   ViewStyle,
 } from 'react-native';
 import { Button, Icon } from 'react-native-elements';
-import LinearGradient from 'react-native-linear-gradient';
 
 import { Mood, Media } from '../../core';
 import MoodModalScreen from '../MoodModalScreen';
