@@ -57,3 +57,17 @@ Mar 04, 2020 7:36:28 PM io.gapi.emulators.netty.NotFoundHandler handleRequest
 INFO: Unknown request URI: /v1/graphql
 Mar 04, 2020 7:42:19 PM io.gapi.emulators.netty.NotFoundHandler handleRequest
 INFO: Unknown request URI: /v1/graphql
+Mar 05, 2020 12:39:10 AM io.gapi.emulators.netty.NotFoundHandler handleRequest
+INFO: Unknown request URI: /v1/graphql
+Mar 05, 2020 12:39:13 AM io.gapi.emulators.netty.NotFoundHandler handleRequest
+INFO: Unknown request URI: /graphql
+Mar 05, 2020 12:39:17 AM io.gapi.emulators.netty.NotFoundHandler handleRequest
+INFO: Unknown request URI: /v1/graphql
+Mar 05, 2020 12:39:21 AM io.gapi.emulators.netty.NotFoundHandler handleRequest
+INFO: Unknown request URI: /v1/graphql
+Mar 05, 2020 12:40:51 AM io.gapi.emulators.netty.NotFoundHandler handleRequest
+INFO: Unknown request URI: /v1/graphql
+Mar 05, 2020 12:41:17 AM io.gapi.emulators.netty.NotFoundHandler handleRequest
+INFO: Unknown request URI: /v1/graphql
+Mar 05, 2020 12:41:28 AM io.gapi.emulators.netty.NotFoundHandler handleRequest
+INFO: Unknown request URI: /ve1/graphql

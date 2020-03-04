@@ -3,28 +3,24 @@ import {
   ActivityIndicator,
   FlatList,
   RefreshControl,
-  ScrollView,
   StyleSheet,
   TextStyle,
   View,
   ViewStyle,
 } from 'react-native';
-import { Button, Icon } from 'react-native-elements';
+import { Icon } from 'react-native-elements';
 
 import { Mood, Media } from '../../core';
 import MoodModalScreen from '../MoodModalScreen';
 import MoodSelectorModalScreen from '../MoodSelectorModalScreen';
 import SettingsModalScreen from '../SettingsModalScreen';
-import {
-  useFetchTrends,
-  useStore,
-  StoreProviderState,
-} from '../../context/StoreContext';
+import { useStore, StoreProviderState } from '../../context/StoreContext';
 import Text from '../../components/Typography/Text';
 import { getHomeMediaFeed } from '../../services/firebase';
 import { useTheme } from '../../themes';
 
 import FeedItem from './FeedItem';
+import TrendsWidget from './TrendsWidget';
 
 // todo: move to utils
 const getMood = (
@@ -41,9 +37,8 @@ const getMood = (
 type Props = {};
 
 const HomeScreen: React.FC<Props> = () => {
-  useFetchTrends();
   // Context State
-  const store = useStore();
+  // const store = useStore();
   const { colors, fonts, icons } = useTheme();
   // Local State
   const [moodModalVisible, setMoodModalVisible] = useState(false);
@@ -53,7 +48,7 @@ const HomeScreen: React.FC<Props> = () => {
   );
 
   const [mood, setMood] = useState<Mood | null>(null);
-  const [medias, setMedias] = useState<Array<Media>>(store.medias);
+  const [medias, setMedias] = useState<Array<Media>>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [showRefreshingIndicator, setShowRefreshingIndicator] = useState(false);
@@ -70,7 +65,7 @@ const HomeScreen: React.FC<Props> = () => {
 
     let params: { page: number; moods: string[] } = {
       page: dataIndex.current,
-      moods: store.userMoods,
+      moods: [],
     };
 
     const result = await getHomeMediaFeed(params);
@@ -98,7 +93,7 @@ const HomeScreen: React.FC<Props> = () => {
     const newItems = await fetchData(true);
     setMedias(newItems);
     setShowRefreshingIndicator(false);
-  }, [refreshing, store.userMoods]);
+  }, [refreshing]);
 
   // useEffect(() => {
   //   if (store.userMoods.length === 0) {
@@ -108,7 +103,7 @@ const HomeScreen: React.FC<Props> = () => {
 
   useEffect(() => {
     getInitialData();
-  }, [store.trends]);
+  }, []);
 
   return (
     <>
@@ -123,31 +118,7 @@ const HomeScreen: React.FC<Props> = () => {
           />
         </View>
         <View style={styles.moodListWrapper}>
-          <ScrollView horizontal>
-            {store.trends.map(trend => {
-              return (
-                <Button
-                  key={trend}
-                  title={`#${trend}`}
-                  titleStyle={{
-                    textTransform: 'capitalize',
-                    color: colors.text,
-                    ...fonts.medium,
-                  }}
-                  buttonStyle={{
-                    paddingVertical: 4,
-                    backgroundColor: 'rgb(29, 161, 242)',
-                  }}
-                  containerStyle={{
-                    marginHorizontal: 10,
-                  }}
-                  onPress={() => {}}
-                  iconRight
-                  icon={{ name: 'close', color: 'white' }}
-                />
-              );
-            })}
-          </ScrollView>
+          <TrendsWidget />
         </View>
         {loading === true ? (
           <View
@@ -173,7 +144,11 @@ const HomeScreen: React.FC<Props> = () => {
             onEndReachedThreshold={0.5}
             keyExtractor={item => `${item.internalId}`}
             renderItem={({ index, item }) => (
-              <FeedItem index={index} item={item} mood={getMood(item, store)} />
+              <FeedItem
+                index={index}
+                item={item}
+                mood={getMood(item, { moods: [] })}
+              />
             )}
             data={medias}
             ListFooterComponent={
