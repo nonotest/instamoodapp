@@ -9,18 +9,36 @@ import {
   ViewStyle,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
+import { useQuery } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 
 import { Mood, Media } from '../../core';
 import MoodModalScreen from '../MoodModalScreen';
 import MoodSelectorModalScreen from '../MoodSelectorModalScreen';
 import SettingsModalScreen from '../SettingsModalScreen';
-import { useStore, StoreProviderState } from '../../context/StoreContext';
+import { StoreProviderState } from '../../context/StoreContext';
 import Text from '../../components/Typography/Text';
 import { getHomeMediaFeed } from '../../services/firebase';
 import { useTheme } from '../../themes';
 
 import FeedItem from './FeedItem';
 import TrendsWidget from './TrendsWidget';
+
+const MEDIAS = gql`
+  {
+    ts_medias(limit: 10, offset: 0, order_by: { score: desc }) {
+      id
+      external_id
+      metadata
+      ts_media_source {
+        name
+      }
+      ts_trend {
+        name
+      }
+    }
+  }
+`;
 
 // todo: move to utils
 const getMood = (
@@ -52,6 +70,8 @@ const HomeScreen: React.FC<Props> = () => {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [showRefreshingIndicator, setShowRefreshingIndicator] = useState(false);
+
+  const { loading: gloading, error, data } = useQuery(MEDIAS);
 
   const dataIndex = useRef(0);
   const hasNextPage = useRef(true);
@@ -120,7 +140,7 @@ const HomeScreen: React.FC<Props> = () => {
         <View style={styles.moodListWrapper}>
           <TrendsWidget />
         </View>
-        {loading === true ? (
+        {loading === true || gloading === true ? (
           <View
             style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
           >
@@ -142,7 +162,7 @@ const HomeScreen: React.FC<Props> = () => {
               });
             }}
             onEndReachedThreshold={0.5}
-            keyExtractor={item => `${item.internalId}`}
+            keyExtractor={item => `${item.external_id}`}
             renderItem={({ index, item }) => (
               <FeedItem
                 index={index}
@@ -150,7 +170,7 @@ const HomeScreen: React.FC<Props> = () => {
                 mood={getMood(item, { moods: [] })}
               />
             )}
-            data={medias}
+            data={data.ts_medias}
             ListFooterComponent={
               refreshing && <ActivityIndicator size="small" />
             }

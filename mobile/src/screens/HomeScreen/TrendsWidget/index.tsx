@@ -8,11 +8,9 @@ import { useTheme } from '../../../themes';
 
 const TRENDS = gql`
   {
-    ts_trends_aggregate(limit: 10, offset: 0, order_by: { score: desc }) {
-      nodes {
-        id
-        hashtag
-      }
+    ts_trends(limit: 10, offset: 0, order_by: { score: desc }) {
+      id
+      hashtag
     }
   }
 `;
@@ -26,7 +24,7 @@ function Trends() {
 
   return (
     <ScrollView horizontal>
-      {data.ts_trends_aggregate.nodes.map(({ id, hashtag }) => (
+      {data.ts_trends.map(({ id, hashtag }) => (
         <Button
           key={id}
           title={`${hashtag}`}

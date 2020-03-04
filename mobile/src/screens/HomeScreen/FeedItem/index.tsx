@@ -23,7 +23,7 @@ type Props = {
 
 function FeedItem({ index, item, mood }: Props) {
   let content = null;
-  switch (item.mediaSourceName) {
+  switch (item.ts_media_source.name) {
     case 'instagram':
       content = (
         <InstagramMediaFeedWidget media={item as InstagramMedia} mood={mood} />
