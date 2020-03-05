@@ -19,9 +19,10 @@ const makeApolloClient = token => {
       new HttpLink({
         uri: 'http://localhost:8080/v1/graphql',
         // credentials: 'same-origin',
-        // headers: {
-        //   Authorization: `Bearer ${token}`,
-        // },
+        headers: {
+          //   Authorization: `Bearer ${token}`,
+          'x-hasura-admin-secret': `myadminsecretkey`,
+        },
       }),
     ]),
     cache: new InMemoryCache(),

@@ -36,3 +36,17 @@ CREATE TABLE ts_medias (
 
     UNIQUE(external_id)
 );
+
+CREATE VIEW ts_top_trends_vw AS SELECT * FROM ts_trends ORDER BY score DESC OFFSET 0 LIMIT 10;
+
+CREATE VIEW ts_medias_by_top_trends_vw AS
+	SELECT
+		 m.external_id, m.score, m.uuid,  m.metadata, m.created_at, m.updated_at,
+		tt.name as trend_name,
+		ms.name as media_source_name
+	FROM
+		ts_medias m
+	INNER JOIN
+		ts_top_trends_vw tt ON m.trend_id = tt.id
+	INNER JOIN
+		ts_media_sources ms ON ms.id = m.media_source_id;

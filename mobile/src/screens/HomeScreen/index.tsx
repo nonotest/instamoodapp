@@ -26,16 +26,17 @@ import TrendsWidget from './TrendsWidget';
 
 const MEDIAS = gql`
   {
-    ts_medias(limit: 10, offset: 0, order_by: { score: desc }) {
-      id
+    ts_medias_by_top_trends_vw(
+      limit: 10
+      offset: 0
+      order_by: { score: desc }
+    ) {
+      uuid
       external_id
       metadata
-      ts_media_source {
-        name
-      }
-      ts_trend {
-        name
-      }
+      media_source_name
+      trend_name
+      created_at
     }
   }
 `;
@@ -125,6 +126,7 @@ const HomeScreen: React.FC<Props> = () => {
     getInitialData();
   }, []);
 
+  // console.log({ gloading, loading, data });
   return (
     <>
       <View style={[styles.screen, { backgroundColor: colors.primary }]}>
@@ -162,7 +164,7 @@ const HomeScreen: React.FC<Props> = () => {
               });
             }}
             onEndReachedThreshold={0.5}
-            keyExtractor={item => `${item.external_id}`}
+            keyExtractor={item => item.uuid}
             renderItem={({ index, item }) => (
               <FeedItem
                 index={index}
@@ -170,7 +172,7 @@ const HomeScreen: React.FC<Props> = () => {
                 mood={getMood(item, { moods: [] })}
               />
             )}
-            data={data.ts_medias}
+            data={data.ts_medias_by_top_trends_vw}
             ListFooterComponent={
               refreshing && <ActivityIndicator size="small" />
             }

@@ -29,14 +29,14 @@ function InstagramMediaFeedWidget({ media, mood }: Props) {
             </Text>
             <Text style={{ color: 'white', fontWeight: '500' }}>
               {' '}
-              • {media.ts_trend.name}
+              • {media.trend_name}
             </Text>
           </View>
           <Text style={{ color: 'white' }}>
             <Text
               style={{ fontWeight: '500' }}
               onPress={() => {
-                const app = `instagram://media?id=${media.ts_trend.exernal_id}`;
+                const app = `instagram://media?id=${media.exernal_id}`;
                 Linking.openURL(app).catch(err => {
                   alert('Instagram is not installed.');
                 });
