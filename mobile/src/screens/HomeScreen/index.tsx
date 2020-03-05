@@ -26,11 +26,7 @@ import TrendsWidget from './TrendsWidget';
 
 const MEDIAS = gql`
   {
-    ts_medias_by_top_trends_vw(
-      limit: 10
-      offset: 0
-      order_by: { score: desc }
-    ) {
+    read_top_medias_by_top_trends(args: { skip: 0, take: 2 }) {
       uuid
       external_id
       metadata
@@ -172,7 +168,7 @@ const HomeScreen: React.FC<Props> = () => {
                 mood={getMood(item, { moods: [] })}
               />
             )}
-            data={data.ts_medias_by_top_trends_vw}
+            data={data.read_top_medias_by_top_trends}
             ListFooterComponent={
               refreshing && <ActivityIndicator size="small" />
             }
