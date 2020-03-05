@@ -20,7 +20,7 @@ const (
 
 // YTMediaData to store.
 type YTMediaData struct {
-	VideoID  string `json:"videoId"`
+	VideoID  string `json:"video_id"`
 	Username string `json:"username,omitempty"`
 }
 
@@ -52,10 +52,11 @@ func (I *YTImporter) Import(trends []models.Trend) error {
 
 		for _, node := range igNodes {
 			metadata := YTMediaData{
-				VideoID:  node.ID.VideoID,
+				VideoID:  node.ID,
 				Username: "",
 			}
-			score := int(node.Snippet.PublishedAt.Unix()) + 500
+			score := 1
+			// getYTScore(node)
 
 			m := models.NewYTMedia(node, score, metadata, 2, trendID)
 
@@ -85,48 +86,67 @@ func (I *YTImporter) Import(trends []models.Trend) error {
 	return nil
 }
 
-func (I *YTImporter) getMediasByTrend(trends []models.Trend) (map[int64][]models.YTResult, error) {
+func (I *YTImporter) getMediasByTrend(trends []models.Trend) (map[int64][]models.YTVideoResult, error) {
 
-	var feed *models.YTResponse
 	var err error
 
 	// EdgeHashtagToTopPosts
 	// EdgeHashtagToMedia
-	allMedias := make(map[int64][]models.YTResult, 0)
+
+	allMedias := make(map[int64][]models.YTVideoResult, 0)
 
 	for _, trend := range trends {
+		var search *models.YTSearchResponse
+
 		if I.AppEnv == "dev" {
-			feed, err = localGetYT()
+			search, err = localGetYTSearches()
 		} else {
-			feed, err = webGetYT(trend)
+			search, err = webGetYTSearches(trend)
 		}
 		if err != nil {
-			fmt.Printf("Err :%+v", err)
+			fmt.Printf("YT Err :%+v", err)
+			continue
+		}
+
+		videoIDs := ""
+		for _, item := range search.Items {
+			videoIDs = videoIDs + item.ID.VideoID + ","
+		}
+
+		var feed *models.YTVideosResponse
+
+		if I.AppEnv == "dev" {
+			feed, err = localGetYTVideos()
+		} else {
+			feed, err = webGetYTVideos(videoIDs)
+		}
+		if err != nil {
+			fmt.Printf("YT Err :%+v", err)
 			continue
 		}
 
 		allMedias[trend.ID] = feed.Items
+		// get from videoIDs
 	}
 
 	return allMedias, nil
 }
 
-// webGet returns a hashtag feed based on a call to ig web api.
-// AIzaSyCO-LnXrueTOMqlSkZp9F_rUQQdkrqfgOA
-func webGetYT(trend models.Trend) (*models.YTResponse, error) {
+// webGetYTSearches returns a list of videos that match our hashtag.
+func webGetYTSearches(trend models.Trend) (*models.YTSearchResponse, error) {
 	url := baseYoutubeURL
 	t, _ := time.Parse(time.RFC3339, "2020-02-25T00:00:00Z")
-	params := &models.YTParams{
+	params := &models.YTSearchParams{
 		Q:              trend.Name,
 		Part:           "snippet",
-		Key:            util.GetEnv("YT_API_KEY", "key"),
+		Key:            util.GetEnv("YT_API_KEY_1", "key"),
 		MaxResults:     50,
 		Order:          "viewCount",
 		Type:           "video",
 		PublishedAfter: t,
 	}
 
-	feed := new(models.YTResponse)
+	feed := new(models.YTSearchResponse)
 	apiErr := new(models.YTError)
 	_, err := sling.New().Get(url).QueryStruct(params).Receive(feed, apiErr)
 	if err != nil {
@@ -136,9 +156,9 @@ func webGetYT(trend models.Trend) (*models.YTResponse, error) {
 	return feed, nil
 }
 
-// localGet returns a hashtag feed based on a local file.
-func localGetYT() (*models.YTResponse, error) {
-	jsonFile, err := os.Open("youtube.json")
+// localGetYTSearches returns videos matching a hashtag feed based on a local file.
+func localGetYTSearches() (*models.YTSearchResponse, error) {
+	jsonFile, err := os.Open("youtube-search.json")
 	if err != nil {
 		fmt.Printf("%+v", err)
 		return nil, err
@@ -146,9 +166,49 @@ func localGetYT() (*models.YTResponse, error) {
 
 	defer jsonFile.Close()
 	byteValue, _ := ioutil.ReadAll(jsonFile)
-	var feed models.YTResponse
+	var feed models.YTSearchResponse
 
 	json.Unmarshal(byteValue, &feed)
 
 	return &feed, nil
+}
+
+// webGetYTVideos returns a hashtag feed based on a call to ig web api.
+func webGetYTVideos(videoIDs string) (*models.YTVideosResponse, error) {
+	url := baseYoutubeURL
+	params := &models.YTVideosParams{
+		ID:   videoIDs,
+		Part: "snippet,statistics",
+		Key:  util.GetEnv("YT_API_KEY_2", "key"),
+	}
+
+	feed := new(models.YTVideosResponse)
+	apiErr := new(models.YTError)
+	_, err := sling.New().Get(url).QueryStruct(params).Receive(feed, apiErr)
+	if err != nil {
+		return nil, err
+	}
+
+	return feed, nil
+}
+
+// localGetYTVideos returns videos matching a hashtag feed based on a local file.
+func localGetYTVideos() (*models.YTVideosResponse, error) {
+	jsonFile, err := os.Open("youtube-videos.json")
+	if err != nil {
+		fmt.Printf("%+v", err)
+		return nil, err
+	}
+
+	defer jsonFile.Close()
+	byteValue, _ := ioutil.ReadAll(jsonFile)
+	var feed models.YTVideosResponse
+
+	json.Unmarshal(byteValue, &feed)
+
+	return &feed, nil
+}
+
+func getYTScore(node models.YTVideoResult) int {
+	return int(node.Snippet.PublishedAt.Unix()) + 500
 }

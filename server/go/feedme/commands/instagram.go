@@ -56,7 +56,7 @@ func (I *IGImporter) Import(trends []models.Trend) error {
 			metadata := IGMediaData{
 				URL: node.Node.DisplayURL,
 			}
-			score := getScore(node.Node)
+			score := getIGScore(node.Node)
 			m := models.NewIGMedia(node.Node, score, metadata, 1, trendID)
 
 			batch = append(batch, m)
@@ -144,7 +144,7 @@ func localGetIG() (*models.IGResponse, error) {
 }
 
 // return score used to ranked instagram
-func getScore(node models.IGNode) int {
+func getIGScore(node models.IGNode) int {
 	// Score can't be purely based on date.
 	// edge_liked_by
 	// edge_media_preview_like

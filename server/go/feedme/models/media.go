@@ -29,13 +29,13 @@ func NewIGMedia(node IGNode, score int, metadata interface{}, mediaSourceID int6
 	}
 }
 
-func NewYTMedia(node YTResult, score int, metadata interface{}, mediaSourceID int64, trendID int64) Media {
+func NewYTMedia(node YTVideoResult, score int, metadata interface{}, mediaSourceID int64, trendID int64) Media {
 	return Media{
 		Metadata:      metadata,
 		MediaSourceID: mediaSourceID,
 		TrendID:       trendID,
 		Score:         score,
-		ExternalID:    "youtube-" + node.ID.VideoID,
+		ExternalID:    "youtube-" + node.ID,
 		CreatedAt:     node.Snippet.PublishedAt,
 		UpdatedAt:     node.Snippet.PublishedAt,
 	}
