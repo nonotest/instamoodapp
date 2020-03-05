@@ -3,7 +3,6 @@ import { Image, View, Text, Linking } from 'react-native';
 import { Icon } from 'react-native-elements';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-import MoodBox from '../MoodBox';
 import { InstagramMedia, Mood } from '../../../core';
 import FirebaseDateWidget from '../../../components/FirebaseDateWidget/index';
 

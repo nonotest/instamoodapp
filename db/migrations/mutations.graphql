@@ -6,6 +6,14 @@ mutation insert_single_media_source {
   }
 }
 
+mutation insert_single_media_source {
+  insert_ts_media_sources(objects: { name: "youtube" }) {
+    returning {
+      id
+    }
+  }
+}
+
 mutation insert_single_trend {
   insert_ts_trends(objects: { name: "chase", hashtag: "#chase", score: 1 }) {
     returning {

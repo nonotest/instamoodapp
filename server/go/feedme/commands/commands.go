@@ -26,8 +26,8 @@ func Execute(args []string) {
 		panic(err)
 	}
 
-	// yt := NewYTImporter(conn)
-	// err = yt.Import(trends)
+	// yt := NewYTImporter(db)
+	// err = yt.Import(tt)
 	// if err != nil {
 	// 	panic(err)
 	// }

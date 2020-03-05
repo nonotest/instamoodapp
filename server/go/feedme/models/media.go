@@ -17,7 +17,7 @@ type Media struct {
 	DeletedAt time.Time `json:"deleted_at"`
 }
 
-func NewMedia(node IGNode, score int, metadata interface{}, mediaSourceID int64, trendID int64) Media {
+func NewIGMedia(node IGNode, score int, metadata interface{}, mediaSourceID int64, trendID int64) Media {
 	return Media{
 		Metadata:      metadata,
 		MediaSourceID: mediaSourceID,
@@ -25,5 +25,18 @@ func NewMedia(node IGNode, score int, metadata interface{}, mediaSourceID int64,
 		Score:         score,
 		ExternalID:    "instagram-" + node.ID,
 		CreatedAt:     time.Unix(int64(node.TakenAtTimestamp), 0),
+		UpdatedAt:     time.Unix(int64(node.TakenAtTimestamp), 0),
+	}
+}
+
+func NewYTMedia(node YTResult, score int, metadata interface{}, mediaSourceID int64, trendID int64) Media {
+	return Media{
+		Metadata:      metadata,
+		MediaSourceID: mediaSourceID,
+		TrendID:       trendID,
+		Score:         score,
+		ExternalID:    "youtube-" + node.ID.VideoID,
+		CreatedAt:     node.Snippet.PublishedAt,
+		UpdatedAt:     node.Snippet.PublishedAt,
 	}
 }

@@ -25,7 +25,7 @@ import FeedItem from './FeedItem';
 import TrendsWidget from './TrendsWidget';
 
 const GET_MEDIAS = gql`
-  query MyQuery($skip: Int!, $take: Int!) {
+  query GetMediasByTopTrendsQuery($skip: Int!, $take: Int!) {
     read_top_medias_by_top_trends(args: { skip: $skip, take: $take }) {
       uuid
       external_id
@@ -54,7 +54,7 @@ type Props = {};
 const HomeScreen: React.FC<Props> = () => {
   // Context State
   // const store = useStore();
-  const { colors, fonts, icons } = useTheme();
+  const { colors, icons } = useTheme();
   // Local State
   const [moodModalVisible, setMoodModalVisible] = useState(false);
   const [settingsModalVisible, setSettingsModalVisible] = useState(false);
@@ -127,7 +127,6 @@ const HomeScreen: React.FC<Props> = () => {
     getInitialData();
   }, []);
 
-  console.log({ gloading, loading, data, error });
   return (
     <>
       <View style={[styles.screen, { backgroundColor: colors.primary }]}>

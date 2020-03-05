@@ -57,7 +57,7 @@ func (I *IGImporter) Import(trends []models.Trend) error {
 				URL: node.Node.DisplayURL,
 			}
 			score := getScore(node.Node)
-			m := models.NewMedia(node.Node, score, metadata, 1, trendID)
+			m := models.NewIGMedia(node.Node, score, metadata, 1, trendID)
 
 			batch = append(batch, m)
 			batchCounter++
