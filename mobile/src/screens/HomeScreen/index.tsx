@@ -24,9 +24,9 @@ import { useTheme } from '../../themes';
 import FeedItem from './FeedItem';
 import TrendsWidget from './TrendsWidget';
 
-const MEDIAS = gql`
-  {
-    read_top_medias_by_top_trends(args: { skip: 0, take: 2 }) {
+const GET_MEDIAS = gql`
+  query MyQuery($skip: Int!, $take: Int!) {
+    read_top_medias_by_top_trends(args: { skip: $skip, take: $take }) {
       uuid
       external_id
       metadata
@@ -68,7 +68,12 @@ const HomeScreen: React.FC<Props> = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [showRefreshingIndicator, setShowRefreshingIndicator] = useState(false);
 
-  const { loading: gloading, error, data } = useQuery(MEDIAS);
+  const { loading: gloading, error, data } = useQuery(GET_MEDIAS, {
+    variables: {
+      skip: 0,
+      take: 5,
+    },
+  });
 
   const dataIndex = useRef(0);
   const hasNextPage = useRef(true);
@@ -122,7 +127,7 @@ const HomeScreen: React.FC<Props> = () => {
     getInitialData();
   }, []);
 
-  // console.log({ gloading, loading, data });
+  console.log({ gloading, loading, data, error });
   return (
     <>
       <View style={[styles.screen, { backgroundColor: colors.primary }]}>
