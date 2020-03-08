@@ -62,7 +62,7 @@ func (I *IGImporter) Import(trends []models.Trend) error {
 			batch = append(batch, m)
 			batchCounter++
 
-			if batchCounter == IGBatchSize {
+			if batchCounter == IGBatchSize || IGBatchSize >= len(igNodes) {
 
 				_, err := I.Store.
 					Model(&batch).
@@ -106,6 +106,11 @@ func (I *IGImporter) getMediasByTrend(trends []models.Trend) (map[int64][]models
 		}
 
 		allMedias[trend.ID] = feed.Graphql.Hashtag.EdgeHashtagToMedia.Edges
+
+		if I.AppEnv == "dev" {
+			// we only do 1 batch (1 file..)
+			return allMedias, nil
+		}
 	}
 
 	return allMedias, nil

@@ -38,17 +38,17 @@ func Execute(args []string) {
 	tt, err := ttImporter.Import()
 
 	// Import IG related to the trends
-	// ig := NewIGImporter(db)
-	// err = ig.Import(tt)
-	// if err != nil {
-	// 	panic(err)
-	// }
-
-	yt := NewYTImporter(db)
-	err = yt.Import(tt)
+	ig := NewIGImporter(db)
+	err = ig.Import(tt)
 	if err != nil {
 		panic(err)
 	}
+
+	// yt := NewYTImporter(db)
+	// err = yt.Import(tt)
+	// if err != nil {
+	// 	panic(err)
+	// }
 
 	// quotable := NewQuotableImporter(conn)
 	// err = quotable.Import()

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"strconv"
 	"time"
 
 	"feedme/models"
@@ -16,6 +17,7 @@ import (
 
 const (
 	baseYoutubeURL = "https://www.googleapis.com/youtube/v3/search/"
+	YTBatchSize    = 50
 )
 
 // YTMediaData to store.
@@ -55,15 +57,14 @@ func (I *YTImporter) Import(trends []models.Trend) error {
 				VideoID:  node.ID,
 				Username: "",
 			}
-			score := 1
-			// getYTScore(node)
+			score := getYTScore(node)
 
 			m := models.NewYTMedia(node, score, metadata, 2, trendID)
 
 			batch = append(batch, m)
 			batchCounter++
 
-			if batchCounter == IGBatchSize {
+			if batchCounter == YTBatchSize || YTBatchSize >= len(igNodes) {
 
 				_, err := I.Store.
 					Model(&batch).
@@ -104,7 +105,7 @@ func (I *YTImporter) getMediasByTrend(trends []models.Trend) (map[int64][]models
 			search, err = webGetYTSearches(trend)
 		}
 		if err != nil {
-			fmt.Printf("YT Err :%+v", err)
+			fmt.Printf("getMediasByTrend: Search API Err :%+v", err)
 			continue
 		}
 
@@ -121,11 +122,16 @@ func (I *YTImporter) getMediasByTrend(trends []models.Trend) (map[int64][]models
 			feed, err = webGetYTVideos(videoIDs)
 		}
 		if err != nil {
-			fmt.Printf("YT Err :%+v", err)
+			fmt.Printf("getMediasByTrend: Videos API Err :%+v", err)
 			continue
 		}
 
 		allMedias[trend.ID] = feed.Items
+
+		if I.AppEnv == "dev" {
+			// we only do 1 batch (1 file..)
+			return allMedias, nil
+		}
 		// get from videoIDs
 	}
 
@@ -160,7 +166,6 @@ func webGetYTSearches(trend models.Trend) (*models.YTSearchResponse, error) {
 func localGetYTSearches() (*models.YTSearchResponse, error) {
 	jsonFile, err := os.Open("youtube-search.json")
 	if err != nil {
-		fmt.Printf("%+v", err)
 		return nil, err
 	}
 
@@ -196,7 +201,6 @@ func webGetYTVideos(videoIDs string) (*models.YTVideosResponse, error) {
 func localGetYTVideos() (*models.YTVideosResponse, error) {
 	jsonFile, err := os.Open("youtube-videos.json")
 	if err != nil {
-		fmt.Printf("%+v", err)
 		return nil, err
 	}
 
@@ -210,5 +214,28 @@ func localGetYTVideos() (*models.YTVideosResponse, error) {
 }
 
 func getYTScore(node models.YTVideoResult) int {
-	return int(node.Snippet.PublishedAt.Unix()) + 500
+	// trendysnaps score is 0 < score < 1000
+	// by default the date is the biggest ranking factor as we are looking for trending stuff
+
+	// we try to even out the relative weight of each other component
+	//  "viewCount": "26202405", 20%
+	//  "likeCount": "463104",  20%
+	//  "dislikeCount": "9319",  20%
+	//  "favoriteCount": "0", 0 20%
+	//  "commentCount": "7327"   20%
+
+	// rawScore = 26,663,517
+	// 26663517 - 1403881818
+	// get largest component, viewCount ->
+	// score = 26663517 / 100000000 * 1000
+
+	vc, _ := strconv.Atoi(node.Statistics.ViewCount)
+	lc, _ := strconv.Atoi(node.Statistics.LikeCount)
+	dc, _ := strconv.Atoi(node.Statistics.DislikeCount)
+	fc, _ := strconv.Atoi(node.Statistics.FavoriteCount)
+	cc, _ := strconv.Atoi(node.Statistics.CommentCount)
+
+	ourRawScore := vc + lc - dc + fc + cc
+
+	return int(node.Snippet.PublishedAt.Unix()) + ourRawScore
 }

@@ -4317,3 +4317,199 @@ INFO: Unknown request URI: /v1/graphql
 [info] i  functions: Finished "getHomeMediaFeed" in ~1s
 [debug] [2020-03-05T07:52:11.913Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: IDLE
 [debug] [2020-03-05T07:52:11.913Z] [work-queue] {"queueLength":0,"workRunningCount":0}
+[debug] [2020-03-06T04:03:58.577Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2020-03-06T04:03:58.585Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2020-03-06T04:03:58.585Z] Accepted request POST /instamooddev/us-central1/getHomeMediaFeed --> getHomeMediaFeed
+[debug] [2020-03-06T04:03:58.586Z] [worker-pool] submitWork(triggerId=getHomeMediaFeed)
+[debug] [2020-03-06T04:03:58.588Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: Assigning socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41610.sock
+[debug] [2020-03-06T04:03:58.588Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: BUSY
+[debug] [2020-03-06T04:03:58.611Z] [runtime-status] [41610] Trigger "getHomeMediaFeed" has been found, beginning invocation!
+[info] i  functions: Beginning execution of "getHomeMediaFeed"
+[debug] [2020-03-06T04:03:58.619Z] [runtime-status] [41610] triggerDefinition {"httpsTrigger":{},"labels":{"deployment-callable":"true"},"name":"getHomeMediaFeed","entryPoint":"getHomeMediaFeed"}
+[debug] [2020-03-06T04:03:58.622Z] [runtime-status] [41610] Running getHomeMediaFeed in mode HTTPS
+[debug] [2020-03-06T04:03:58.636Z] [runtime-status] [41610] Attempting to listen to socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41610.sock
+[debug] [2020-03-06T04:03:58.671Z] [functions] Runtime ready! Sending request!
+[debug] [2020-03-06T04:03:58.717Z] [runtime-status] [41610] Ephemeral server handling POST request
+[debug] [2020-03-06T04:03:58.723Z] [runtime-status] [41610] Ephemeral server survived.
+[info] >  ERROR WHILE RUNNING Q: { e: { AbortError: EXEC can't be processed. The connection is already closed.
+[info] >      at handle_offline_command (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/index.js:851:15)
+[info] >      at RedisClient.internal_send_command (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/index.js:885:9)
+[info] >      at Multi.exec_transaction (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/lib/multi.js:115:18)
+[info] >      at Lured._load (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/lured/index.js:142:6)
+[info] >      at /Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/lured/index.js:99:22
+[info] >      at Multi.callback (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/lured/index.js:134:25)
+[info] >      at multi_callback (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/lib/multi.js:57:18)
+[info] >      at /Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/lib/multi.js:116:9
+[info] >      at callbackOrEmit (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/lib/utils.js:89:9)
+[info] >      at /Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/lib/utils.js:107:13 command: 'EXEC', code: 'NR_CLOSED', errors: [ [Object] ] } }
+[info] i  functions: Finished "getHomeMediaFeed" in ~1s
+[debug] [2020-03-06T04:03:58.740Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: IDLE
+[debug] [2020-03-06T04:03:58.741Z] [work-queue] {"queueLength":0,"workRunningCount":0}
+[debug] [2020-03-06T04:04:10.618Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2020-03-06T04:04:10.618Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2020-03-06T04:04:10.618Z] Accepted request POST /instamooddev/us-central1/getHomeMediaFeed --> getHomeMediaFeed
+[debug] [2020-03-06T04:04:10.619Z] [worker-pool] submitWork(triggerId=getHomeMediaFeed)
+[debug] [2020-03-06T04:04:10.619Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: Assigning socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41610.sock
+[debug] [2020-03-06T04:04:10.619Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: BUSY
+[debug] [2020-03-06T04:04:10.620Z] [runtime-status] [41610] Trigger "getHomeMediaFeed" has been found, beginning invocation!
+[info] i  functions: Beginning execution of "getHomeMediaFeed"
+[debug] [2020-03-06T04:04:10.621Z] [runtime-status] [41610] triggerDefinition {"httpsTrigger":{},"labels":{"deployment-callable":"true"},"name":"getHomeMediaFeed","entryPoint":"getHomeMediaFeed"}
+[debug] [2020-03-06T04:04:10.621Z] [runtime-status] [41610] Running getHomeMediaFeed in mode HTTPS
+[debug] [2020-03-06T04:04:10.624Z] [runtime-status] [41610] Attempting to listen to socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41610.sock
+[debug] [2020-03-06T04:04:10.628Z] [functions] Runtime ready! Sending request!
+[debug] [2020-03-06T04:04:10.631Z] [runtime-status] [41610] Ephemeral server handling POST request
+[debug] [2020-03-06T04:04:10.631Z] [runtime-status] [41610] Ephemeral server survived.
+[info] >  ERROR WHILE RUNNING Q: { e: { AbortError: EXEC can't be processed. The connection is already closed.
+[info] >      at handle_offline_command (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/index.js:851:15)
+[info] >      at RedisClient.internal_send_command (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/index.js:885:9)
+[info] >      at Multi.exec_transaction (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/lib/multi.js:115:18)
+[info] >      at Lured._load (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/lured/index.js:142:6)
+[info] >      at /Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/lured/index.js:99:22
+[info] >      at Multi.callback (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/lured/index.js:134:25)
+[info] >      at multi_callback (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/lib/multi.js:57:18)
+[info] >      at /Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/lib/multi.js:116:9
+[info] >      at callbackOrEmit (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/lib/utils.js:89:9)
+[info] >      at /Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/lib/utils.js:107:13 command: 'EXEC', code: 'NR_CLOSED', errors: [ [Object] ] } }
+[info] i  functions: Finished "getHomeMediaFeed" in ~1s
+[debug] [2020-03-06T04:04:10.648Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: IDLE
+[debug] [2020-03-06T04:04:10.648Z] [work-queue] {"queueLength":0,"workRunningCount":0}
+[debug] [2020-03-06T04:04:14.803Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2020-03-06T04:04:14.803Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2020-03-06T04:04:14.803Z] Accepted request POST /instamooddev/us-central1/getHomeMediaFeed --> getHomeMediaFeed
+[debug] [2020-03-06T04:04:14.803Z] [worker-pool] submitWork(triggerId=getHomeMediaFeed)
+[debug] [2020-03-06T04:04:14.803Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: Assigning socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41610.sock
+[debug] [2020-03-06T04:04:14.803Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: BUSY
+[debug] [2020-03-06T04:04:14.804Z] [runtime-status] [41610] Trigger "getHomeMediaFeed" has been found, beginning invocation!
+[info] i  functions: Beginning execution of "getHomeMediaFeed"
+[debug] [2020-03-06T04:04:14.817Z] [runtime-status] [41610] triggerDefinition {"httpsTrigger":{},"labels":{"deployment-callable":"true"},"name":"getHomeMediaFeed","entryPoint":"getHomeMediaFeed"}
+[debug] [2020-03-06T04:04:14.817Z] [runtime-status] [41610] Running getHomeMediaFeed in mode HTTPS
+[debug] [2020-03-06T04:04:14.817Z] [runtime-status] [41610] Attempting to listen to socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41610.sock
+[debug] [2020-03-06T04:04:14.817Z] [functions] Runtime ready! Sending request!
+[debug] [2020-03-06T04:04:14.822Z] [runtime-status] [41610] Ephemeral server handling POST request
+[debug] [2020-03-06T04:04:14.825Z] [runtime-status] [41610] Ephemeral server survived.
+[info] >  ERROR WHILE RUNNING Q: { e: { AbortError: EXEC can't be processed. The connection is already closed.
+[info] >      at handle_offline_command (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/index.js:851:15)
+[info] >      at RedisClient.internal_send_command (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/index.js:885:9)
+[info] >      at Multi.exec_transaction (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/lib/multi.js:115:18)
+[info] >      at Lured._load (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/lured/index.js:142:6)
+[info] >      at /Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/lured/index.js:99:22
+[info] >      at Multi.callback (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/lured/index.js:134:25)
+[info] >      at multi_callback (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/lib/multi.js:57:18)
+[info] >      at /Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/lib/multi.js:116:9
+[info] >      at callbackOrEmit (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/lib/utils.js:89:9)
+[info] >      at /Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/lib/utils.js:107:13 command: 'EXEC', code: 'NR_CLOSED', errors: [ [Object] ] } }
+[info] i  functions: Finished "getHomeMediaFeed" in ~1s
+[debug] [2020-03-06T04:04:14.921Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: IDLE
+[debug] [2020-03-06T04:04:14.921Z] [work-queue] {"queueLength":0,"workRunningCount":0}
+[debug] [2020-03-06T04:04:40.701Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2020-03-06T04:04:40.704Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2020-03-06T04:04:40.704Z] Accepted request POST /instamooddev/us-central1/getHomeMediaFeed --> getHomeMediaFeed
+[debug] [2020-03-06T04:04:40.706Z] [worker-pool] submitWork(triggerId=getHomeMediaFeed)
+[debug] [2020-03-06T04:04:40.707Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: Assigning socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41610.sock
+[debug] [2020-03-06T04:04:40.707Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: BUSY
+[debug] [2020-03-06T04:04:40.714Z] [runtime-status] [41610] Trigger "getHomeMediaFeed" has been found, beginning invocation!
+[info] i  functions: Beginning execution of "getHomeMediaFeed"
+[debug] [2020-03-06T04:04:40.719Z] [runtime-status] [41610] triggerDefinition {"httpsTrigger":{},"labels":{"deployment-callable":"true"},"name":"getHomeMediaFeed","entryPoint":"getHomeMediaFeed"}
+[debug] [2020-03-06T04:04:40.719Z] [runtime-status] [41610] Running getHomeMediaFeed in mode HTTPS
+[debug] [2020-03-06T04:04:40.727Z] [runtime-status] [41610] Attempting to listen to socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41610.sock
+[debug] [2020-03-06T04:04:40.732Z] [functions] Runtime ready! Sending request!
+[debug] [2020-03-06T04:04:40.772Z] [runtime-status] [41610] Ephemeral server handling POST request
+[debug] [2020-03-06T04:04:40.796Z] [runtime-status] [41610] Ephemeral server survived.
+[info] >  ERROR WHILE RUNNING Q: { e: { AbortError: EXEC can't be processed. The connection is already closed.
+[info] >      at handle_offline_command (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/index.js:851:15)
+[info] >      at RedisClient.internal_send_command (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/index.js:885:9)
+[info] >      at Multi.exec_transaction (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/lib/multi.js:115:18)
+[info] >      at Lured._load (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/lured/index.js:142:6)
+[info] >      at /Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/lured/index.js:99:22
+[info] >      at Multi.callback (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/lured/index.js:134:25)
+[info] >      at multi_callback (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/lib/multi.js:57:18)
+[info] >      at /Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/lib/multi.js:116:9
+[info] >      at callbackOrEmit (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/lib/utils.js:89:9)
+[info] >      at /Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/lib/utils.js:107:13 command: 'EXEC', code: 'NR_CLOSED', errors: [ [Object] ] } }
+[info] i  functions: Finished "getHomeMediaFeed" in ~1s
+[debug] [2020-03-06T04:04:40.806Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: IDLE
+[debug] [2020-03-06T04:04:40.806Z] [work-queue] {"queueLength":0,"workRunningCount":0}
+[debug] [2020-03-06T04:04:45.416Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2020-03-06T04:04:45.417Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2020-03-06T04:04:45.417Z] Accepted request POST /instamooddev/us-central1/getHomeMediaFeed --> getHomeMediaFeed
+[debug] [2020-03-06T04:04:45.418Z] [worker-pool] submitWork(triggerId=getHomeMediaFeed)
+[debug] [2020-03-06T04:04:45.418Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: Assigning socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41610.sock
+[debug] [2020-03-06T04:04:45.418Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: BUSY
+[debug] [2020-03-06T04:04:45.420Z] [runtime-status] [41610] Trigger "getHomeMediaFeed" has been found, beginning invocation!
+[info] i  functions: Beginning execution of "getHomeMediaFeed"
+[debug] [2020-03-06T04:04:45.420Z] [runtime-status] [41610] triggerDefinition {"httpsTrigger":{},"labels":{"deployment-callable":"true"},"name":"getHomeMediaFeed","entryPoint":"getHomeMediaFeed"}
+[debug] [2020-03-06T04:04:45.420Z] [runtime-status] [41610] Running getHomeMediaFeed in mode HTTPS
+[debug] [2020-03-06T04:04:45.420Z] [runtime-status] [41610] Attempting to listen to socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41610.sock
+[debug] [2020-03-06T04:04:45.421Z] [functions] Runtime ready! Sending request!
+[debug] [2020-03-06T04:04:45.430Z] [runtime-status] [41610] Ephemeral server handling POST request
+[debug] [2020-03-06T04:04:45.430Z] [runtime-status] [41610] Ephemeral server survived.
+[info] >  ERROR WHILE RUNNING Q: { e: { AbortError: EXEC can't be processed. The connection is already closed.
+[info] >      at handle_offline_command (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/index.js:851:15)
+[info] >      at RedisClient.internal_send_command (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/index.js:885:9)
+[info] >      at Multi.exec_transaction (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/lib/multi.js:115:18)
+[info] >      at Lured._load (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/lured/index.js:142:6)
+[info] >      at /Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/lured/index.js:99:22
+[info] >      at Multi.callback (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/lured/index.js:134:25)
+[info] >      at multi_callback (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/lib/multi.js:57:18)
+[info] >      at /Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/lib/multi.js:116:9
+[info] >      at callbackOrEmit (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/lib/utils.js:89:9)
+[info] >      at /Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/lib/utils.js:107:13 command: 'EXEC', code: 'NR_CLOSED', errors: [ [Object] ] } }
+[info] i  functions: Finished "getHomeMediaFeed" in ~1s
+[debug] [2020-03-06T04:04:45.434Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: IDLE
+[debug] [2020-03-06T04:04:45.434Z] [work-queue] {"queueLength":0,"workRunningCount":0}
+[debug] [2020-03-06T04:04:49.585Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2020-03-06T04:04:49.587Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2020-03-06T04:04:49.587Z] Accepted request POST /instamooddev/us-central1/getHomeMediaFeed --> getHomeMediaFeed
+[debug] [2020-03-06T04:04:49.587Z] [worker-pool] submitWork(triggerId=getHomeMediaFeed)
+[debug] [2020-03-06T04:04:49.587Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: Assigning socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41610.sock
+[debug] [2020-03-06T04:04:49.587Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: BUSY
+[debug] [2020-03-06T04:04:49.588Z] [runtime-status] [41610] Trigger "getHomeMediaFeed" has been found, beginning invocation!
+[info] i  functions: Beginning execution of "getHomeMediaFeed"
+[debug] [2020-03-06T04:04:49.596Z] [runtime-status] [41610] triggerDefinition {"httpsTrigger":{},"labels":{"deployment-callable":"true"},"name":"getHomeMediaFeed","entryPoint":"getHomeMediaFeed"}
+[debug] [2020-03-06T04:04:49.597Z] [runtime-status] [41610] Running getHomeMediaFeed in mode HTTPS
+[debug] [2020-03-06T04:04:49.597Z] [runtime-status] [41610] Attempting to listen to socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41610.sock
+[debug] [2020-03-06T04:04:49.598Z] [functions] Runtime ready! Sending request!
+[debug] [2020-03-06T04:04:49.602Z] [runtime-status] [41610] Ephemeral server handling POST request
+[debug] [2020-03-06T04:04:49.602Z] [runtime-status] [41610] Ephemeral server survived.
+[info] >  ERROR WHILE RUNNING Q: { e: { AbortError: EXEC can't be processed. The connection is already closed.
+[info] >      at handle_offline_command (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/index.js:851:15)
+[info] >      at RedisClient.internal_send_command (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/index.js:885:9)
+[info] >      at Multi.exec_transaction (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/lib/multi.js:115:18)
+[info] >      at Lured._load (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/lured/index.js:142:6)
+[info] >      at /Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/lured/index.js:99:22
+[info] >      at Multi.callback (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/lured/index.js:134:25)
+[info] >      at multi_callback (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/lib/multi.js:57:18)
+[info] >      at /Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/lib/multi.js:116:9
+[info] >      at callbackOrEmit (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/lib/utils.js:89:9)
+[info] >      at /Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/lib/utils.js:107:13 command: 'EXEC', code: 'NR_CLOSED', errors: [ [Object] ] } }
+[info] i  functions: Finished "getHomeMediaFeed" in ~1s
+[debug] [2020-03-06T04:04:49.608Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: IDLE
+[debug] [2020-03-06T04:04:49.609Z] [work-queue] {"queueLength":0,"workRunningCount":0}
+[debug] [2020-03-06T04:10:20.885Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2020-03-06T04:10:20.887Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2020-03-06T04:10:20.887Z] Accepted request POST /instamooddev/us-central1/getHomeMediaFeed --> getHomeMediaFeed
+[debug] [2020-03-06T04:10:20.889Z] [worker-pool] submitWork(triggerId=getHomeMediaFeed)
+[debug] [2020-03-06T04:10:20.890Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: Assigning socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41610.sock
+[debug] [2020-03-06T04:10:20.890Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: BUSY
+[debug] [2020-03-06T04:10:20.895Z] [runtime-status] [41610] Trigger "getHomeMediaFeed" has been found, beginning invocation!
+[info] i  functions: Beginning execution of "getHomeMediaFeed"
+[debug] [2020-03-06T04:10:20.897Z] [runtime-status] [41610] triggerDefinition {"httpsTrigger":{},"labels":{"deployment-callable":"true"},"name":"getHomeMediaFeed","entryPoint":"getHomeMediaFeed"}
+[debug] [2020-03-06T04:10:20.897Z] [runtime-status] [41610] Running getHomeMediaFeed in mode HTTPS
+[debug] [2020-03-06T04:10:20.917Z] [runtime-status] [41610] Attempting to listen to socketPath: /var/folders/qy/z2sgy4md4wbclfs7yz11j3b80000gn/T/fire_emu_41610.sock
+[debug] [2020-03-06T04:10:20.920Z] [functions] Runtime ready! Sending request!
+[debug] [2020-03-06T04:10:20.924Z] [runtime-status] [41610] Ephemeral server handling POST request
+[debug] [2020-03-06T04:10:20.926Z] [runtime-status] [41610] Ephemeral server survived.
+[info] >  ERROR WHILE RUNNING Q: { e: { AbortError: EXEC can't be processed. The connection is already closed.
+[info] >      at handle_offline_command (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/index.js:851:15)
+[info] >      at RedisClient.internal_send_command (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/index.js:885:9)
+[info] >      at Multi.exec_transaction (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/lib/multi.js:115:18)
+[info] >      at Lured._load (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/lured/index.js:142:6)
+[info] >      at /Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/lured/index.js:99:22
+[info] >      at Multi.callback (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/lured/index.js:134:25)
+[info] >      at multi_callback (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/lib/multi.js:57:18)
+[info] >      at /Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/lib/multi.js:116:9
+[info] >      at callbackOrEmit (/Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/lib/utils.js:89:9)
+[info] >      at /Users/devacc/src/arnaud/InstaMood/firebase/functions/node_modules/redis/lib/utils.js:107:13 command: 'EXEC', code: 'NR_CLOSED', errors: [ [Object] ] } }
+[info] i  functions: Finished "getHomeMediaFeed" in ~1s
+[debug] [2020-03-06T04:10:20.929Z] [worker-getHomeMediaFeed-045d8d02-dc18-48f7-ae44-85f4a179932a]: IDLE
+[debug] [2020-03-06T04:10:20.929Z] [work-queue] {"queueLength":0,"workRunningCount":0}
