@@ -2,88 +2,81 @@ package commands
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io/ioutil"
 	"os"
-	"strings"
 
-	"feedme/store"
+	"feedme/models"
 	"feedme/util"
 
 	"github.com/dghubble/sling"
-	"github.com/gomodule/redigo/redis"
+	"github.com/go-pg/pg/v9"
 )
 
 const (
-	baseTwitterTrendsURL = "https://api.twitter.com/1.1/trends/place.json"
+	baseTwitterTrendsURL  = "https://api.twitter.com/1.1/trends/place.json"
+	twitterTrendBatchSize = 50
 )
 
 type TwitterTrendsImporter struct {
-	AppEnv     string
-	StoreConn  redis.Conn
-	RedisStore *store.RedisStore
+	AppEnv string
+	Store  *pg.DB
 }
 
-func NewTwitterTrendsImporter(conn redis.Conn) *TwitterTrendsImporter {
-	t := store.NewRedisStore()
+func NewTwitterTrendsImporter(store *pg.DB) *TwitterTrendsImporter {
+
 	appEnv := util.GetEnv("APP_ENV", "dev")
 
 	return &TwitterTrendsImporter{
-		StoreConn:  conn,
-		RedisStore: t,
-		AppEnv:     appEnv,
+		AppEnv: appEnv,
+		Store:  store,
 	}
 }
 
-func NewTwitterTrend(trend TwitterTrend, asOf int) Trend {
-	return Trend{
-		Name:  strings.Replace(trend.Name, "#", "", 1),
-		Score: asOf + trend.TweetVolume,
-	}
-}
-
-// time.Now().UTC().Unix()
-
-// Import imports.
-func (I *TwitterTrendsImporter) Import() error {
-	trends, err := I.getTrends()
+// Import trends.
+func (I *TwitterTrendsImporter) Import() ([]models.Trend, error) {
+	trendsList, err := I.getTrends()
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	asOf := int(trends.AsOf.Unix())
+	// what time we are checking the trend at
+	asOf := int(trendsList.AsOf.Unix())
+	batchCounter := 0
+	imported := make([]models.Trend, 0, 1)
+	batch := make([]models.Trend, 0, 1)
 
-	I.StoreConn.Send("MULTI")
-	I.StoreConn.Send("DEL", "trends")
-	for _, trend := range trends.Trends {
+	for _, trend := range trendsList.Trends {
+		t := models.NewTrend(trend, asOf)
+		batch = append(batch, t)
+		batchCounter++
 
-		t := NewTwitterTrend(trend, asOf)
-		// mJSON, err := json.Marshal(t)
-		// if err != nil {
-		// 	return errors.New("error while getting media bytes: " + err.Error())
-		// }
+		if batchCounter == twitterTrendBatchSize {
+			_, err := I.Store.
+				Model(&batch).
+				OnConflict("(hashtag) DO UPDATE").
+				Set("score = EXCLUDED.score").
+				Insert()
 
-		err = I.StoreConn.Send(I.RedisStore.SetZRangeTrendForKey(asOf, []byte(t.Name)))
-		if err != nil {
-			return errors.New("error while redis setting ig for trend " + t.Name + ": " + err.Error())
+			if err != nil {
+				return nil, err
+			}
+
+			imported = append(imported, batch...)
+
+			// reset
+			batchCounter = 0
+			batch = batch[:0]
 		}
 
-		// fmt.Printf("Redis Reply For Batch: %+v", repl)
-
 	}
 
-	_, err = I.StoreConn.Do("EXEC")
-	if err != nil {
-		return errors.New("error while redis exec ig: " + err.Error())
-	}
-
-	return nil
+	return imported, nil
 }
 
-func (I *TwitterTrendsImporter) getTrends() (*TwitterTrendingResponse, error) {
+func (I *TwitterTrendsImporter) getTrends() (*models.TwitterTrendingResponse, error) {
 
-	var trends *TwitterTrendingResponse
+	var trends *models.TwitterTrendingResponse
 	var err error
 
 	if I.AppEnv == "dev" {
@@ -100,15 +93,15 @@ func (I *TwitterTrendsImporter) getTrends() (*TwitterTrendingResponse, error) {
 
 // webGet returns a list of trends
 // TODO: pagination
-func webGetTwitterTrends() (*TwitterTrendingResponse, error) {
+func webGetTwitterTrends() (*models.TwitterTrendingResponse, error) {
 
 	url := baseTwitterTrendsURL
-	params := &TwitterTrendsRequestParams{
+	params := &models.TwitterTrendsRequestParams{
 		ID: 23424748,
 	}
 
-	trends := new(TwitterTrendingResponse)
-	apiErr := new(TwitterTrendsError)
+	trends := new(models.TwitterTrendingResponse)
+	apiErr := new(models.TwitterTrendsError)
 	_, err := sling.New().Get(url).QueryStruct(params).Receive(trends, apiErr)
 	if err != nil {
 		return nil, err
@@ -118,7 +111,7 @@ func webGetTwitterTrends() (*TwitterTrendingResponse, error) {
 }
 
 // localGet returns a hashtag feed based on a local file.
-func localGetTwitterTrends() (*TwitterTrendingResponse, error) {
+func localGetTwitterTrends() (*models.TwitterTrendingResponse, error) {
 	jsonFile, err := os.Open("twitter-trending.json")
 	if err != nil {
 		fmt.Printf("%+v", err)
@@ -127,7 +120,7 @@ func localGetTwitterTrends() (*TwitterTrendingResponse, error) {
 
 	defer jsonFile.Close()
 	byteValue, _ := ioutil.ReadAll(jsonFile)
-	var feed TwitterTrendingResponse
+	var feed models.TwitterTrendingResponse
 
 	json.Unmarshal(byteValue, &feed)
 

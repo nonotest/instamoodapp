@@ -2,180 +2,240 @@ package commands
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io/ioutil"
 	"os"
+	"strconv"
 	"time"
 
-	"feedme/store"
+	"feedme/models"
 	"feedme/util"
 
 	"github.com/dghubble/sling"
-	"github.com/gomodule/redigo/redis"
+	"github.com/go-pg/pg/v9"
 )
 
 const (
 	baseYoutubeURL = "https://www.googleapis.com/youtube/v3/search/"
+	YTBatchSize    = 50
 )
 
 // YTMediaData to store.
 type YTMediaData struct {
-	VideoID  string `json:"videoId"`
+	VideoID  string `json:"video_id"`
 	Username string `json:"username,omitempty"`
 }
 
-// YTMedia to store.
-type YTMedia struct {
-	Data            YTMediaData `json:"data"`
-	MediaSourceName string      `json:"mediaSourceName"`
-	TrendName       string      `json:"trendName"`
-	InternalID      string      `json:"internalId"`
-	InsertedAt      time.Time   `json:"insertedAt"`
-	ID              string      `json:"ID"`
-}
-
 type YTImporter struct {
-	AppEnv     string
-	StoreConn  redis.Conn
-	MediaStore *store.RedisStore
+	AppEnv string
+	Store  *pg.DB
 }
 
-func NewYTImporter(conn redis.Conn) *YTImporter {
-	s := store.NewRedisStore()
+func NewYTImporter(store *pg.DB) *YTImporter {
 	appEnv := util.GetEnv("APP_ENV", "dev")
 
 	return &YTImporter{
-		StoreConn:  conn,
-		MediaStore: s,
-		AppEnv:     appEnv,
+		Store:  store,
+		AppEnv: appEnv,
 	}
 }
 
 // Import imports.
-func (I *YTImporter) Import(trends []string) error {
-	mediasByMood, err := I.getMediasByMood(trends)
+func (I *YTImporter) Import(trends []models.Trend) error {
+	mediasByTrend, err := I.getMediasByTrend(trends)
 	if err != nil {
 		return err
 	}
 
-	for trend, medias := range mediasByMood {
-		I.StoreConn.Do("MULTI")
-		for _, node := range medias {
-			mediaBytes, err := I.getMediaBytes(node, trend)
-			if err != nil {
-				return err
+	batchCounter := 0
+	batch := make([]models.Media, 0, 1)
+
+	for trendID, igNodes := range mediasByTrend {
+
+		for _, node := range igNodes {
+			metadata := YTMediaData{
+				VideoID:  node.ID,
+				Username: "",
 			}
+			score := getYTScore(node)
 
-			score := int(node.Snippet.PublishedAt.Unix()) + 500
-			err = I.StoreConn.Send(I.MediaStore.SetZRangeMediaForKey(trend, score, mediaBytes))
-			if err != nil {
-				return errors.New("error while redis setting yt for trend " + trend + ": " + err.Error())
+			m := models.NewYTMedia(node, score, metadata, 2, trendID)
+
+			batch = append(batch, m)
+			batchCounter++
+
+			if batchCounter == YTBatchSize || YTBatchSize >= len(igNodes) {
+
+				_, err := I.Store.
+					Model(&batch).
+					OnConflict("(external_id) DO UPDATE").
+					Set("score = EXCLUDED.score").
+					Insert()
+
+				if err != nil {
+					return err
+				}
+
+				// reset
+				batchCounter = 0
+				batch = batch[:0]
 			}
-
 		}
-
-		repl, err := I.StoreConn.Do("EXEC")
-		if err != nil {
-			return errors.New("error while redis exec yt: " + err.Error())
-		}
-
-		fmt.Printf("Redis Reply For Batch: %+v", repl)
 
 	}
 
 	return nil
 }
 
-func (I *YTImporter) getMediasByMood(trends []string) (map[string][]YTResult, error) {
+func (I *YTImporter) getMediasByTrend(trends []models.Trend) (map[int64][]models.YTVideoResult, error) {
 
-	var feed *YTResponse
 	var err error
 
 	// EdgeHashtagToTopPosts
 	// EdgeHashtagToMedia
-	allMedias := make(map[string][]YTResult, 0)
+
+	allMedias := make(map[int64][]models.YTVideoResult, 0)
 
 	for _, trend := range trends {
+		var search *models.YTSearchResponse
+
 		if I.AppEnv == "dev" {
-			feed, err = localGetYT()
+			search, err = localGetYTSearches()
 		} else {
-			feed, err = webGetYT(trend)
+			search, err = webGetYTSearches(trend)
 		}
 		if err != nil {
-			fmt.Printf("Err :%+v", err)
+			fmt.Printf("getMediasByTrend: Search API Err :%+v", err)
 			continue
 		}
 
-		allMedias[trend] = feed.Items
+		videoIDs := ""
+		for _, item := range search.Items {
+			videoIDs = videoIDs + item.ID.VideoID + ","
+		}
+
+		var feed *models.YTVideosResponse
+
+		if I.AppEnv == "dev" {
+			feed, err = localGetYTVideos()
+		} else {
+			feed, err = webGetYTVideos(videoIDs)
+		}
+		if err != nil {
+			fmt.Printf("getMediasByTrend: Videos API Err :%+v", err)
+			continue
+		}
+
+		allMedias[trend.ID] = feed.Items
+
+		if I.AppEnv == "dev" {
+			// we only do 1 batch (1 file..)
+			return allMedias, nil
+		}
+		// get from videoIDs
 	}
 
 	return allMedias, nil
 }
 
-// getMediaBytes returns a marshalled media ready for redis.
-func (I *YTImporter) getMediaBytes(node YTResult, trend string) ([]byte, error) {
-	m := Media{
-		Data: YTMediaData{
-			VideoID:  node.ID.VideoID,
-			Username: "",
-		},
-		MediaSourceName: "youtube",
-		TrendName:       trend,
-		InternalID:      node.ID.VideoID,
-		InsertedAt:      node.Snippet.PublishedAt,
-		ID:              node.ID.VideoID + "-youtube",
-	}
-
-	mJSON, err := json.Marshal(m)
-
-	if err != nil {
-		return nil, errors.New("error while getting media bytes: " + err.Error())
-	}
-
-	return mJSON, nil
-}
-
-// webGet returns a hashtag feed based on a call to ig web api.
-// AIzaSyCO-LnXrueTOMqlSkZp9F_rUQQdkrqfgOA
-func webGetYT(mood string) (*YTResponse, error) {
+// webGetYTSearches returns a list of videos that match our hashtag.
+func webGetYTSearches(trend models.Trend) (*models.YTSearchResponse, error) {
 	url := baseYoutubeURL
 	t, _ := time.Parse(time.RFC3339, "2020-02-25T00:00:00Z")
-	params := &YTParams{
-		Q:              mood,
+	params := &models.YTSearchParams{
+		Q:              trend.Name,
 		Part:           "snippet",
-		Key:            util.GetEnv("YT_API_KEY", "key"),
+		Key:            util.GetEnv("YT_API_KEY_1", "key"),
 		MaxResults:     50,
 		Order:          "viewCount",
 		Type:           "video",
 		PublishedAfter: t,
 	}
 
-	feed := new(YTResponse)
-	apiErr := new(YTError)
+	feed := new(models.YTSearchResponse)
+	apiErr := new(models.YTError)
 	_, err := sling.New().Get(url).QueryStruct(params).Receive(feed, apiErr)
 	if err != nil {
 		return nil, err
 	}
 
-	fmt.Printf("%+v", params)
-
 	return feed, nil
 }
 
-// localGet returns a hashtag feed based on a local file.
-func localGetYT() (*YTResponse, error) {
-	jsonFile, err := os.Open("youtube.json")
+// localGetYTSearches returns videos matching a hashtag feed based on a local file.
+func localGetYTSearches() (*models.YTSearchResponse, error) {
+	jsonFile, err := os.Open("youtube-search.json")
 	if err != nil {
-		fmt.Printf("%+v", err)
 		return nil, err
 	}
 
 	defer jsonFile.Close()
 	byteValue, _ := ioutil.ReadAll(jsonFile)
-	var feed YTResponse
+	var feed models.YTSearchResponse
 
 	json.Unmarshal(byteValue, &feed)
 
 	return &feed, nil
+}
+
+// webGetYTVideos returns a hashtag feed based on a call to ig web api.
+func webGetYTVideos(videoIDs string) (*models.YTVideosResponse, error) {
+	url := baseYoutubeURL
+	params := &models.YTVideosParams{
+		ID:   videoIDs,
+		Part: "snippet,statistics",
+		Key:  util.GetEnv("YT_API_KEY_2", "key"),
+	}
+
+	feed := new(models.YTVideosResponse)
+	apiErr := new(models.YTError)
+	_, err := sling.New().Get(url).QueryStruct(params).Receive(feed, apiErr)
+	if err != nil {
+		return nil, err
+	}
+
+	return feed, nil
+}
+
+// localGetYTVideos returns videos matching a hashtag feed based on a local file.
+func localGetYTVideos() (*models.YTVideosResponse, error) {
+	jsonFile, err := os.Open("youtube-videos.json")
+	if err != nil {
+		return nil, err
+	}
+
+	defer jsonFile.Close()
+	byteValue, _ := ioutil.ReadAll(jsonFile)
+	var feed models.YTVideosResponse
+
+	json.Unmarshal(byteValue, &feed)
+
+	return &feed, nil
+}
+
+func getYTScore(node models.YTVideoResult) int {
+	// trendysnaps score is 0 < score < 1000
+	// by default the date is the biggest ranking factor as we are looking for trending stuff
+
+	// we try to even out the relative weight of each other component
+	//  "viewCount": "26202405", 20%
+	//  "likeCount": "463104",  20%
+	//  "dislikeCount": "9319",  20%
+	//  "favoriteCount": "0", 0 20%
+	//  "commentCount": "7327"   20%
+
+	// rawScore = 26,663,517
+	// 26663517 - 1403881818
+	// get largest component, viewCount ->
+	// score = 26663517 / 100000000 * 1000
+
+	vc, _ := strconv.Atoi(node.Statistics.ViewCount)
+	lc, _ := strconv.Atoi(node.Statistics.LikeCount)
+	dc, _ := strconv.Atoi(node.Statistics.DislikeCount)
+	fc, _ := strconv.Atoi(node.Statistics.FavoriteCount)
+	cc, _ := strconv.Atoi(node.Statistics.CommentCount)
+
+	ourRawScore := vc + lc - dc + fc + cc
+
+	return int(node.Snippet.PublishedAt.Unix()) + ourRawScore
 }

@@ -5,9 +5,16 @@ services:
     command: ['/bin/sh', '-c', 'while true; do :; sleep 1; done']
     depends_on:
       - redis
+      - db
     environment:
       REDIS_HOST: redis
       REDIS_PORT: 6379
+      DB_PORT: 5432
+      DB_HOST: db
+    expose:
+      - 8082
+    ports:
+      - '8082:8082'
     volumes:
       - './go/:/go'
     working_dir: '/go'

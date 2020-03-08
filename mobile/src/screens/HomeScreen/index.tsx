@@ -3,28 +3,40 @@ import {
   ActivityIndicator,
   FlatList,
   RefreshControl,
-  ScrollView,
   StyleSheet,
   TextStyle,
   View,
   ViewStyle,
 } from 'react-native';
-import { Button, Icon } from 'react-native-elements';
+import { Icon } from 'react-native-elements';
+import { NetworkStatus } from 'apollo-client';
+import { useQuery } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 
 import { Mood, Media } from '../../core';
 import MoodModalScreen from '../MoodModalScreen';
 import MoodSelectorModalScreen from '../MoodSelectorModalScreen';
 import SettingsModalScreen from '../SettingsModalScreen';
-import {
-  useFetchTrends,
-  useStore,
-  StoreProviderState,
-} from '../../context/StoreContext';
+import { StoreProviderState } from '../../context/StoreContext';
 import Text from '../../components/Typography/Text';
-import { getHomeMediaFeed } from '../../services/firebase';
 import { useTheme } from '../../themes';
 
 import FeedItem from './FeedItem';
+import TrendsWidget from './TrendsWidget';
+
+const GET_MEDIAS = gql`
+  query GetMediasByTopTrendsQuery($skip: Int!, $take: Int!) {
+    read_top_medias_by_top_trends(args: { skip: $skip, take: $take }) {
+      uuid
+      external_id
+      metadata
+      media_source_name
+      trend_name
+      created_at
+    }
+  }
+`;
+const RECORDS_PER_TREND = 5;
 
 // todo: move to utils
 const getMood = (
@@ -41,74 +53,31 @@ const getMood = (
 type Props = {};
 
 const HomeScreen: React.FC<Props> = () => {
-  useFetchTrends();
   // Context State
-  const store = useStore();
-  const { colors, fonts, icons } = useTheme();
+  // const store = useStore();
+  const { colors, icons } = useTheme();
   // Local State
-  const [moodModalVisible, setMoodModalVisible] = useState(false);
   const [settingsModalVisible, setSettingsModalVisible] = useState(false);
   const [moodSelectorModalVisible, setMoodSelectorModalVisible] = useState(
     false,
   );
 
-  const [mood, setMood] = useState<Mood | null>(null);
-  const [medias, setMedias] = useState<Array<Media>>(store.medias);
-  const [loading, setLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
-  const [showRefreshingIndicator, setShowRefreshingIndicator] = useState(false);
-
-  const dataIndex = useRef(0);
-  const hasNextPage = useRef(true);
-
-  const fetchData = async (reset: boolean) => {
-    // let didCancel = false;
-
-    if (reset === true) dataIndex.current = 0;
-
-    if (dataIndex.current !== 0 && hasNextPage.current === false) return [];
-
-    let params: { page: number; moods: string[] } = {
-      page: dataIndex.current,
-      moods: store.userMoods,
-    };
-
-    const result = await getHomeMediaFeed(params);
-    dataIndex.current++;
-    hasNextPage.current = result.hasNextPage;
-
-    return result.data;
-  };
-
-  const getInitialData = async () => {
-    const data = await fetchData(false);
-    if (!data) return;
-    setMedias(data);
-    setLoading(false);
-  };
-
-  const onEndReached = async () => {
-    const newItems = await fetchData(false);
-    if (!newItems.length) return;
-    setMedias([...medias, ...newItems]);
-  };
-
-  const onRefresh = useCallback(async () => {
-    setShowRefreshingIndicator(true);
-    const newItems = await fetchData(true);
-    setMedias(newItems);
-    setShowRefreshingIndicator(false);
-  }, [refreshing, store.userMoods]);
+  const { error, data, refetch, fetchMore, networkStatus } = useQuery(
+    GET_MEDIAS,
+    {
+      variables: {
+        skip: 0,
+        take: RECORDS_PER_TREND,
+      },
+      notifyOnNetworkStatusChange: true,
+    },
+  );
 
   // useEffect(() => {
   //   if (store.userMoods.length === 0) {
   //     setMoodSelectorModalVisible(true);
   //   }
   // }, []);
-
-  useEffect(() => {
-    getInitialData();
-  }, [store.trends]);
 
   return (
     <>
@@ -123,33 +92,9 @@ const HomeScreen: React.FC<Props> = () => {
           />
         </View>
         <View style={styles.moodListWrapper}>
-          <ScrollView horizontal>
-            {store.trends.map(trend => {
-              return (
-                <Button
-                  key={trend}
-                  title={`#${trend}`}
-                  titleStyle={{
-                    textTransform: 'capitalize',
-                    color: colors.text,
-                    ...fonts.medium,
-                  }}
-                  buttonStyle={{
-                    paddingVertical: 4,
-                    backgroundColor: 'rgb(29, 161, 242)',
-                  }}
-                  containerStyle={{
-                    marginHorizontal: 10,
-                  }}
-                  onPress={() => {}}
-                  iconRight
-                  icon={{ name: 'close', color: 'white' }}
-                />
-              );
-            })}
-          </ScrollView>
+          <TrendsWidget />
         </View>
-        {loading === true ? (
+        {networkStatus === NetworkStatus.loading ? (
           <View
             style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
           >
@@ -159,25 +104,48 @@ const HomeScreen: React.FC<Props> = () => {
           <FlatList
             refreshControl={
               <RefreshControl
-                refreshing={showRefreshingIndicator}
-                onRefresh={onRefresh}
+                refreshing={networkStatus === NetworkStatus.refetch}
+                onRefresh={() => refetch()}
+                tintColor={'red'}
               />
             }
             onEndReached={() => {
-              if (refreshing) return;
-              setRefreshing(true);
-              onEndReached().then(() => {
-                setRefreshing(false);
+              fetchMore({
+                variables: {
+                  skip: data.read_top_medias_by_top_trends.length,
+                  take: RECORDS_PER_TREND,
+                },
+                updateQuery: (previousResult, { fetchMoreResult }) => {
+                  // Don't do anything if there weren't any new items
+                  if (
+                    !fetchMoreResult ||
+                    fetchMoreResult.read_top_medias_by_top_trends.length === 0
+                  ) {
+                    return previousResult;
+                  }
+                  return {
+                    // Append the new feed results to the old one
+                    read_top_medias_by_top_trends: previousResult.read_top_medias_by_top_trends.concat(
+                      fetchMoreResult.read_top_medias_by_top_trends,
+                    ),
+                  };
+                },
               });
             }}
             onEndReachedThreshold={0.5}
-            keyExtractor={item => `${item.internalId}`}
+            keyExtractor={item => item.uuid}
             renderItem={({ index, item }) => (
-              <FeedItem index={index} item={item} mood={getMood(item, store)} />
+              <FeedItem
+                index={index}
+                item={item}
+                mood={getMood(item, { moods: [] })}
+              />
             )}
-            data={medias}
+            data={data.read_top_medias_by_top_trends}
             ListFooterComponent={
-              refreshing && <ActivityIndicator size="small" />
+              networkStatus === NetworkStatus.fetchMore && (
+                <ActivityIndicator size="large" color="red" />
+              )
             }
           />
         )}
@@ -194,9 +162,7 @@ const HomeScreen: React.FC<Props> = () => {
       {/* {moodSelectorModalVisible === true && (
         <MoodSelectorModalScreen setVisible={setMoodSelectorModalVisible} />
       )} */}
-      {moodModalVisible === true && (
-        <MoodModalScreen mood={mood} setVisible={setMoodModalVisible} />
-      )}
+
       {settingsModalVisible === true && (
         <SettingsModalScreen setVisible={setSettingsModalVisible} />
       )}

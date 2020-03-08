@@ -2,23 +2,22 @@ package commands
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/url"
 	"os"
 	"strings"
-	"time"
 
-	"feedme/store"
+	"feedme/models"
 	"feedme/util"
 
 	"github.com/dghubble/sling"
-	"github.com/gomodule/redigo/redis"
+	"github.com/go-pg/pg/v9"
 )
 
 const (
 	baseInstagramURL = "https://www.instagram.com/explore/tags/"
+	IGBatchSize      = 50
 )
 
 // IGMediaData to store.
@@ -27,60 +26,58 @@ type IGMediaData struct {
 	UserID int    `json:"userId,omitempty"`
 }
 
-// IGMedia to store.
-type IGMedia struct {
-	Data            IGMediaData `json:"data"`
-	MediaSourceName string      `json:"mediaSourceName"`
-	TrendName       string      `json:"trendName"`
-	InternalID      string      `json:"internalId"`
-	InsertedAt      time.Time   `json:"insertedAt"`
-	ID              string      `json:"ID"`
-}
-
 type IGImporter struct {
-	AppEnv    string
-	StoreConn redis.Conn
-	Store     *store.RedisStore
+	AppEnv string
+	Store  *pg.DB
 }
 
-func NewIGImporter(conn redis.Conn) *IGImporter {
-	s := store.NewRedisStore()
+func NewIGImporter(store *pg.DB) *IGImporter {
 	appEnv := util.GetEnv("APP_ENV", "dev")
 
 	return &IGImporter{
-		StoreConn: conn,
-		Store:     s,
-		AppEnv:    appEnv,
+		Store:  store,
+		AppEnv: appEnv,
 	}
 }
 
 // Import imports.
-func (I *IGImporter) Import(trends []string) error {
-	mediasByMood, err := I.getMediasByMood(trends)
+func (I *IGImporter) Import(trends []models.Trend) error {
+	igNodesByTrend, err := I.getMediasByTrend(trends)
 	if err != nil {
 		return err
 	}
 
-	for trend, medias := range mediasByMood {
-		I.StoreConn.Do("MULTI")
-		for _, node := range medias {
-			mediaBytes, err := I.getMediaBytes(node.Node, trend)
-			if err != nil {
-				return err
+	batchCounter := 0
+	batch := make([]models.Media, 0, 1)
+
+	for trendID, igNodes := range igNodesByTrend {
+
+		for _, node := range igNodes {
+			metadata := IGMediaData{
+				URL: node.Node.DisplayURL,
 			}
+			score := getIGScore(node.Node)
+			m := models.NewIGMedia(node.Node, score, metadata, 1, trendID)
 
-			score := getScore(node)
+			batch = append(batch, m)
+			batchCounter++
 
-			err = I.StoreConn.Send(I.Store.SetZRangeMediaForKey(trend, score, mediaBytes))
-			if err != nil {
-				return errors.New("error while redis setting ig for trend " + trend + ": " + err.Error())
+			if batchCounter == IGBatchSize || IGBatchSize >= len(igNodes) {
+
+				_, err := I.Store.
+					Model(&batch).
+					OnConflict("(external_id) DO UPDATE").
+					Set("score = EXCLUDED.score").
+					Insert()
+
+				if err != nil {
+					return err
+				}
+
+				// reset
+				batchCounter = 0
+				batch = batch[:0]
 			}
-
-		}
-
-		_, err := I.StoreConn.Do("EXEC")
-		if err != nil {
-			return errors.New("error while redis exec ig: " + err.Error())
 		}
 
 	}
@@ -88,13 +85,13 @@ func (I *IGImporter) Import(trends []string) error {
 	return nil
 }
 
-func (I *IGImporter) getMediasByMood(trends []string) (map[string][]IGEdge, error) {
-	var feed *IGResponse
+func (I *IGImporter) getMediasByTrend(trends []models.Trend) (map[int64][]models.IGEdge, error) {
+	var feed *models.IGResponse
 	var err error
 
 	// EdgeHashtagToTopPosts
 	// EdgeHashtagToMedia
-	allMedias := make(map[string][]IGEdge, 0)
+	allMedias := make(map[int64][]models.IGEdge, 0)
 
 	for _, trend := range trends {
 
@@ -104,45 +101,28 @@ func (I *IGImporter) getMediasByMood(trends []string) (map[string][]IGEdge, erro
 			feed, err = webGetIG(trend)
 		}
 		if err != nil {
-			fmt.Printf("Error but don't stop .. %+v", nil)
+			fmt.Printf("Error but don't stop .. %+v", err)
 			continue
 		}
 
-		allMedias[trend] = feed.Graphql.Hashtag.EdgeHashtagToMedia.Edges
+		allMedias[trend.ID] = feed.Graphql.Hashtag.EdgeHashtagToMedia.Edges
+
+		if I.AppEnv == "dev" {
+			// we only do 1 batch (1 file..)
+			return allMedias, nil
+		}
 	}
 
 	return allMedias, nil
 }
 
-// getMediaBytes returns a marshalled media ready for redis.
-func (I *IGImporter) getMediaBytes(node IGNode, trend string) ([]byte, error) {
-	m := Media{
-		Data: IGMediaData{
-			URL: node.DisplayURL,
-		},
-		MediaSourceName: "instagram",
-		TrendName:       trend,
-		InternalID:      node.ID,
-		InsertedAt:      time.Unix(int64(node.TakenAtTimestamp), 0),
-		ID:              node.ID + "-instagram",
-	}
-
-	mJSON, err := json.Marshal(m)
-
-	if err != nil {
-		return nil, errors.New("error while getting media bytes: " + err.Error())
-	}
-
-	return mJSON, nil
-}
-
 // webGet returns a hashtag feed based on a call to ig web api.
-func webGetIG(trend string) (*IGResponse, error) {
-	url := baseInstagramURL + url.PathEscape(strings.Replace(trend, " ", "", -1)) + "/"
-	params := &IGRequestParams{ISJson: 1}
+func webGetIG(trend models.Trend) (*models.IGResponse, error) {
+	url := baseInstagramURL + url.PathEscape(strings.Replace(trend.Hashtag, " ", "", -1)) + "/"
+	params := &models.IGRequestParams{ISJson: 1}
 
-	feed := new(IGResponse)
-	apiErr := new(IGError)
+	feed := new(models.IGResponse)
+	apiErr := new(models.IGError)
 	_, err := sling.New().Get(url).QueryStruct(params).Receive(feed, apiErr)
 	if err != nil {
 		return nil, err
@@ -152,7 +132,7 @@ func webGetIG(trend string) (*IGResponse, error) {
 }
 
 // localGet returns a hashtag feed based on a local file.
-func localGetIG() (*IGResponse, error) {
+func localGetIG() (*models.IGResponse, error) {
 	jsonFile, err := os.Open("instagram.json")
 	if err != nil {
 		fmt.Printf("%+v", err)
@@ -161,7 +141,7 @@ func localGetIG() (*IGResponse, error) {
 
 	defer jsonFile.Close()
 	byteValue, _ := ioutil.ReadAll(jsonFile)
-	var feed IGResponse
+	var feed models.IGResponse
 
 	json.Unmarshal(byteValue, &feed)
 
@@ -169,11 +149,11 @@ func localGetIG() (*IGResponse, error) {
 }
 
 // return score used to ranked instagram
-func getScore(edge IGEdge) int64 {
+func getIGScore(node models.IGNode) int {
 	// Score can't be purely based on date.
 	// edge_liked_by
 	// edge_media_preview_like
 	// edge_media_to_comment
 
-	return node.Node.TakenAtTimestamp + node.Node.EdgeLikedBy.Count
+	return node.TakenAtTimestamp + node.EdgeLikedBy.Count
 }

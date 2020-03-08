@@ -1,11 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { ActivityIndicator, Image, View, Text } from 'react-native';
+import { ActivityIndicator, View, Text } from 'react-native';
 import { Icon } from 'react-native-elements';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import YouTubePlayer from 'react-native-youtube-sdk';
 import { useAppState } from 'react-native-hooks';
 
-import MoodBox from '../MoodBox';
 import FirebaseDateWidget from '../../../components/FirebaseDateWidget/index';
 
 import { Mood, YoutubeMedia } from '../../../core';
@@ -54,10 +53,13 @@ const YoutubeMediaFeedWidget: React.FC<Props> = ({ media, mood }) => {
             <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold' }}>
               Youtube
             </Text>
-            <MoodBox containerStyle={{ marginLeft: 10 }} mood={mood} />
+            <Text style={{ color: 'white', fontWeight: '500' }}>
+              {' '}
+              • {media.trend_name}
+            </Text>
           </View>
           <Text style={{ color: 'white' }}>
-            <FirebaseDateWidget firebaseDate={media.insertedAt} />
+            <FirebaseDateWidget firebaseDate={media.created_at} />
           </Text>
         </View>
         <Icon name="more-horiz" color="white" />
@@ -67,7 +69,7 @@ const YoutubeMediaFeedWidget: React.FC<Props> = ({ media, mood }) => {
         <View style={{ backgroundColor: 'black', flex: 1 }}>
           <YouTubePlayer
             ref={youtubeRef}
-            videoId={media.data.videoId}
+            videoId={media.metadata.videoId} // video_id
             autoPlay={false}
             fullscreen={false}
             showFullScreenButton={false}

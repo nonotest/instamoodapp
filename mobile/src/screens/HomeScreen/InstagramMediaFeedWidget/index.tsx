@@ -3,7 +3,6 @@ import { Image, View, Text, Linking } from 'react-native';
 import { Icon } from 'react-native-elements';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-import MoodBox from '../MoodBox';
 import { InstagramMedia, Mood } from '../../../core';
 import FirebaseDateWidget from '../../../components/FirebaseDateWidget/index';
 
@@ -29,14 +28,14 @@ function InstagramMediaFeedWidget({ media, mood }: Props) {
             </Text>
             <Text style={{ color: 'white', fontWeight: '500' }}>
               {' '}
-              • {media.trendName}
+              • {media.trend_name}
             </Text>
           </View>
           <Text style={{ color: 'white' }}>
             <Text
               style={{ fontWeight: '500' }}
               onPress={() => {
-                const app = `instagram://media?id=${media.internalId}`;
+                const app = `instagram://media?id=${media.exernal_id}`;
                 Linking.openURL(app).catch(err => {
                   alert('Instagram is not installed.');
                 });
@@ -44,7 +43,7 @@ function InstagramMediaFeedWidget({ media, mood }: Props) {
             >
               Post{' '}
             </Text>
-            • <FirebaseDateWidget firebaseDate={media.insertedAt} />
+            • <FirebaseDateWidget firebaseDate={media.created_at} />
           </Text>
         </View>
         <Icon name="more-horiz" color="white" />
@@ -53,7 +52,7 @@ function InstagramMediaFeedWidget({ media, mood }: Props) {
         <Image
           style={{ width: '100%', height: 300 }}
           source={{
-            uri: media.data.url,
+            uri: media.metadata.url,
           }}
         />
       </View>

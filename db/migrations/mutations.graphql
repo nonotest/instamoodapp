@@ -1,0 +1,40 @@
+mutation insert_single_media_source {
+  insert_ts_media_sources(objects: { name: "instagram" }) {
+    returning {
+      id
+    }
+  }
+}
+
+mutation insert_single_media_source {
+  insert_ts_media_sources(objects: { name: "youtube" }) {
+    returning {
+      id
+    }
+  }
+}
+
+mutation insert_single_trend {
+  insert_ts_trends(objects: { name: "chase", hashtag: "#chase", score: 1 }) {
+    returning {
+      id
+    }
+  }
+}
+
+mutation insert_single_media {
+  insert_ts_medias(
+    objects: {
+      media_source_id: 1
+      trend_id: 1
+      external_id: "bla"
+      metadata: {
+        url: "https://instagram.fper7-1.fna.fbcdn.net/v/t51.2885-15/e35/p1080x1080/88204882_135530981128117_6132050653104061651_n.jpg?_nc_ht=instagram.fper7-1.fna.fbcdn.net&_nc_cat=1&_nc_ohc=CTBnNSR-0eYAX9tDw6y&oh=7f4560d912a5fcfb3bddcd459ca35d2c&oe=5E915BC3"
+      }
+    }
+  ) {
+    returning {
+      id
+    }
+  }
+}
