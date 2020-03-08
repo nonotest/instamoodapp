@@ -17,7 +17,9 @@ func init() {
 		return
 	}
 
-	if err := godotenv.Load(); err != nil {
+	// TODO: just do a switch on APP_ENV
+
+	if err := godotenv.Load(".live.env"); err != nil {
 		log.Print("No .env file found")
 	}
 }
@@ -44,11 +46,11 @@ func Execute(args []string) {
 		panic(err)
 	}
 
-	// yt := NewYTImporter(db)
-	// err = yt.Import(tt)
-	// if err != nil {
-	// 	panic(err)
-	// }
+	yt := NewYTImporter(db)
+	err = yt.Import(tt)
+	if err != nil {
+		panic(err)
+	}
 
 	// quotable := NewQuotableImporter(conn)
 	// err = quotable.Import()

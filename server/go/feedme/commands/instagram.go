@@ -101,7 +101,7 @@ func (I *IGImporter) getMediasByTrend(trends []models.Trend) (map[int64][]models
 			feed, err = webGetIG(trend)
 		}
 		if err != nil {
-			fmt.Printf("Error but don't stop .. %+v", nil)
+			fmt.Printf("Error but don't stop .. %+v", err)
 			continue
 		}
 
