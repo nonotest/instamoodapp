@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Le Feed',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.indigo,
         ),
         home: MyHomePage(title: 'Le Feed'),
       ),
@@ -33,17 +33,28 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-        appBar: new AppBar(
-          title: new Text(
+    return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.black,
+          actions: <Widget>[
+            // action button
+            IconButton(
+              icon: Icon(Icons.settings),
+              onPressed: () {
+                print("settings");
+              },
+            ),
+          ],
+          title: Text(
             "Le Feed",
-            style: new TextStyle(color: Colors.white),
+            style: TextStyle(
+                color: Colors.white, fontFamily: 'Bradley Hand', fontSize: 30),
           ),
         ),
-        body: new Container(
-          child: new Center(
+        body: Container(
+          child: Center(
             // Use future builder and DefaultAssetBundle to load the local JSON file
-            child: new PagingMedias(),
+            child: PagingMedias(),
           ),
         ));
   }

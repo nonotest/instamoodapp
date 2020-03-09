@@ -47,7 +47,7 @@ class PagingMedias extends StatelessWidget {
         final List<Media> listOfMedias = medias.map((dynamic e) {
           return Media(
               externalId: e["external_id"],
-              metadata: new Metadata(url: e["metadata"]["url"]),
+              metadata: Metadata(url: e["metadata"]["url"]),
               mediaSourceName: e["media_source_name"],
               trendName: e["trend_name"],
               createdAt: e["created_at"],
