@@ -39,7 +39,6 @@ class PagingMedias extends StatelessWidget {
           );
         }
 
-        // read_top_medias_by_top_trends
         final nextPage = 5;
         final List<dynamic> medias =
             result.data['read_top_medias_by_top_trends'] as List<dynamic>;
@@ -87,5 +86,3 @@ class PagingMedias extends StatelessWidget {
     );
   }
 }
-
-T cast<T>(x) => x is T ? x : null;

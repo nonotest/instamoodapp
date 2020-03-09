@@ -19,7 +19,7 @@ class DisplayMedias extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new ListView.builder(
-        physics: const AlwaysScrollableScrollPhysics(), // new
+        physics: const AlwaysScrollableScrollPhysics(),
         itemCount: medias == null ? 0 : medias.length,
         itemBuilder: (BuildContext context, int index) {
           return new Card(

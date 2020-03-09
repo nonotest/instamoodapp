@@ -37,7 +37,6 @@ class _MyHomePageState extends State<MyHomePage> {
         appBar: AppBar(
           backgroundColor: Colors.black,
           actions: <Widget>[
-            // action button
             IconButton(
               icon: Icon(Icons.settings),
               onPressed: () {
@@ -53,7 +52,6 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         body: Container(
           child: Center(
-            // Use future builder and DefaultAssetBundle to load the local JSON file
             child: PagingMedias(),
           ),
         ));
