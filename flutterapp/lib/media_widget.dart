@@ -1,5 +1,5 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutterapp/media.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'dart:convert';
@@ -8,15 +8,16 @@ MemoryImage imageFromBase64String(String base64String) {
   return MemoryImage(base64Decode(base64String));
 }
 
-class MediaList extends StatelessWidget {
+class DisplayMedias extends StatelessWidget {
+  const DisplayMedias({
+    Key key,
+    @required this.medias,
+  }) : super(key: key);
+
   final List<Media> medias;
-  MediaList({Key key, this.medias}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    String img =
-        'iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==';
-
     return new ListView.builder(
         physics: const AlwaysScrollableScrollPhysics(), // new
         itemCount: medias == null ? 0 : medias.length,

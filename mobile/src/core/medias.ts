@@ -4,6 +4,7 @@ type MediaProps = {
   mediaSourceName: string;
   moodName: string;
   internalId?: any;
+  uuid: string;
 };
 
 export type YoutubeMedia = MediaProps & {

@@ -24,6 +24,10 @@ import { useTheme } from '../../themes';
 import FeedItem from './FeedItem';
 import TrendsWidget from './TrendsWidget';
 
+type Feed = {
+  read_top_medias_by_top_trends: Array<Media>;
+};
+
 const GET_MEDIAS = gql`
   query GetMediasByTopTrendsQuery($skip: Int!, $take: Int!) {
     read_top_medias_by_top_trends(args: { skip: $skip, take: $take }) {
@@ -36,7 +40,8 @@ const GET_MEDIAS = gql`
     }
   }
 `;
-const RECORDS_PER_TREND = 5;
+const RECORDS_PER_TREND_COUNT = 4;
+// const TOP_TRENDS_COUNT = 10
 
 // todo: move to utils
 const getMood = (
@@ -62,12 +67,12 @@ const HomeScreen: React.FC<Props> = () => {
     false,
   );
 
-  const { error, data, refetch, fetchMore, networkStatus } = useQuery(
+  const { error, data, refetch, fetchMore, networkStatus } = useQuery<Feed>(
     GET_MEDIAS,
     {
       variables: {
         skip: 0,
-        take: RECORDS_PER_TREND,
+        take: RECORDS_PER_TREND_COUNT,
       },
       notifyOnNetworkStatusChange: true,
     },
@@ -78,6 +83,8 @@ const HomeScreen: React.FC<Props> = () => {
   //     setMoodSelectorModalVisible(true);
   //   }
   // }, []);
+  if (data && data.read_top_medias_by_top_trends)
+    console.log('Render Length: ', data.read_top_medias_by_top_trends.length);
 
   return (
     <>
@@ -110,19 +117,45 @@ const HomeScreen: React.FC<Props> = () => {
               />
             }
             onEndReached={() => {
+              if (networkStatus !== NetworkStatus.ready) {
+                return;
+              }
+              const skip =
+                data.read_top_medias_by_top_trends.length /
+                  RECORDS_PER_TREND_COUNT +
+                1;
+              console.log(
+                'Before Fetch More Length:',
+                data.read_top_medias_by_top_trends.length,
+              );
+              console.log('Skip: ', skip);
               fetchMore({
                 variables: {
-                  skip: data.read_top_medias_by_top_trends.length,
-                  take: RECORDS_PER_TREND,
+                  skip,
+                  take: RECORDS_PER_TREND_COUNT,
                 },
                 updateQuery: (previousResult, { fetchMoreResult }) => {
                   // Don't do anything if there weren't any new items
+                  console.log('Updated: ', fetchMoreResult);
                   if (
                     !fetchMoreResult ||
                     fetchMoreResult.read_top_medias_by_top_trends.length === 0
                   ) {
                     return previousResult;
                   }
+
+                  const dups = [];
+                  previousResult.read_top_medias_by_top_trends.forEach(
+                    element => {
+                      const dup = fetchMoreResult.read_top_medias_by_top_trends.find(
+                        el => el.uuid === element.uuid,
+                      );
+                      if (dup) {
+                        dups.push(dup);
+                      }
+                    },
+                  );
+                  console.log('Dups: ', dups);
                   return {
                     // Append the new feed results to the old one
                     read_top_medias_by_top_trends: previousResult.read_top_medias_by_top_trends.concat(

@@ -1,29 +1,36 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutterapp/media.dart';
-import 'package:flutterapp/medias.dart';
-import 'package:flutter/services.dart' show rootBundle;
+import './client_provider.dart';
+import './medias_list.dart';
 
-void main() {
-  runApp(new MaterialApp(
-    debugShowCheckedModeBanner: false,
-    theme: new ThemeData(
-      primaryColor: const Color(0xFF02BB9F),
-      primaryColorDark: const Color(0xFF167F67),
-      accentColor: const Color(0xFF167F67),
-    ),
-    home: new MyApp(),
-  ));
-}
+final String GRAPHQL_ENDPOINT = 'http://localhost:8080/v1/graphql';
 
-class MyApp extends StatefulWidget {
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
   @override
-  MyAppState createState() => new MyAppState();
+  Widget build(BuildContext context) {
+    return ClientProvider(
+      uri: GRAPHQL_ENDPOINT,
+      child: MaterialApp(
+        title: 'Le Feed',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: MyHomePage(title: 'Le Feed'),
+      ),
+    );
+  }
 }
 
-class MyAppState extends State<MyApp> {
-  List data;
+class MyHomePage extends StatefulWidget {
+  MyHomePage({Key key, this.title}) : super(key: key);
+  final String title;
 
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -36,28 +43,8 @@ class MyAppState extends State<MyApp> {
         body: new Container(
           child: new Center(
             // Use future builder and DefaultAssetBundle to load the local JSON file
-            child: new FutureBuilder(
-                future: rootBundle.loadString('assets/medias.json'),
-                builder: (context, snapshot) {
-                  List<Media> medias = parseJson(snapshot.data.toString());
-                  return medias.isNotEmpty
-                      ? new Column(children: <Widget>[
-                          new Expanded(
-                              child: Container(
-                                  child: new MediaList(medias: medias)))
-                        ])
-                      : new Center(child: new CircularProgressIndicator());
-                }),
+            child: new PagingMedias(),
           ),
         ));
-  }
-
-  List<Media> parseJson(String response) {
-    if (response == null) {
-      return [];
-    }
-    final parsed =
-        json.decode(response.toString()).cast<Map<String, dynamic>>();
-    return parsed.map<Media>((json) => new Media.fromJson(json)).toList();
   }
 }
