@@ -38,6 +38,9 @@ func Execute(args []string) {
 	// Get trends
 	ttImporter := NewTwitterTrendsImporter(db)
 	tt, err := ttImporter.Import()
+	if err != nil {
+		panic(err)
+	}
 
 	// Import IG related to the trends
 	ig := NewIGImporter(db)
