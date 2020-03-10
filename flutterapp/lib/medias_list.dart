@@ -20,8 +20,8 @@ class PagingMedias extends StatelessWidget {
     }
   }'''),
         variables: {
-          'limit': 0,
-          'offset': 5,
+          'limit': 20,
+          'offset': 0,
         },
       ),
       builder: (
