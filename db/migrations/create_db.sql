@@ -54,27 +54,32 @@ CREATE VIEW ts_medias_by_top_trends_vw AS
 
 		
 DROP FUNCTION IF EXISTS read_top_medias_by_top_trends( INT, INT );
-CREATE OR REPLACE FUNCTION read_top_medias_by_top_trends("skip" INT, "take" INT)
- RETURNS SETOF ts_medias_by_top_trends_vw
- AS $$
-  SELECT
-  	"n"."external_id",
-  	"n"."score",
-  	"n"."uuid",
-  	"n"."metadata",
-  	"n"."created_at",
-  	"n"."updated_at",
-   	"n"."trend_name",
-   	"n"."media_source_name"
-  FROM (
-		SELECT
-			ROW_NUMBER()
-		OVER(
-			PARTITION BY ts_medias_by_top_trends_vw.trend_name
-			ORDER BY ts_medias_by_top_trends_vw.score DESC
-		) AS rank, *
-		FROM ts_medias_by_top_trends_vw
-  ) n
-  WHERE rank BETWEEN "skip" + 1 AND "take" + "skip";
-$$
-LANGUAGE sql;
+CREATE OR REPLACE FUNCTION read_top_medias_by_top_trends("limit" INT, "offset" INT)
+    -- This is a quick workaround that allows us to
+    -- Retrieve the same number as medias for each trend and be able to paginate it
+    -- We should add indexes in the future
+    -- It is unlikely that we return previously loaded items when advancing in the pagination
+	 RETURNS SETOF ts_medias_by_top_trends_vw
+	 AS $$     	
+	  SELECT
+	  	"n"."external_id",
+	  	"n"."score",
+	  	"n"."uuid",
+	  	"n"."metadata",
+	  	"n"."created_at",
+	  	"n"."updated_at",
+	   	"n"."trend_name",
+	   	"n"."media_source_name"
+	  FROM (
+			SELECT
+				ROW_NUMBER()
+			OVER(
+				PARTITION BY ts_medias_by_top_trends_vw.trend_name
+				ORDER BY ts_medias_by_top_trends_vw.score DESC, ts_medias_by_top_trends_vw.created_at DESC
+			) AS rank, *
+			FROM ts_medias_by_top_trends_vw
+	  ) n
+	  ORDER BY rank ASC, created_at desc 
+	  LIMIT "limit" offset  "offset"
+	$$
+LANGUAGE sql STABLE;
