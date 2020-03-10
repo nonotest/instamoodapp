@@ -9,8 +9,8 @@ class PagingMedias extends StatelessWidget {
     return Query(
       options: QueryOptions(
         documentNode: gql(r'''
-    query GetMediasByTopTrendsQuery($skip: Int!, $take: Int!) {
-    read_top_medias_by_top_trends(args: { skip: $skip, take: $take }) {
+    query GetMediasByTopTrendsQuery($limit: Int!, $offset: Int!) {
+    read_top_medias_by_top_trends(args: { limit: $limit, offset: $offset }) {
       uuid
       external_id
       metadata
@@ -20,8 +20,8 @@ class PagingMedias extends StatelessWidget {
     }
   }'''),
         variables: {
-          'skip': 0,
-          'take': 5,
+          'limit': 0,
+          'offset': 5,
         },
       ),
       builder: (
