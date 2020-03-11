@@ -1831,10 +1831,10 @@ export type Uuid_Comparison_Exp = {
   _nin?: Maybe<Array<Scalars['uuid']>>;
 };
 
-export type Unnamed_1_QueryVariables = {};
+export type GetTsTopTrendsQueryVariables = {};
 
 
-export type Unnamed_1_Query = (
+export type GetTsTopTrendsQuery = (
   { __typename?: 'query_root' }
   & { ts_top_trends_vw: Array<(
     { __typename?: 'ts_top_trends_vw' }
@@ -1842,13 +1842,13 @@ export type Unnamed_1_Query = (
   )> }
 );
 
-export type GetMediasByTopTrendsQueryQueryVariables = {
+export type GetMediasByTopTrendsQueryVariables = {
   limit: Scalars['Int'];
   offset: Scalars['Int'];
 };
 
 
-export type GetMediasByTopTrendsQueryQuery = (
+export type GetMediasByTopTrendsQuery = (
   { __typename?: 'query_root' }
   & { read_top_medias_by_top_trends: Array<(
     { __typename?: 'ts_medias_by_top_trends_vw' }
@@ -1857,8 +1857,41 @@ export type GetMediasByTopTrendsQueryQuery = (
 );
 
 
-export const GetMediasByTopTrendsQueryDocument = gql`
-    query GetMediasByTopTrendsQuery($limit: Int!, $offset: Int!) {
+export const GetTsTopTrendsDocument = gql`
+    query GetTsTopTrends {
+  ts_top_trends_vw {
+    id
+    hashtag
+  }
+}
+    `;
+
+/**
+ * __useGetTsTopTrendsQuery__
+ *
+ * To run a query within a React component, call `useGetTsTopTrendsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTsTopTrendsQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTsTopTrendsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetTsTopTrendsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetTsTopTrendsQuery, GetTsTopTrendsQueryVariables>) {
+        return ApolloReactHooks.useQuery<GetTsTopTrendsQuery, GetTsTopTrendsQueryVariables>(GetTsTopTrendsDocument, baseOptions);
+      }
+export function useGetTsTopTrendsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetTsTopTrendsQuery, GetTsTopTrendsQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<GetTsTopTrendsQuery, GetTsTopTrendsQueryVariables>(GetTsTopTrendsDocument, baseOptions);
+        }
+export type GetTsTopTrendsQueryHookResult = ReturnType<typeof useGetTsTopTrendsQuery>;
+export type GetTsTopTrendsLazyQueryHookResult = ReturnType<typeof useGetTsTopTrendsLazyQuery>;
+export type GetTsTopTrendsQueryResult = ApolloReactCommon.QueryResult<GetTsTopTrendsQuery, GetTsTopTrendsQueryVariables>;
+export const GetMediasByTopTrendsDocument = gql`
+    query GetMediasByTopTrends($limit: Int!, $offset: Int!) {
   read_top_medias_by_top_trends(args: {limit: $limit, offset: $offset}) {
     uuid
     external_id
@@ -1871,28 +1904,28 @@ export const GetMediasByTopTrendsQueryDocument = gql`
     `;
 
 /**
- * __useGetMediasByTopTrendsQueryQuery__
+ * __useGetMediasByTopTrendsQuery__
  *
- * To run a query within a React component, call `useGetMediasByTopTrendsQueryQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetMediasByTopTrendsQueryQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * To run a query within a React component, call `useGetMediasByTopTrendsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMediasByTopTrendsQuery` returns an object from Apollo Client that contains loading, error, and data properties 
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetMediasByTopTrendsQueryQuery({
+ * const { data, loading, error } = useGetMediasByTopTrendsQuery({
  *   variables: {
  *      limit: // value for 'limit'
  *      offset: // value for 'offset'
  *   },
  * });
  */
-export function useGetMediasByTopTrendsQueryQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetMediasByTopTrendsQueryQuery, GetMediasByTopTrendsQueryQueryVariables>) {
-        return ApolloReactHooks.useQuery<GetMediasByTopTrendsQueryQuery, GetMediasByTopTrendsQueryQueryVariables>(GetMediasByTopTrendsQueryDocument, baseOptions);
+export function useGetMediasByTopTrendsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetMediasByTopTrendsQuery, GetMediasByTopTrendsQueryVariables>) {
+        return ApolloReactHooks.useQuery<GetMediasByTopTrendsQuery, GetMediasByTopTrendsQueryVariables>(GetMediasByTopTrendsDocument, baseOptions);
       }
-export function useGetMediasByTopTrendsQueryLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetMediasByTopTrendsQueryQuery, GetMediasByTopTrendsQueryQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<GetMediasByTopTrendsQueryQuery, GetMediasByTopTrendsQueryQueryVariables>(GetMediasByTopTrendsQueryDocument, baseOptions);
+export function useGetMediasByTopTrendsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetMediasByTopTrendsQuery, GetMediasByTopTrendsQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<GetMediasByTopTrendsQuery, GetMediasByTopTrendsQueryVariables>(GetMediasByTopTrendsDocument, baseOptions);
         }
-export type GetMediasByTopTrendsQueryQueryHookResult = ReturnType<typeof useGetMediasByTopTrendsQueryQuery>;
-export type GetMediasByTopTrendsQueryLazyQueryHookResult = ReturnType<typeof useGetMediasByTopTrendsQueryLazyQuery>;
-export type GetMediasByTopTrendsQueryQueryResult = ApolloReactCommon.QueryResult<GetMediasByTopTrendsQueryQuery, GetMediasByTopTrendsQueryQueryVariables>;
+export type GetMediasByTopTrendsQueryHookResult = ReturnType<typeof useGetMediasByTopTrendsQuery>;
+export type GetMediasByTopTrendsLazyQueryHookResult = ReturnType<typeof useGetMediasByTopTrendsLazyQuery>;
+export type GetMediasByTopTrendsQueryResult = ApolloReactCommon.QueryResult<GetMediasByTopTrendsQuery, GetMediasByTopTrendsQueryVariables>;

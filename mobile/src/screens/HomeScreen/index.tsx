@@ -19,7 +19,7 @@ import { useTheme } from '../../themes';
 
 import FeedItem from './FeedItem';
 import TrendsWidget from './TrendsWidget';
-import { useGetMediasByTopTrendsQueryQuery } from '../../generated/graphql';
+import { useGetMediasByTopTrendsQuery } from '../../generated/graphql';
 
 const MEDIAS_PER_PAGE_COUNT = 20;
 // const TOP_TRENDS_COUNT = 10
@@ -42,7 +42,7 @@ const HomeScreen: React.FC<Props> = () => {
     refetch,
     fetchMore,
     networkStatus,
-  } = useGetMediasByTopTrendsQueryQuery({
+  } = useGetMediasByTopTrendsQuery({
     variables: {
       limit: MEDIAS_PER_PAGE_COUNT,
       offset: 0,
