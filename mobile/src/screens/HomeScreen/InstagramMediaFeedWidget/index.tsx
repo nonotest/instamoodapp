@@ -3,8 +3,12 @@ import { Image, View, Text, Linking } from 'react-native';
 import { Icon } from 'react-native-elements';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-import { InstagramMediaVw, Mood } from '../../../core';
+import { InstagramMediaVw } from '../../../core';
 import FirebaseDateWidget from '../../../components/FirebaseDateWidget/index';
+import {
+  useInsertTsMediaLikeMutation,
+  useInsertTsMediaDislikeMutation,
+} from '../../../generated/graphql';
 
 type Props = {
   media: InstagramMediaVw;
@@ -12,6 +16,11 @@ type Props = {
 };
 
 function InstagramMediaFeedWidget({ media, trend }: Props) {
+  const [handleLike] = useInsertTsMediaLikeMutation({
+    variables: {
+      mediaId: media.id,
+    },
+  });
   return (
     <View style={{ marginBottom: 5, width: '100%' }}>
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -66,6 +75,7 @@ function InstagramMediaFeedWidget({ media, trend }: Props) {
           name="heart"
           style={{ color: 'white', fontSize: 24 }}
           solid
+          onPress={() => handleLike(media.id)}
         />
 
         <FontAwesome5

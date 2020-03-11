@@ -8,7 +8,7 @@ module.exports = {
       }
     }
   ],
-  documents: ['/mobile/src/**/*.tsx', '/mobile/src/**/*.ts'],
+  documents: ['/mobile/src/gql/*.ts'],
   overwrite: true,
   generates: {
     '/mobile/src/generated/graphql.tsx': {
