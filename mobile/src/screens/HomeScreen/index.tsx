@@ -23,23 +23,8 @@ import { useTheme } from '../../themes';
 
 import FeedItem from './FeedItem';
 import TrendsWidget from './TrendsWidget';
+import { useGetMediasByTopTrendsQueryQuery } from '../../generated/graphql';
 
-type Feed = {
-  read_top_medias_by_top_trends: Array<Media>;
-};
-
-const GET_MEDIAS = gql`
-  query GetMediasByTopTrendsQuery($limit: Int!, $offset: Int!) {
-    read_top_medias_by_top_trends(args: { limit: $limit, offset: $offset }) {
-      uuid
-      external_id
-      metadata
-      media_source_name
-      trend_name
-      created_at
-    }
-  }
-`;
 const MEDIAS_PER_PAGE_COUNT = 20;
 // const TOP_TRENDS_COUNT = 10
 
@@ -67,16 +52,19 @@ const HomeScreen: React.FC<Props> = () => {
     false,
   );
 
-  const { error, data, refetch, fetchMore, networkStatus } = useQuery<Feed>(
-    GET_MEDIAS,
-    {
-      variables: {
-        limit: MEDIAS_PER_PAGE_COUNT,
-        offset: 0,
-      },
-      notifyOnNetworkStatusChange: true,
+  const {
+    error,
+    data,
+    refetch,
+    fetchMore,
+    networkStatus,
+  } = useGetMediasByTopTrendsQueryQuery({
+    variables: {
+      limit: MEDIAS_PER_PAGE_COUNT,
+      offset: 0,
     },
-  );
+    notifyOnNetworkStatusChange: true,
+  });
 
   // useEffect(() => {
   //   if (store.userMoods.length === 0) {
