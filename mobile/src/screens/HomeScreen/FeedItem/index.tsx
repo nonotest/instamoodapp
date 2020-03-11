@@ -6,28 +6,26 @@ import QuotableMediaFeedWidget from '../QuotableMediaFeedWidget';
 import MemeApiMediaFeedWidget from '../MemeApiMediaFeedWidget';
 import YoutubeMediaFeedWidget from '../YoutubeMediaFeedWidget';
 
+import { Ts_Medias_By_Top_Trends_Vw } from '../../../generated/graphql';
+
 import {
-  Media,
   MemeApiMedia,
   Mood,
-  InstagramMedia,
+  InstagramMediaVw,
   QuotableMedia,
-  YoutubeMedia,
+  YoutubeMediaVw,
 } from '../../../core';
 
 type Props = {
   index: number;
-  item: Media;
-  mood: Mood;
+  item: Ts_Medias_By_Top_Trends_Vw;
 };
 
-function FeedItem({ index, item, mood }: Props) {
+function FeedItem({ index, item }: Props) {
   let content = null;
   switch (item.media_source_name) {
     case 'instagram':
-      content = (
-        <InstagramMediaFeedWidget media={item as InstagramMedia} mood={mood} />
-      );
+      content = <InstagramMediaFeedWidget media={item as InstagramMediaVw} />;
       break;
     case 'meme-api':
       content = <MemeApiMediaFeedWidget media={item as MemeApiMedia} />;
@@ -36,9 +34,7 @@ function FeedItem({ index, item, mood }: Props) {
       content = <QuotableMediaFeedWidget media={item as QuotableMedia} />;
       break;
     case 'youtube':
-      content = (
-        <YoutubeMediaFeedWidget media={item as YoutubeMedia} mood={mood} />
-      );
+      content = <YoutubeMediaFeedWidget media={item as YoutubeMediaVw} />;
       break;
   }
 

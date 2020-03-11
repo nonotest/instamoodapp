@@ -3,15 +3,15 @@ import { Image, View, Text, Linking } from 'react-native';
 import { Icon } from 'react-native-elements';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-import { InstagramMedia, Mood } from '../../../core';
+import { InstagramMediaVw, Mood } from '../../../core';
 import FirebaseDateWidget from '../../../components/FirebaseDateWidget/index';
 
 type Props = {
-  media: InstagramMedia;
-  mood: Mood;
+  media: InstagramMediaVw;
+  trend?: any;
 };
 
-function InstagramMediaFeedWidget({ media, mood }: Props) {
+function InstagramMediaFeedWidget({ media, trend }: Props) {
   return (
     <View style={{ marginBottom: 5, width: '100%' }}>
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -35,7 +35,7 @@ function InstagramMediaFeedWidget({ media, mood }: Props) {
             <Text
               style={{ fontWeight: '500' }}
               onPress={() => {
-                const app = `instagram://media?id=${media.exernal_id}`;
+                const app = `instagram://media?id=${media.external_id}`;
                 Linking.openURL(app).catch(err => {
                   alert('Instagram is not installed.');
                 });

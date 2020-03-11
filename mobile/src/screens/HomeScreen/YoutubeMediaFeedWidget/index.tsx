@@ -7,14 +7,14 @@ import { useAppState } from 'react-native-hooks';
 
 import FirebaseDateWidget from '../../../components/FirebaseDateWidget/index';
 
-import { Mood, YoutubeMedia } from '../../../core';
+import { YoutubeMediaVw } from '../../../core';
 
 type Props = {
-  media: YoutubeMedia;
-  mood: Mood;
+  media: YoutubeMediaVw;
+  trend?: any;
 };
 
-const YoutubeMediaFeedWidget: React.FC<Props> = ({ media, mood }) => {
+const YoutubeMediaFeedWidget: React.FC<Props> = ({ media }) => {
   const [loading, setLoading] = useState(true);
   const youtubeRef = useRef<YouTubePlayer>(null);
   const currentAppState = useAppState();

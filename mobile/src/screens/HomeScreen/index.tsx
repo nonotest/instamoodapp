@@ -147,11 +147,7 @@ const HomeScreen: React.FC<Props> = () => {
             onEndReachedThreshold={0.5}
             keyExtractor={item => item.uuid}
             renderItem={({ index, item }) => (
-              <FeedItem
-                index={index}
-                item={item}
-                mood={getMood(item, { moods: [] })}
-              />
+              <FeedItem index={index} item={item} />
             )}
             data={data.read_top_medias_by_top_trends}
             ListFooterComponent={
