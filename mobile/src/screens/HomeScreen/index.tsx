@@ -10,14 +10,10 @@ import {
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { NetworkStatus } from 'apollo-client';
-import { useQuery } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
 
-import { Mood, Media } from '../../core';
 import MoodModalScreen from '../MoodModalScreen';
 import MoodSelectorModalScreen from '../MoodSelectorModalScreen';
 import SettingsModalScreen from '../SettingsModalScreen';
-import { StoreProviderState } from '../../context/StoreContext';
 import Text from '../../components/Typography/Text';
 import { useTheme } from '../../themes';
 
@@ -27,18 +23,6 @@ import { useGetMediasByTopTrendsQueryQuery } from '../../generated/graphql';
 
 const MEDIAS_PER_PAGE_COUNT = 20;
 // const TOP_TRENDS_COUNT = 10
-
-// todo: move to utils
-const getMood = (
-  item: Media,
-  store: StoreProviderState,
-): Mood | undefined | null => {
-  if (!store.moods) {
-    return null;
-  }
-
-  return store.moods.find(s => s.name === item.moodName);
-};
 
 type Props = {};
 
