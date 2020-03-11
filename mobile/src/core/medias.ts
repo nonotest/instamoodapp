@@ -1,3 +1,7 @@
+// TODO:
+// hasura custom fields -> camelCase
+// export hasura to typescript
+
 type MediaProps = {
   id?: string;
   insertedAt?: string;

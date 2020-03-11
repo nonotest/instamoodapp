@@ -1,3 +1,0 @@
-type RootMutation {
-  createMedia(input: CreateMediaInput!): CreateMediaPayload
-}

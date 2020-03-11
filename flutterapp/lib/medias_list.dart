@@ -43,6 +43,10 @@ class PagingMedias extends StatelessWidget {
         final List<dynamic> medias =
             result.data['read_top_medias_by_top_trends'] as List<dynamic>;
 
+// https://hasura.io/learn/graphql/flutter-graphql/queries/2-create-query/
+        // final List<LazyCacheMap> todos =
+        //                (result.data['todos'] as List<dynamic>).cast<LazyCacheMap>();
+
         final List<Media> listOfMedias = medias.map((dynamic e) {
           return Media(
               externalId: e["external_id"],

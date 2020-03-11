@@ -18,6 +18,15 @@ services:
       POSTGRES_USER: 'postgres'
       POSTGRES_PASSWORD: 'postgres'
       POSTGRES_DB: 'trendysnaps'
+  node:
+    image: node:12-alpine
+    command: ['/bin/sh', '-c', 'while true; do :; sleep 1; done']
+    volumes:
+      - '../codegen/:/codegen'
+      - '../mobile/:/mobile'
+    working_dir: '/codegen'
+    depends_on:
+      - 'graphql-engine'
   graphql-engine:
     image: hasura/graphql-engine:v1.1.0
     ports:
