@@ -5,6 +5,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import { InstagramMediaVw } from '../../../core';
 import FirebaseDateWidget from '../../../components/FirebaseDateWidget/index';
+import { useStore } from '../../../context/StoreContext';
 import {
   useInsertTsMediaLikeMutation,
   useInsertTsMediaDislikeMutation,
@@ -16,9 +17,11 @@ type Props = {
 };
 
 function InstagramMediaFeedWidget({ media, trend }: Props) {
+  const store = useStore();
   const [handleLike] = useInsertTsMediaLikeMutation({
     variables: {
       mediaId: media.id,
+      deviceUniqueId: store.deviceUniqueId,
     },
   });
   return (

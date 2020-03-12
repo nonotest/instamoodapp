@@ -4,20 +4,18 @@ import gql from 'graphql-tag';
  * Source of truth for generated named gql queries.
  */
 
-export const INSERT_TS_MEDIA_DISLIKE = gql`
-  mutation InsertTsMediaDislike($mediaId: Int!) {
-    insert_ts_medias_sentiments(
-      objects: { media_id: $mediaId, dislike_count: 1 }
-    ) {
-      affected_rows
-    }
-  }
-`;
-
-export const INSERT_TS_MEDIA_LIKE = gql`
-  mutation InsertTsMediaLike($mediaId: Int!) {
-    insert_ts_medias_sentiments(
-      objects: { media_id: $mediaId, like_count: 1 }
+export const INSERT_TS_MEDIA_SENTIMENT = gql`
+  mutation InsertTsMediaSentimentsLike(
+    $mediaId: Int!
+    $uniqueDeviceId: String!
+    $sentimentTypeId: Int!
+  ) {
+    insert_ts_medias_sentiments_like(
+      objects: {
+        media_id: $mediaId
+        unique_device_id: $uniqueDeviceId
+        sentiment_type_id: $sentimentTypeId
+      }
     ) {
       affected_rows
     }

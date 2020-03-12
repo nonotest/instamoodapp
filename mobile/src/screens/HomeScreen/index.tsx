@@ -55,8 +55,16 @@ const HomeScreen: React.FC<Props> = () => {
   //     setMoodSelectorModalVisible(true);
   //   }
   // }, []);
-  if (data && data.read_top_medias_by_top_trends)
-    console.log('Render Length: ', data.read_top_medias_by_top_trends.length);
+  // if (data && data.read_top_medias_by_top_trends)
+  //   console.log('Render Length: ', data.read_top_medias_by_top_trends.length);
+
+  if (!data || !data.read_top_medias_by_top_trends || error) {
+    return (
+      <View style={[styles.screen, { backgroundColor: colors.primary }]}>
+        <Text>Error</Text>
+      </View>
+    );
+  }
 
   return (
     <>

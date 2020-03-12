@@ -10,7 +10,6 @@ import { Ts_Medias_By_Top_Trends_Vw } from '../../../generated/graphql';
 
 import {
   MemeApiMedia,
-  Mood,
   InstagramMediaVw,
   QuotableMedia,
   YoutubeMediaVw,

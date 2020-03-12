@@ -1,10 +1,5 @@
 import React, { Dispatch, createContext, useContext, useEffect } from 'react';
-import { Media, MediaSource, Mood, Trend } from '../core';
-import {
-  onMediaSourcesChange,
-  onMoodsChange,
-  getTrends,
-} from '../services/firebase';
+import { getUniqueId } from 'react-native-device-info';
 
 export interface StoreProviderProps {
   children?: React.ReactNode;
@@ -12,20 +7,12 @@ export interface StoreProviderProps {
 }
 
 export interface StoreProviderState {
-  medias: Array<Media>;
-  mediaSources: Array<MediaSource>;
-  moods: Array<Mood>;
-  userMoods: string[];
-  trends: Array<Trend>;
+  deviceUniqueId: string;
 }
 
 export function getInitialStore(): StoreProviderState {
   return {
-    medias: [],
-    mediaSources: [],
-    moods: [],
-    userMoods: [],
-    trends: [],
+    deviceUniqueId: getUniqueId(),
   };
 }
 
@@ -68,68 +55,4 @@ export function useDispatch() {
   return useContext(DispatchContext);
 }
 
-export const storeActions = {
-  MEDIA_RECEIVED: 'MEDIA_RECEIVED',
-  MEDIA_SOURCE_RECEIVED: 'MEDIA_SOURCE_RECEIVED',
-  MOOD_RECEIVED: 'MOOD_RECEIVED',
-  USER_MOODS_RECEIVED: 'USER_MOODS_RECEIVED',
-  TRENDS_RECEIVED: 'TRENDS_RECEIVED',
-};
-
-export function useFetchTrends() {
-  const dispatch = useDispatch();
-
-  const fetchData = async () => {
-    const trends = await getTrends();
-    dispatch({
-      type: storeActions.TRENDS_RECEIVED,
-      payload: {
-        trends: trends.data.slice(0, 10),
-      },
-    });
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-}
-
-export function useListenToMoodsChanges() {
-  // Load the initial media.
-  const dispatch = useDispatch();
-  const dispatchChanges = data => {
-    dispatch({
-      type: storeActions.MOOD_RECEIVED,
-      payload: {
-        moods: data,
-      },
-    });
-  };
-  useEffect(() => {
-    const unsubscribe = onMoodsChange(dispatchChanges, () => {});
-
-    return () => {
-      unsubscribe();
-    };
-  }, []);
-}
-
-export function useListenToMediaSourcesChanges() {
-  // Load the initial media.
-  const dispatch = useDispatch();
-  const dispatchChanges = data => {
-    dispatch({
-      type: storeActions.MEDIA_SOURCE_RECEIVED,
-      payload: {
-        mediaSources: data,
-      },
-    });
-  };
-  useEffect(() => {
-    const unsubscribe = onMediaSourcesChange(dispatchChanges, () => {});
-
-    return () => {
-      unsubscribe();
-    };
-  }, []);
-}
+export const storeActions = {};
