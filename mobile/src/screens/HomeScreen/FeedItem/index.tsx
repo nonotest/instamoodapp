@@ -97,12 +97,7 @@ function FeedItem({ index, media }: Props) {
   }
 
   return (
-    <View
-      style={{
-        marginBottom: 5,
-        width: '100%',
-      }}
-    >
+    <View style={styles.wrapper}>
       <Header iconProps={iconProps} media={media} />
       {content}
       {/* Footer */}
@@ -131,6 +126,7 @@ function FeedItem({ index, media }: Props) {
 }
 
 interface IStyles {
+  wrapper: ViewStyle;
   sentiments: ViewStyle;
   sentimentCount: TextStyle;
   sentimentIcon: TextStyle;
@@ -151,6 +147,10 @@ const styles = StyleSheet.create<IStyles>({
   sentimentIcon: {
     fontSize: 24,
     marginLeft: 10,
+  },
+  wrapper: {
+    marginBottom: 5,
+    width: '100%',
   },
 });
 
