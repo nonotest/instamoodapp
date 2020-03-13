@@ -6,17 +6,25 @@ export const updateCache = (updateType: string) => {
   let transform;
   if (updateType === 'insert') {
     updateKey = 'insert_ts_medias_sentiments';
-    transform = (media: any, newSentiment: number) => {
+    transform = (media: any, sentimentTypeId: number) => {
       const newMedia = { ...media };
-      newMedia.like_count++;
-      newMedia.sentiment_type_id = newSentiment;
+      if (sentimentTypeId === 1) {
+        newMedia.like_count++;
+      } else {
+        newMedia.dislike_count++;
+      }
+      newMedia.sentiment_type_id = sentimentTypeId;
       return newMedia;
     };
   } else {
     updateKey = 'delete_ts_medias_sentiments';
-    transform = (media: any) => {
+    transform = (media: any, sentimentTypeId) => {
       const newMedia = { ...media };
-      newMedia.like_count--;
+      if (sentimentTypeId === 1) {
+        newMedia.like_count--;
+      } else {
+        newMedia.dislike_count--;
+      }
       newMedia.sentiment_type_id = null;
       return newMedia;
     };
