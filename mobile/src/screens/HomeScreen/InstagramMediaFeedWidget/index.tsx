@@ -20,7 +20,10 @@ type Props = {
 function InstagramMediaFeedWidget({ media, trend }: Props) {
   const store = useStore();
   const [handleInsertSentiment] = useInsertTsMediaSentimentsMutation();
-  const [handleDeleteSentiment] = useDeleteTsMediaSentimentsMutation();
+  const [
+    handleDeleteSentiment,
+    deleteData,
+  ] = useDeleteTsMediaSentimentsMutation();
 
   let likeColor = white;
   let dislikeColor = white;
@@ -92,15 +95,15 @@ function InstagramMediaFeedWidget({ media, trend }: Props) {
           name="heart"
           style={{ color: likeColor, fontSize: 24 }}
           solid
-          onPress={() =>
-            likeHandler({
+          onPress={async () => {
+            const ret = await likeHandler({
               variables: {
                 mediaId: media.id,
                 uniqueDeviceId: store.uniqueDeviceId,
                 sentimentTypeId: 1,
               },
-            })
-          }
+            });
+          }}
         />
         <Text
           style={{
