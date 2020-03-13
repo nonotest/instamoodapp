@@ -119,7 +119,7 @@ function FeedItem({ index, media }: Props) {
         <FontAwesome5
           name="heart-broken"
           style={[styles.sentimentIcon, { color: dislikeColor }]}
-          solid
+          brand
           onPress={() => handleSentimentPress(2)}
         />
         <Text style={[styles.sentimentCount, { color: dislikeColor }]}>
