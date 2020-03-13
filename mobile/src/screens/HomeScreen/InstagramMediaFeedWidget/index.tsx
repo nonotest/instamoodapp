@@ -6,9 +6,10 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { InstagramMediaVw } from '../../../core';
 import FirebaseDateWidget from '../../../components/FirebaseDateWidget/index';
 import { useStore } from '../../../context/StoreContext';
+import { white } from '../../../themes/colors';
 import {
-  useInsertTsMediaLikeMutation,
-  useInsertTsMediaDislikeMutation,
+  useInsertTsMediaSentimentsMutation,
+  useDeleteTsMediaSentimentsMutation,
 } from '../../../generated/graphql';
 
 type Props = {
@@ -18,12 +19,24 @@ type Props = {
 
 function InstagramMediaFeedWidget({ media, trend }: Props) {
   const store = useStore();
-  const [handleLike] = useInsertTsMediaLikeMutation({
-    variables: {
-      mediaId: media.id,
-      deviceUniqueId: store.deviceUniqueId,
-    },
-  });
+  const [handleInsertSentiment] = useInsertTsMediaSentimentsMutation();
+  const [handleDeleteSentiment] = useDeleteTsMediaSentimentsMutation();
+
+  let likeColor = white;
+  let dislikeColor = white;
+  let likeHandler: any = handleInsertSentiment;
+  let dislikeHandler: any = handleInsertSentiment;
+
+  if (media.sentiment_type_id === 1) {
+    likeColor = 'rgb(237, 73, 86)';
+    likeHandler = handleDeleteSentiment;
+    dislikeHandler = () => alert('cant');
+  } else if (media.sentiment_type_id === 2) {
+    dislikeColor = 'rgb(237, 73, 86)';
+    dislikeHandler = handleDeleteSentiment;
+    likeHandler = () => alert('cant');
+  }
+
   return (
     <View style={{ marginBottom: 5, width: '100%' }}>
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -72,20 +85,61 @@ function InstagramMediaFeedWidget({ media, trend }: Props) {
         style={{
           flexDirection: 'row',
           marginTop: 5,
+          alignItems: 'center',
         }}
       >
         <FontAwesome5
           name="heart"
-          style={{ color: 'white', fontSize: 24 }}
+          style={{ color: likeColor, fontSize: 24 }}
           solid
-          onPress={() => handleLike(media.id)}
+          onPress={() =>
+            likeHandler({
+              variables: {
+                mediaId: media.id,
+                uniqueDeviceId: store.uniqueDeviceId,
+                sentimentTypeId: 1,
+              },
+            })
+          }
         />
-
+        <Text
+          style={{
+            color: likeColor,
+            marginLeft: 5,
+            fontSize: 18,
+            fontWeight: 'bold',
+          }}
+        >
+          {media.like_count}
+        </Text>
         <FontAwesome5
           name="heart-broken"
-          style={{ color: 'white', fontSize: 24, marginLeft: 10 }}
+          style={{
+            color: dislikeColor,
+            fontSize: 24,
+            marginLeft: 10,
+          }}
           solid
+          onPress={() =>
+            dislikeHandler({
+              variables: {
+                mediaId: media.id,
+                uniqueDeviceId: store.uniqueDeviceId,
+                sentimentTypeId: 2,
+              },
+            })
+          }
         />
+        <Text
+          style={{
+            color: dislikeColor,
+            fontWeight: 'bold',
+            marginLeft: 5,
+            fontSize: 18,
+          }}
+        >
+          {media.dislike_count}
+        </Text>
       </View>
     </View>
   );

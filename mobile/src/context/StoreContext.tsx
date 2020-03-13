@@ -7,12 +7,12 @@ export interface StoreProviderProps {
 }
 
 export interface StoreProviderState {
-  deviceUniqueId: string;
+  uniqueDeviceId: string;
 }
 
 export function getInitialStore(): StoreProviderState {
   return {
-    deviceUniqueId: getUniqueId(),
+    uniqueDeviceId: getUniqueId(),
   };
 }
 

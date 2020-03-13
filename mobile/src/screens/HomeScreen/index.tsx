@@ -16,6 +16,7 @@ import MoodSelectorModalScreen from '../MoodSelectorModalScreen';
 import SettingsModalScreen from '../SettingsModalScreen';
 import Text from '../../components/Typography/Text';
 import { useTheme } from '../../themes';
+import { useStore } from '../../context/StoreContext';
 
 import FeedItem from './FeedItem';
 import TrendsWidget from './TrendsWidget';
@@ -30,6 +31,7 @@ const HomeScreen: React.FC<Props> = () => {
   // Context State
   // const store = useStore();
   const { colors, icons } = useTheme();
+  const store = useStore();
   // Local State
   const [settingsModalVisible, setSettingsModalVisible] = useState(false);
   const [moodSelectorModalVisible, setMoodSelectorModalVisible] = useState(
@@ -46,6 +48,7 @@ const HomeScreen: React.FC<Props> = () => {
     variables: {
       limit: MEDIAS_PER_PAGE_COUNT,
       offset: 0,
+      uniqueDeviceId: store.uniqueDeviceId,
     },
     notifyOnNetworkStatusChange: true,
   });

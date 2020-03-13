@@ -12,6 +12,20 @@ export type Scalars = {
   timestamptz: any;
   jsonb: any;
   uuid: any;
+  bigint: any;
+};
+
+
+export type Bigint_Comparison_Exp = {
+  _eq?: Maybe<Scalars['bigint']>;
+  _gt?: Maybe<Scalars['bigint']>;
+  _gte?: Maybe<Scalars['bigint']>;
+  _in?: Maybe<Array<Scalars['bigint']>>;
+  _is_null?: Maybe<Scalars['Boolean']>;
+  _lt?: Maybe<Scalars['bigint']>;
+  _lte?: Maybe<Scalars['bigint']>;
+  _neq?: Maybe<Scalars['bigint']>;
+  _nin?: Maybe<Array<Scalars['bigint']>>;
 };
 
 export type Int_Comparison_Exp = {
@@ -46,18 +60,26 @@ export type Jsonb_Comparison_Exp = {
 
 export type Mutation_Root = {
    __typename?: 'mutation_root';
+  delete_read_top_medias_by_top_trends_fn?: Maybe<Read_Top_Medias_By_Top_Trends_Fn_Mutation_Response>;
   delete_ts_media_sources?: Maybe<Ts_Media_Sources_Mutation_Response>;
   delete_ts_medias?: Maybe<Ts_Medias_Mutation_Response>;
   delete_ts_medias_sentiments?: Maybe<Ts_Medias_Sentiments_Mutation_Response>;
   delete_ts_trends?: Maybe<Ts_Trends_Mutation_Response>;
+  insert_read_top_medias_by_top_trends_fn?: Maybe<Read_Top_Medias_By_Top_Trends_Fn_Mutation_Response>;
   insert_ts_media_sources?: Maybe<Ts_Media_Sources_Mutation_Response>;
   insert_ts_medias?: Maybe<Ts_Medias_Mutation_Response>;
   insert_ts_medias_sentiments?: Maybe<Ts_Medias_Sentiments_Mutation_Response>;
   insert_ts_trends?: Maybe<Ts_Trends_Mutation_Response>;
+  update_read_top_medias_by_top_trends_fn?: Maybe<Read_Top_Medias_By_Top_Trends_Fn_Mutation_Response>;
   update_ts_media_sources?: Maybe<Ts_Media_Sources_Mutation_Response>;
   update_ts_medias?: Maybe<Ts_Medias_Mutation_Response>;
   update_ts_medias_sentiments?: Maybe<Ts_Medias_Sentiments_Mutation_Response>;
   update_ts_trends?: Maybe<Ts_Trends_Mutation_Response>;
+};
+
+
+export type Mutation_RootDelete_Read_Top_Medias_By_Top_Trends_FnArgs = {
+  where: Read_Top_Medias_By_Top_Trends_Fn_Bool_Exp;
 };
 
 
@@ -81,6 +103,11 @@ export type Mutation_RootDelete_Ts_TrendsArgs = {
 };
 
 
+export type Mutation_RootInsert_Read_Top_Medias_By_Top_Trends_FnArgs = {
+  objects: Array<Read_Top_Medias_By_Top_Trends_Fn_Insert_Input>;
+};
+
+
 export type Mutation_RootInsert_Ts_Media_SourcesArgs = {
   objects: Array<Ts_Media_Sources_Insert_Input>;
   on_conflict?: Maybe<Ts_Media_Sources_On_Conflict>;
@@ -95,12 +122,25 @@ export type Mutation_RootInsert_Ts_MediasArgs = {
 
 export type Mutation_RootInsert_Ts_Medias_SentimentsArgs = {
   objects: Array<Ts_Medias_Sentiments_Insert_Input>;
+  on_conflict?: Maybe<Ts_Medias_Sentiments_On_Conflict>;
 };
 
 
 export type Mutation_RootInsert_Ts_TrendsArgs = {
   objects: Array<Ts_Trends_Insert_Input>;
   on_conflict?: Maybe<Ts_Trends_On_Conflict>;
+};
+
+
+export type Mutation_RootUpdate_Read_Top_Medias_By_Top_Trends_FnArgs = {
+  _append?: Maybe<Read_Top_Medias_By_Top_Trends_Fn_Append_Input>;
+  _delete_at_path?: Maybe<Read_Top_Medias_By_Top_Trends_Fn_Delete_At_Path_Input>;
+  _delete_elem?: Maybe<Read_Top_Medias_By_Top_Trends_Fn_Delete_Elem_Input>;
+  _delete_key?: Maybe<Read_Top_Medias_By_Top_Trends_Fn_Delete_Key_Input>;
+  _inc?: Maybe<Read_Top_Medias_By_Top_Trends_Fn_Inc_Input>;
+  _prepend?: Maybe<Read_Top_Medias_By_Top_Trends_Fn_Prepend_Input>;
+  _set?: Maybe<Read_Top_Medias_By_Top_Trends_Fn_Set_Input>;
+  where: Read_Top_Medias_By_Top_Trends_Fn_Bool_Exp;
 };
 
 
@@ -147,8 +187,10 @@ export enum Order_By {
 
 export type Query_Root = {
    __typename?: 'query_root';
-  read_top_medias_by_top_trends: Array<Ts_Medias_By_Top_Trends_Vw>;
-  read_top_medias_by_top_trends_aggregate: Ts_Medias_By_Top_Trends_Vw_Aggregate;
+  read_top_medias_by_top_trends: Array<Read_Top_Medias_By_Top_Trends_Fn>;
+  read_top_medias_by_top_trends_aggregate: Read_Top_Medias_By_Top_Trends_Fn_Aggregate;
+  read_top_medias_by_top_trends_fn: Array<Read_Top_Medias_By_Top_Trends_Fn>;
+  read_top_medias_by_top_trends_fn_aggregate: Read_Top_Medias_By_Top_Trends_Fn_Aggregate;
   ts_media_sources: Array<Ts_Media_Sources>;
   ts_media_sources_aggregate: Ts_Media_Sources_Aggregate;
   ts_media_sources_by_pk?: Maybe<Ts_Media_Sources>;
@@ -159,6 +201,9 @@ export type Query_Root = {
   ts_medias_by_top_trends_vw_aggregate: Ts_Medias_By_Top_Trends_Vw_Aggregate;
   ts_medias_sentiments: Array<Ts_Medias_Sentiments>;
   ts_medias_sentiments_aggregate: Ts_Medias_Sentiments_Aggregate;
+  ts_medias_sentiments_by_pk?: Maybe<Ts_Medias_Sentiments>;
+  ts_medias_sentiments_vw: Array<Ts_Medias_Sentiments_Vw>;
+  ts_medias_sentiments_vw_aggregate: Ts_Medias_Sentiments_Vw_Aggregate;
   ts_top_trends_vw: Array<Ts_Top_Trends_Vw>;
   ts_top_trends_vw_aggregate: Ts_Top_Trends_Vw_Aggregate;
   ts_trends: Array<Ts_Trends>;
@@ -169,21 +214,39 @@ export type Query_Root = {
 
 export type Query_RootRead_Top_Medias_By_Top_TrendsArgs = {
   args: Read_Top_Medias_By_Top_Trends_Args;
-  distinct_on?: Maybe<Array<Ts_Medias_By_Top_Trends_Vw_Select_Column>>;
+  distinct_on?: Maybe<Array<Read_Top_Medias_By_Top_Trends_Fn_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Ts_Medias_By_Top_Trends_Vw_Order_By>>;
-  where?: Maybe<Ts_Medias_By_Top_Trends_Vw_Bool_Exp>;
+  order_by?: Maybe<Array<Read_Top_Medias_By_Top_Trends_Fn_Order_By>>;
+  where?: Maybe<Read_Top_Medias_By_Top_Trends_Fn_Bool_Exp>;
 };
 
 
 export type Query_RootRead_Top_Medias_By_Top_Trends_AggregateArgs = {
   args: Read_Top_Medias_By_Top_Trends_Args;
-  distinct_on?: Maybe<Array<Ts_Medias_By_Top_Trends_Vw_Select_Column>>;
+  distinct_on?: Maybe<Array<Read_Top_Medias_By_Top_Trends_Fn_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Ts_Medias_By_Top_Trends_Vw_Order_By>>;
-  where?: Maybe<Ts_Medias_By_Top_Trends_Vw_Bool_Exp>;
+  order_by?: Maybe<Array<Read_Top_Medias_By_Top_Trends_Fn_Order_By>>;
+  where?: Maybe<Read_Top_Medias_By_Top_Trends_Fn_Bool_Exp>;
+};
+
+
+export type Query_RootRead_Top_Medias_By_Top_Trends_FnArgs = {
+  distinct_on?: Maybe<Array<Read_Top_Medias_By_Top_Trends_Fn_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Read_Top_Medias_By_Top_Trends_Fn_Order_By>>;
+  where?: Maybe<Read_Top_Medias_By_Top_Trends_Fn_Bool_Exp>;
+};
+
+
+export type Query_RootRead_Top_Medias_By_Top_Trends_Fn_AggregateArgs = {
+  distinct_on?: Maybe<Array<Read_Top_Medias_By_Top_Trends_Fn_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Read_Top_Medias_By_Top_Trends_Fn_Order_By>>;
+  where?: Maybe<Read_Top_Medias_By_Top_Trends_Fn_Bool_Exp>;
 };
 
 
@@ -269,6 +332,29 @@ export type Query_RootTs_Medias_Sentiments_AggregateArgs = {
 };
 
 
+export type Query_RootTs_Medias_Sentiments_By_PkArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type Query_RootTs_Medias_Sentiments_VwArgs = {
+  distinct_on?: Maybe<Array<Ts_Medias_Sentiments_Vw_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Ts_Medias_Sentiments_Vw_Order_By>>;
+  where?: Maybe<Ts_Medias_Sentiments_Vw_Bool_Exp>;
+};
+
+
+export type Query_RootTs_Medias_Sentiments_Vw_AggregateArgs = {
+  distinct_on?: Maybe<Array<Ts_Medias_Sentiments_Vw_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Ts_Medias_Sentiments_Vw_Order_By>>;
+  where?: Maybe<Ts_Medias_Sentiments_Vw_Bool_Exp>;
+};
+
+
 export type Query_RootTs_Top_Trends_VwArgs = {
   distinct_on?: Maybe<Array<Ts_Top_Trends_Vw_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
@@ -312,6 +398,379 @@ export type Query_RootTs_Trends_By_PkArgs = {
 export type Read_Top_Medias_By_Top_Trends_Args = {
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
+  user_unique_device_id?: Maybe<Scalars['String']>;
+};
+
+export type Read_Top_Medias_By_Top_Trends_Fn = {
+   __typename?: 'read_top_medias_by_top_trends_fn';
+  created_at?: Maybe<Scalars['timestamptz']>;
+  dislike_count?: Maybe<Scalars['Int']>;
+  external_id?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  like_count?: Maybe<Scalars['Int']>;
+  media_source_name?: Maybe<Scalars['String']>;
+  metadata?: Maybe<Scalars['jsonb']>;
+  score?: Maybe<Scalars['Int']>;
+  sentiment_type_id?: Maybe<Scalars['Int']>;
+  trend_name?: Maybe<Scalars['String']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+  uuid?: Maybe<Scalars['uuid']>;
+};
+
+
+export type Read_Top_Medias_By_Top_Trends_FnMetadataArgs = {
+  path?: Maybe<Scalars['String']>;
+};
+
+export type Read_Top_Medias_By_Top_Trends_Fn_Aggregate = {
+   __typename?: 'read_top_medias_by_top_trends_fn_aggregate';
+  aggregate?: Maybe<Read_Top_Medias_By_Top_Trends_Fn_Aggregate_Fields>;
+  nodes: Array<Read_Top_Medias_By_Top_Trends_Fn>;
+};
+
+export type Read_Top_Medias_By_Top_Trends_Fn_Aggregate_Fields = {
+   __typename?: 'read_top_medias_by_top_trends_fn_aggregate_fields';
+  avg?: Maybe<Read_Top_Medias_By_Top_Trends_Fn_Avg_Fields>;
+  count?: Maybe<Scalars['Int']>;
+  max?: Maybe<Read_Top_Medias_By_Top_Trends_Fn_Max_Fields>;
+  min?: Maybe<Read_Top_Medias_By_Top_Trends_Fn_Min_Fields>;
+  stddev?: Maybe<Read_Top_Medias_By_Top_Trends_Fn_Stddev_Fields>;
+  stddev_pop?: Maybe<Read_Top_Medias_By_Top_Trends_Fn_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Read_Top_Medias_By_Top_Trends_Fn_Stddev_Samp_Fields>;
+  sum?: Maybe<Read_Top_Medias_By_Top_Trends_Fn_Sum_Fields>;
+  var_pop?: Maybe<Read_Top_Medias_By_Top_Trends_Fn_Var_Pop_Fields>;
+  var_samp?: Maybe<Read_Top_Medias_By_Top_Trends_Fn_Var_Samp_Fields>;
+  variance?: Maybe<Read_Top_Medias_By_Top_Trends_Fn_Variance_Fields>;
+};
+
+
+export type Read_Top_Medias_By_Top_Trends_Fn_Aggregate_FieldsCountArgs = {
+  columns?: Maybe<Array<Read_Top_Medias_By_Top_Trends_Fn_Select_Column>>;
+  distinct?: Maybe<Scalars['Boolean']>;
+};
+
+export type Read_Top_Medias_By_Top_Trends_Fn_Aggregate_Order_By = {
+  avg?: Maybe<Read_Top_Medias_By_Top_Trends_Fn_Avg_Order_By>;
+  count?: Maybe<Order_By>;
+  max?: Maybe<Read_Top_Medias_By_Top_Trends_Fn_Max_Order_By>;
+  min?: Maybe<Read_Top_Medias_By_Top_Trends_Fn_Min_Order_By>;
+  stddev?: Maybe<Read_Top_Medias_By_Top_Trends_Fn_Stddev_Order_By>;
+  stddev_pop?: Maybe<Read_Top_Medias_By_Top_Trends_Fn_Stddev_Pop_Order_By>;
+  stddev_samp?: Maybe<Read_Top_Medias_By_Top_Trends_Fn_Stddev_Samp_Order_By>;
+  sum?: Maybe<Read_Top_Medias_By_Top_Trends_Fn_Sum_Order_By>;
+  var_pop?: Maybe<Read_Top_Medias_By_Top_Trends_Fn_Var_Pop_Order_By>;
+  var_samp?: Maybe<Read_Top_Medias_By_Top_Trends_Fn_Var_Samp_Order_By>;
+  variance?: Maybe<Read_Top_Medias_By_Top_Trends_Fn_Variance_Order_By>;
+};
+
+export type Read_Top_Medias_By_Top_Trends_Fn_Append_Input = {
+  metadata?: Maybe<Scalars['jsonb']>;
+};
+
+export type Read_Top_Medias_By_Top_Trends_Fn_Arr_Rel_Insert_Input = {
+  data: Array<Read_Top_Medias_By_Top_Trends_Fn_Insert_Input>;
+};
+
+export type Read_Top_Medias_By_Top_Trends_Fn_Avg_Fields = {
+   __typename?: 'read_top_medias_by_top_trends_fn_avg_fields';
+  dislike_count?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  like_count?: Maybe<Scalars['Float']>;
+  score?: Maybe<Scalars['Float']>;
+  sentiment_type_id?: Maybe<Scalars['Float']>;
+};
+
+export type Read_Top_Medias_By_Top_Trends_Fn_Avg_Order_By = {
+  dislike_count?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  like_count?: Maybe<Order_By>;
+  score?: Maybe<Order_By>;
+  sentiment_type_id?: Maybe<Order_By>;
+};
+
+export type Read_Top_Medias_By_Top_Trends_Fn_Bool_Exp = {
+  _and?: Maybe<Array<Maybe<Read_Top_Medias_By_Top_Trends_Fn_Bool_Exp>>>;
+  _not?: Maybe<Read_Top_Medias_By_Top_Trends_Fn_Bool_Exp>;
+  _or?: Maybe<Array<Maybe<Read_Top_Medias_By_Top_Trends_Fn_Bool_Exp>>>;
+  created_at?: Maybe<Timestamptz_Comparison_Exp>;
+  dislike_count?: Maybe<Int_Comparison_Exp>;
+  external_id?: Maybe<String_Comparison_Exp>;
+  id?: Maybe<Int_Comparison_Exp>;
+  like_count?: Maybe<Int_Comparison_Exp>;
+  media_source_name?: Maybe<String_Comparison_Exp>;
+  metadata?: Maybe<Jsonb_Comparison_Exp>;
+  score?: Maybe<Int_Comparison_Exp>;
+  sentiment_type_id?: Maybe<Int_Comparison_Exp>;
+  trend_name?: Maybe<String_Comparison_Exp>;
+  updated_at?: Maybe<Timestamptz_Comparison_Exp>;
+  uuid?: Maybe<Uuid_Comparison_Exp>;
+};
+
+export type Read_Top_Medias_By_Top_Trends_Fn_Delete_At_Path_Input = {
+  metadata?: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
+export type Read_Top_Medias_By_Top_Trends_Fn_Delete_Elem_Input = {
+  metadata?: Maybe<Scalars['Int']>;
+};
+
+export type Read_Top_Medias_By_Top_Trends_Fn_Delete_Key_Input = {
+  metadata?: Maybe<Scalars['String']>;
+};
+
+export type Read_Top_Medias_By_Top_Trends_Fn_Inc_Input = {
+  dislike_count?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  like_count?: Maybe<Scalars['Int']>;
+  score?: Maybe<Scalars['Int']>;
+  sentiment_type_id?: Maybe<Scalars['Int']>;
+};
+
+export type Read_Top_Medias_By_Top_Trends_Fn_Insert_Input = {
+  created_at?: Maybe<Scalars['timestamptz']>;
+  dislike_count?: Maybe<Scalars['Int']>;
+  external_id?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  like_count?: Maybe<Scalars['Int']>;
+  media_source_name?: Maybe<Scalars['String']>;
+  metadata?: Maybe<Scalars['jsonb']>;
+  score?: Maybe<Scalars['Int']>;
+  sentiment_type_id?: Maybe<Scalars['Int']>;
+  trend_name?: Maybe<Scalars['String']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+  uuid?: Maybe<Scalars['uuid']>;
+};
+
+export type Read_Top_Medias_By_Top_Trends_Fn_Max_Fields = {
+   __typename?: 'read_top_medias_by_top_trends_fn_max_fields';
+  created_at?: Maybe<Scalars['timestamptz']>;
+  dislike_count?: Maybe<Scalars['Int']>;
+  external_id?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  like_count?: Maybe<Scalars['Int']>;
+  media_source_name?: Maybe<Scalars['String']>;
+  score?: Maybe<Scalars['Int']>;
+  sentiment_type_id?: Maybe<Scalars['Int']>;
+  trend_name?: Maybe<Scalars['String']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+};
+
+export type Read_Top_Medias_By_Top_Trends_Fn_Max_Order_By = {
+  created_at?: Maybe<Order_By>;
+  dislike_count?: Maybe<Order_By>;
+  external_id?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  like_count?: Maybe<Order_By>;
+  media_source_name?: Maybe<Order_By>;
+  score?: Maybe<Order_By>;
+  sentiment_type_id?: Maybe<Order_By>;
+  trend_name?: Maybe<Order_By>;
+  updated_at?: Maybe<Order_By>;
+};
+
+export type Read_Top_Medias_By_Top_Trends_Fn_Min_Fields = {
+   __typename?: 'read_top_medias_by_top_trends_fn_min_fields';
+  created_at?: Maybe<Scalars['timestamptz']>;
+  dislike_count?: Maybe<Scalars['Int']>;
+  external_id?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  like_count?: Maybe<Scalars['Int']>;
+  media_source_name?: Maybe<Scalars['String']>;
+  score?: Maybe<Scalars['Int']>;
+  sentiment_type_id?: Maybe<Scalars['Int']>;
+  trend_name?: Maybe<Scalars['String']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+};
+
+export type Read_Top_Medias_By_Top_Trends_Fn_Min_Order_By = {
+  created_at?: Maybe<Order_By>;
+  dislike_count?: Maybe<Order_By>;
+  external_id?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  like_count?: Maybe<Order_By>;
+  media_source_name?: Maybe<Order_By>;
+  score?: Maybe<Order_By>;
+  sentiment_type_id?: Maybe<Order_By>;
+  trend_name?: Maybe<Order_By>;
+  updated_at?: Maybe<Order_By>;
+};
+
+export type Read_Top_Medias_By_Top_Trends_Fn_Mutation_Response = {
+   __typename?: 'read_top_medias_by_top_trends_fn_mutation_response';
+  affected_rows: Scalars['Int'];
+  returning: Array<Read_Top_Medias_By_Top_Trends_Fn>;
+};
+
+export type Read_Top_Medias_By_Top_Trends_Fn_Obj_Rel_Insert_Input = {
+  data: Read_Top_Medias_By_Top_Trends_Fn_Insert_Input;
+};
+
+export type Read_Top_Medias_By_Top_Trends_Fn_Order_By = {
+  created_at?: Maybe<Order_By>;
+  dislike_count?: Maybe<Order_By>;
+  external_id?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  like_count?: Maybe<Order_By>;
+  media_source_name?: Maybe<Order_By>;
+  metadata?: Maybe<Order_By>;
+  score?: Maybe<Order_By>;
+  sentiment_type_id?: Maybe<Order_By>;
+  trend_name?: Maybe<Order_By>;
+  updated_at?: Maybe<Order_By>;
+  uuid?: Maybe<Order_By>;
+};
+
+export type Read_Top_Medias_By_Top_Trends_Fn_Prepend_Input = {
+  metadata?: Maybe<Scalars['jsonb']>;
+};
+
+export enum Read_Top_Medias_By_Top_Trends_Fn_Select_Column {
+  CreatedAt = 'created_at',
+  DislikeCount = 'dislike_count',
+  ExternalId = 'external_id',
+  Id = 'id',
+  LikeCount = 'like_count',
+  MediaSourceName = 'media_source_name',
+  Metadata = 'metadata',
+  Score = 'score',
+  SentimentTypeId = 'sentiment_type_id',
+  TrendName = 'trend_name',
+  UpdatedAt = 'updated_at',
+  Uuid = 'uuid'
+}
+
+export type Read_Top_Medias_By_Top_Trends_Fn_Set_Input = {
+  created_at?: Maybe<Scalars['timestamptz']>;
+  dislike_count?: Maybe<Scalars['Int']>;
+  external_id?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  like_count?: Maybe<Scalars['Int']>;
+  media_source_name?: Maybe<Scalars['String']>;
+  metadata?: Maybe<Scalars['jsonb']>;
+  score?: Maybe<Scalars['Int']>;
+  sentiment_type_id?: Maybe<Scalars['Int']>;
+  trend_name?: Maybe<Scalars['String']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+  uuid?: Maybe<Scalars['uuid']>;
+};
+
+export type Read_Top_Medias_By_Top_Trends_Fn_Stddev_Fields = {
+   __typename?: 'read_top_medias_by_top_trends_fn_stddev_fields';
+  dislike_count?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  like_count?: Maybe<Scalars['Float']>;
+  score?: Maybe<Scalars['Float']>;
+  sentiment_type_id?: Maybe<Scalars['Float']>;
+};
+
+export type Read_Top_Medias_By_Top_Trends_Fn_Stddev_Order_By = {
+  dislike_count?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  like_count?: Maybe<Order_By>;
+  score?: Maybe<Order_By>;
+  sentiment_type_id?: Maybe<Order_By>;
+};
+
+export type Read_Top_Medias_By_Top_Trends_Fn_Stddev_Pop_Fields = {
+   __typename?: 'read_top_medias_by_top_trends_fn_stddev_pop_fields';
+  dislike_count?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  like_count?: Maybe<Scalars['Float']>;
+  score?: Maybe<Scalars['Float']>;
+  sentiment_type_id?: Maybe<Scalars['Float']>;
+};
+
+export type Read_Top_Medias_By_Top_Trends_Fn_Stddev_Pop_Order_By = {
+  dislike_count?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  like_count?: Maybe<Order_By>;
+  score?: Maybe<Order_By>;
+  sentiment_type_id?: Maybe<Order_By>;
+};
+
+export type Read_Top_Medias_By_Top_Trends_Fn_Stddev_Samp_Fields = {
+   __typename?: 'read_top_medias_by_top_trends_fn_stddev_samp_fields';
+  dislike_count?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  like_count?: Maybe<Scalars['Float']>;
+  score?: Maybe<Scalars['Float']>;
+  sentiment_type_id?: Maybe<Scalars['Float']>;
+};
+
+export type Read_Top_Medias_By_Top_Trends_Fn_Stddev_Samp_Order_By = {
+  dislike_count?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  like_count?: Maybe<Order_By>;
+  score?: Maybe<Order_By>;
+  sentiment_type_id?: Maybe<Order_By>;
+};
+
+export type Read_Top_Medias_By_Top_Trends_Fn_Sum_Fields = {
+   __typename?: 'read_top_medias_by_top_trends_fn_sum_fields';
+  dislike_count?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  like_count?: Maybe<Scalars['Int']>;
+  score?: Maybe<Scalars['Int']>;
+  sentiment_type_id?: Maybe<Scalars['Int']>;
+};
+
+export type Read_Top_Medias_By_Top_Trends_Fn_Sum_Order_By = {
+  dislike_count?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  like_count?: Maybe<Order_By>;
+  score?: Maybe<Order_By>;
+  sentiment_type_id?: Maybe<Order_By>;
+};
+
+export type Read_Top_Medias_By_Top_Trends_Fn_Var_Pop_Fields = {
+   __typename?: 'read_top_medias_by_top_trends_fn_var_pop_fields';
+  dislike_count?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  like_count?: Maybe<Scalars['Float']>;
+  score?: Maybe<Scalars['Float']>;
+  sentiment_type_id?: Maybe<Scalars['Float']>;
+};
+
+export type Read_Top_Medias_By_Top_Trends_Fn_Var_Pop_Order_By = {
+  dislike_count?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  like_count?: Maybe<Order_By>;
+  score?: Maybe<Order_By>;
+  sentiment_type_id?: Maybe<Order_By>;
+};
+
+export type Read_Top_Medias_By_Top_Trends_Fn_Var_Samp_Fields = {
+   __typename?: 'read_top_medias_by_top_trends_fn_var_samp_fields';
+  dislike_count?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  like_count?: Maybe<Scalars['Float']>;
+  score?: Maybe<Scalars['Float']>;
+  sentiment_type_id?: Maybe<Scalars['Float']>;
+};
+
+export type Read_Top_Medias_By_Top_Trends_Fn_Var_Samp_Order_By = {
+  dislike_count?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  like_count?: Maybe<Order_By>;
+  score?: Maybe<Order_By>;
+  sentiment_type_id?: Maybe<Order_By>;
+};
+
+export type Read_Top_Medias_By_Top_Trends_Fn_Variance_Fields = {
+   __typename?: 'read_top_medias_by_top_trends_fn_variance_fields';
+  dislike_count?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  like_count?: Maybe<Scalars['Float']>;
+  score?: Maybe<Scalars['Float']>;
+  sentiment_type_id?: Maybe<Scalars['Float']>;
+};
+
+export type Read_Top_Medias_By_Top_Trends_Fn_Variance_Order_By = {
+  dislike_count?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  like_count?: Maybe<Order_By>;
+  score?: Maybe<Order_By>;
+  sentiment_type_id?: Maybe<Order_By>;
 };
 
 export type String_Comparison_Exp = {
@@ -334,8 +793,10 @@ export type String_Comparison_Exp = {
 
 export type Subscription_Root = {
    __typename?: 'subscription_root';
-  read_top_medias_by_top_trends: Array<Ts_Medias_By_Top_Trends_Vw>;
-  read_top_medias_by_top_trends_aggregate: Ts_Medias_By_Top_Trends_Vw_Aggregate;
+  read_top_medias_by_top_trends: Array<Read_Top_Medias_By_Top_Trends_Fn>;
+  read_top_medias_by_top_trends_aggregate: Read_Top_Medias_By_Top_Trends_Fn_Aggregate;
+  read_top_medias_by_top_trends_fn: Array<Read_Top_Medias_By_Top_Trends_Fn>;
+  read_top_medias_by_top_trends_fn_aggregate: Read_Top_Medias_By_Top_Trends_Fn_Aggregate;
   ts_media_sources: Array<Ts_Media_Sources>;
   ts_media_sources_aggregate: Ts_Media_Sources_Aggregate;
   ts_media_sources_by_pk?: Maybe<Ts_Media_Sources>;
@@ -346,6 +807,9 @@ export type Subscription_Root = {
   ts_medias_by_top_trends_vw_aggregate: Ts_Medias_By_Top_Trends_Vw_Aggregate;
   ts_medias_sentiments: Array<Ts_Medias_Sentiments>;
   ts_medias_sentiments_aggregate: Ts_Medias_Sentiments_Aggregate;
+  ts_medias_sentiments_by_pk?: Maybe<Ts_Medias_Sentiments>;
+  ts_medias_sentiments_vw: Array<Ts_Medias_Sentiments_Vw>;
+  ts_medias_sentiments_vw_aggregate: Ts_Medias_Sentiments_Vw_Aggregate;
   ts_top_trends_vw: Array<Ts_Top_Trends_Vw>;
   ts_top_trends_vw_aggregate: Ts_Top_Trends_Vw_Aggregate;
   ts_trends: Array<Ts_Trends>;
@@ -356,21 +820,39 @@ export type Subscription_Root = {
 
 export type Subscription_RootRead_Top_Medias_By_Top_TrendsArgs = {
   args: Read_Top_Medias_By_Top_Trends_Args;
-  distinct_on?: Maybe<Array<Ts_Medias_By_Top_Trends_Vw_Select_Column>>;
+  distinct_on?: Maybe<Array<Read_Top_Medias_By_Top_Trends_Fn_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Ts_Medias_By_Top_Trends_Vw_Order_By>>;
-  where?: Maybe<Ts_Medias_By_Top_Trends_Vw_Bool_Exp>;
+  order_by?: Maybe<Array<Read_Top_Medias_By_Top_Trends_Fn_Order_By>>;
+  where?: Maybe<Read_Top_Medias_By_Top_Trends_Fn_Bool_Exp>;
 };
 
 
 export type Subscription_RootRead_Top_Medias_By_Top_Trends_AggregateArgs = {
   args: Read_Top_Medias_By_Top_Trends_Args;
-  distinct_on?: Maybe<Array<Ts_Medias_By_Top_Trends_Vw_Select_Column>>;
+  distinct_on?: Maybe<Array<Read_Top_Medias_By_Top_Trends_Fn_Select_Column>>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Ts_Medias_By_Top_Trends_Vw_Order_By>>;
-  where?: Maybe<Ts_Medias_By_Top_Trends_Vw_Bool_Exp>;
+  order_by?: Maybe<Array<Read_Top_Medias_By_Top_Trends_Fn_Order_By>>;
+  where?: Maybe<Read_Top_Medias_By_Top_Trends_Fn_Bool_Exp>;
+};
+
+
+export type Subscription_RootRead_Top_Medias_By_Top_Trends_FnArgs = {
+  distinct_on?: Maybe<Array<Read_Top_Medias_By_Top_Trends_Fn_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Read_Top_Medias_By_Top_Trends_Fn_Order_By>>;
+  where?: Maybe<Read_Top_Medias_By_Top_Trends_Fn_Bool_Exp>;
+};
+
+
+export type Subscription_RootRead_Top_Medias_By_Top_Trends_Fn_AggregateArgs = {
+  distinct_on?: Maybe<Array<Read_Top_Medias_By_Top_Trends_Fn_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Read_Top_Medias_By_Top_Trends_Fn_Order_By>>;
+  where?: Maybe<Read_Top_Medias_By_Top_Trends_Fn_Bool_Exp>;
 };
 
 
@@ -453,6 +935,29 @@ export type Subscription_RootTs_Medias_Sentiments_AggregateArgs = {
   offset?: Maybe<Scalars['Int']>;
   order_by?: Maybe<Array<Ts_Medias_Sentiments_Order_By>>;
   where?: Maybe<Ts_Medias_Sentiments_Bool_Exp>;
+};
+
+
+export type Subscription_RootTs_Medias_Sentiments_By_PkArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type Subscription_RootTs_Medias_Sentiments_VwArgs = {
+  distinct_on?: Maybe<Array<Ts_Medias_Sentiments_Vw_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Ts_Medias_Sentiments_Vw_Order_By>>;
+  where?: Maybe<Ts_Medias_Sentiments_Vw_Bool_Exp>;
+};
+
+
+export type Subscription_RootTs_Medias_Sentiments_Vw_AggregateArgs = {
+  distinct_on?: Maybe<Array<Ts_Medias_Sentiments_Vw_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Ts_Medias_Sentiments_Vw_Order_By>>;
+  where?: Maybe<Ts_Medias_Sentiments_Vw_Bool_Exp>;
 };
 
 
@@ -1280,10 +1785,13 @@ export enum Ts_Medias_Select_Column {
 
 export type Ts_Medias_Sentiments = {
    __typename?: 'ts_medias_sentiments';
-  dislike_count?: Maybe<Scalars['Int']>;
-  like_count?: Maybe<Scalars['Int']>;
+  created_at: Scalars['timestamptz'];
+  deleted_at?: Maybe<Scalars['timestamptz']>;
+  id: Scalars['Int'];
   media_id?: Maybe<Scalars['Int']>;
+  sentiment_type_id?: Maybe<Scalars['Int']>;
   ts_media?: Maybe<Ts_Medias>;
+  unique_device_id?: Maybe<Scalars['String']>;
   updated_at: Scalars['timestamptz'];
 };
 
@@ -1330,73 +1838,96 @@ export type Ts_Medias_Sentiments_Aggregate_Order_By = {
 
 export type Ts_Medias_Sentiments_Arr_Rel_Insert_Input = {
   data: Array<Ts_Medias_Sentiments_Insert_Input>;
+  on_conflict?: Maybe<Ts_Medias_Sentiments_On_Conflict>;
 };
 
 export type Ts_Medias_Sentiments_Avg_Fields = {
    __typename?: 'ts_medias_sentiments_avg_fields';
-  dislike_count?: Maybe<Scalars['Float']>;
-  like_count?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
   media_id?: Maybe<Scalars['Float']>;
+  sentiment_type_id?: Maybe<Scalars['Float']>;
 };
 
 export type Ts_Medias_Sentiments_Avg_Order_By = {
-  dislike_count?: Maybe<Order_By>;
-  like_count?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
   media_id?: Maybe<Order_By>;
+  sentiment_type_id?: Maybe<Order_By>;
 };
 
 export type Ts_Medias_Sentiments_Bool_Exp = {
   _and?: Maybe<Array<Maybe<Ts_Medias_Sentiments_Bool_Exp>>>;
   _not?: Maybe<Ts_Medias_Sentiments_Bool_Exp>;
   _or?: Maybe<Array<Maybe<Ts_Medias_Sentiments_Bool_Exp>>>;
-  dislike_count?: Maybe<Int_Comparison_Exp>;
-  like_count?: Maybe<Int_Comparison_Exp>;
+  created_at?: Maybe<Timestamptz_Comparison_Exp>;
+  deleted_at?: Maybe<Timestamptz_Comparison_Exp>;
+  id?: Maybe<Int_Comparison_Exp>;
   media_id?: Maybe<Int_Comparison_Exp>;
+  sentiment_type_id?: Maybe<Int_Comparison_Exp>;
   ts_media?: Maybe<Ts_Medias_Bool_Exp>;
+  unique_device_id?: Maybe<String_Comparison_Exp>;
   updated_at?: Maybe<Timestamptz_Comparison_Exp>;
 };
 
+export enum Ts_Medias_Sentiments_Constraint {
+  TsMediasSentimentsPkey = 'ts_medias_sentiments_pkey'
+}
+
 export type Ts_Medias_Sentiments_Inc_Input = {
-  dislike_count?: Maybe<Scalars['Int']>;
-  like_count?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
   media_id?: Maybe<Scalars['Int']>;
+  sentiment_type_id?: Maybe<Scalars['Int']>;
 };
 
 export type Ts_Medias_Sentiments_Insert_Input = {
-  dislike_count?: Maybe<Scalars['Int']>;
-  like_count?: Maybe<Scalars['Int']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
+  deleted_at?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['Int']>;
   media_id?: Maybe<Scalars['Int']>;
+  sentiment_type_id?: Maybe<Scalars['Int']>;
   ts_media?: Maybe<Ts_Medias_Obj_Rel_Insert_Input>;
+  unique_device_id?: Maybe<Scalars['String']>;
   updated_at?: Maybe<Scalars['timestamptz']>;
 };
 
 export type Ts_Medias_Sentiments_Max_Fields = {
    __typename?: 'ts_medias_sentiments_max_fields';
-  dislike_count?: Maybe<Scalars['Int']>;
-  like_count?: Maybe<Scalars['Int']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
+  deleted_at?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['Int']>;
   media_id?: Maybe<Scalars['Int']>;
+  sentiment_type_id?: Maybe<Scalars['Int']>;
+  unique_device_id?: Maybe<Scalars['String']>;
   updated_at?: Maybe<Scalars['timestamptz']>;
 };
 
 export type Ts_Medias_Sentiments_Max_Order_By = {
-  dislike_count?: Maybe<Order_By>;
-  like_count?: Maybe<Order_By>;
+  created_at?: Maybe<Order_By>;
+  deleted_at?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
   media_id?: Maybe<Order_By>;
+  sentiment_type_id?: Maybe<Order_By>;
+  unique_device_id?: Maybe<Order_By>;
   updated_at?: Maybe<Order_By>;
 };
 
 export type Ts_Medias_Sentiments_Min_Fields = {
    __typename?: 'ts_medias_sentiments_min_fields';
-  dislike_count?: Maybe<Scalars['Int']>;
-  like_count?: Maybe<Scalars['Int']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
+  deleted_at?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['Int']>;
   media_id?: Maybe<Scalars['Int']>;
+  sentiment_type_id?: Maybe<Scalars['Int']>;
+  unique_device_id?: Maybe<Scalars['String']>;
   updated_at?: Maybe<Scalars['timestamptz']>;
 };
 
 export type Ts_Medias_Sentiments_Min_Order_By = {
-  dislike_count?: Maybe<Order_By>;
-  like_count?: Maybe<Order_By>;
+  created_at?: Maybe<Order_By>;
+  deleted_at?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
   media_id?: Maybe<Order_By>;
+  sentiment_type_id?: Maybe<Order_By>;
+  unique_device_id?: Maybe<Order_By>;
   updated_at?: Maybe<Order_By>;
 };
 
@@ -1408,116 +1939,341 @@ export type Ts_Medias_Sentiments_Mutation_Response = {
 
 export type Ts_Medias_Sentiments_Obj_Rel_Insert_Input = {
   data: Ts_Medias_Sentiments_Insert_Input;
+  on_conflict?: Maybe<Ts_Medias_Sentiments_On_Conflict>;
+};
+
+export type Ts_Medias_Sentiments_On_Conflict = {
+  constraint: Ts_Medias_Sentiments_Constraint;
+  update_columns: Array<Ts_Medias_Sentiments_Update_Column>;
+  where?: Maybe<Ts_Medias_Sentiments_Bool_Exp>;
 };
 
 export type Ts_Medias_Sentiments_Order_By = {
-  dislike_count?: Maybe<Order_By>;
-  like_count?: Maybe<Order_By>;
+  created_at?: Maybe<Order_By>;
+  deleted_at?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
   media_id?: Maybe<Order_By>;
+  sentiment_type_id?: Maybe<Order_By>;
   ts_media?: Maybe<Ts_Medias_Order_By>;
+  unique_device_id?: Maybe<Order_By>;
   updated_at?: Maybe<Order_By>;
 };
 
 export enum Ts_Medias_Sentiments_Select_Column {
-  DislikeCount = 'dislike_count',
-  LikeCount = 'like_count',
+  CreatedAt = 'created_at',
+  DeletedAt = 'deleted_at',
+  Id = 'id',
   MediaId = 'media_id',
+  SentimentTypeId = 'sentiment_type_id',
+  UniqueDeviceId = 'unique_device_id',
   UpdatedAt = 'updated_at'
 }
 
 export type Ts_Medias_Sentiments_Set_Input = {
-  dislike_count?: Maybe<Scalars['Int']>;
-  like_count?: Maybe<Scalars['Int']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
+  deleted_at?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['Int']>;
   media_id?: Maybe<Scalars['Int']>;
+  sentiment_type_id?: Maybe<Scalars['Int']>;
+  unique_device_id?: Maybe<Scalars['String']>;
   updated_at?: Maybe<Scalars['timestamptz']>;
 };
 
 export type Ts_Medias_Sentiments_Stddev_Fields = {
    __typename?: 'ts_medias_sentiments_stddev_fields';
-  dislike_count?: Maybe<Scalars['Float']>;
-  like_count?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
   media_id?: Maybe<Scalars['Float']>;
+  sentiment_type_id?: Maybe<Scalars['Float']>;
 };
 
 export type Ts_Medias_Sentiments_Stddev_Order_By = {
-  dislike_count?: Maybe<Order_By>;
-  like_count?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
   media_id?: Maybe<Order_By>;
+  sentiment_type_id?: Maybe<Order_By>;
 };
 
 export type Ts_Medias_Sentiments_Stddev_Pop_Fields = {
    __typename?: 'ts_medias_sentiments_stddev_pop_fields';
-  dislike_count?: Maybe<Scalars['Float']>;
-  like_count?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
   media_id?: Maybe<Scalars['Float']>;
+  sentiment_type_id?: Maybe<Scalars['Float']>;
 };
 
 export type Ts_Medias_Sentiments_Stddev_Pop_Order_By = {
-  dislike_count?: Maybe<Order_By>;
-  like_count?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
   media_id?: Maybe<Order_By>;
+  sentiment_type_id?: Maybe<Order_By>;
 };
 
 export type Ts_Medias_Sentiments_Stddev_Samp_Fields = {
    __typename?: 'ts_medias_sentiments_stddev_samp_fields';
-  dislike_count?: Maybe<Scalars['Float']>;
-  like_count?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
   media_id?: Maybe<Scalars['Float']>;
+  sentiment_type_id?: Maybe<Scalars['Float']>;
 };
 
 export type Ts_Medias_Sentiments_Stddev_Samp_Order_By = {
-  dislike_count?: Maybe<Order_By>;
-  like_count?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
   media_id?: Maybe<Order_By>;
+  sentiment_type_id?: Maybe<Order_By>;
 };
 
 export type Ts_Medias_Sentiments_Sum_Fields = {
    __typename?: 'ts_medias_sentiments_sum_fields';
-  dislike_count?: Maybe<Scalars['Int']>;
-  like_count?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
   media_id?: Maybe<Scalars['Int']>;
+  sentiment_type_id?: Maybe<Scalars['Int']>;
 };
 
 export type Ts_Medias_Sentiments_Sum_Order_By = {
-  dislike_count?: Maybe<Order_By>;
-  like_count?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
   media_id?: Maybe<Order_By>;
+  sentiment_type_id?: Maybe<Order_By>;
 };
+
+export enum Ts_Medias_Sentiments_Update_Column {
+  CreatedAt = 'created_at',
+  DeletedAt = 'deleted_at',
+  Id = 'id',
+  MediaId = 'media_id',
+  SentimentTypeId = 'sentiment_type_id',
+  UniqueDeviceId = 'unique_device_id',
+  UpdatedAt = 'updated_at'
+}
 
 export type Ts_Medias_Sentiments_Var_Pop_Fields = {
    __typename?: 'ts_medias_sentiments_var_pop_fields';
-  dislike_count?: Maybe<Scalars['Float']>;
-  like_count?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
   media_id?: Maybe<Scalars['Float']>;
+  sentiment_type_id?: Maybe<Scalars['Float']>;
 };
 
 export type Ts_Medias_Sentiments_Var_Pop_Order_By = {
-  dislike_count?: Maybe<Order_By>;
-  like_count?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
   media_id?: Maybe<Order_By>;
+  sentiment_type_id?: Maybe<Order_By>;
 };
 
 export type Ts_Medias_Sentiments_Var_Samp_Fields = {
    __typename?: 'ts_medias_sentiments_var_samp_fields';
+  id?: Maybe<Scalars['Float']>;
+  media_id?: Maybe<Scalars['Float']>;
+  sentiment_type_id?: Maybe<Scalars['Float']>;
+};
+
+export type Ts_Medias_Sentiments_Var_Samp_Order_By = {
+  id?: Maybe<Order_By>;
+  media_id?: Maybe<Order_By>;
+  sentiment_type_id?: Maybe<Order_By>;
+};
+
+export type Ts_Medias_Sentiments_Variance_Fields = {
+   __typename?: 'ts_medias_sentiments_variance_fields';
+  id?: Maybe<Scalars['Float']>;
+  media_id?: Maybe<Scalars['Float']>;
+  sentiment_type_id?: Maybe<Scalars['Float']>;
+};
+
+export type Ts_Medias_Sentiments_Variance_Order_By = {
+  id?: Maybe<Order_By>;
+  media_id?: Maybe<Order_By>;
+  sentiment_type_id?: Maybe<Order_By>;
+};
+
+export type Ts_Medias_Sentiments_Vw = {
+   __typename?: 'ts_medias_sentiments_vw';
+  dislike_count?: Maybe<Scalars['bigint']>;
+  like_count?: Maybe<Scalars['bigint']>;
+  media_id?: Maybe<Scalars['Int']>;
+};
+
+export type Ts_Medias_Sentiments_Vw_Aggregate = {
+   __typename?: 'ts_medias_sentiments_vw_aggregate';
+  aggregate?: Maybe<Ts_Medias_Sentiments_Vw_Aggregate_Fields>;
+  nodes: Array<Ts_Medias_Sentiments_Vw>;
+};
+
+export type Ts_Medias_Sentiments_Vw_Aggregate_Fields = {
+   __typename?: 'ts_medias_sentiments_vw_aggregate_fields';
+  avg?: Maybe<Ts_Medias_Sentiments_Vw_Avg_Fields>;
+  count?: Maybe<Scalars['Int']>;
+  max?: Maybe<Ts_Medias_Sentiments_Vw_Max_Fields>;
+  min?: Maybe<Ts_Medias_Sentiments_Vw_Min_Fields>;
+  stddev?: Maybe<Ts_Medias_Sentiments_Vw_Stddev_Fields>;
+  stddev_pop?: Maybe<Ts_Medias_Sentiments_Vw_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Ts_Medias_Sentiments_Vw_Stddev_Samp_Fields>;
+  sum?: Maybe<Ts_Medias_Sentiments_Vw_Sum_Fields>;
+  var_pop?: Maybe<Ts_Medias_Sentiments_Vw_Var_Pop_Fields>;
+  var_samp?: Maybe<Ts_Medias_Sentiments_Vw_Var_Samp_Fields>;
+  variance?: Maybe<Ts_Medias_Sentiments_Vw_Variance_Fields>;
+};
+
+
+export type Ts_Medias_Sentiments_Vw_Aggregate_FieldsCountArgs = {
+  columns?: Maybe<Array<Ts_Medias_Sentiments_Vw_Select_Column>>;
+  distinct?: Maybe<Scalars['Boolean']>;
+};
+
+export type Ts_Medias_Sentiments_Vw_Aggregate_Order_By = {
+  avg?: Maybe<Ts_Medias_Sentiments_Vw_Avg_Order_By>;
+  count?: Maybe<Order_By>;
+  max?: Maybe<Ts_Medias_Sentiments_Vw_Max_Order_By>;
+  min?: Maybe<Ts_Medias_Sentiments_Vw_Min_Order_By>;
+  stddev?: Maybe<Ts_Medias_Sentiments_Vw_Stddev_Order_By>;
+  stddev_pop?: Maybe<Ts_Medias_Sentiments_Vw_Stddev_Pop_Order_By>;
+  stddev_samp?: Maybe<Ts_Medias_Sentiments_Vw_Stddev_Samp_Order_By>;
+  sum?: Maybe<Ts_Medias_Sentiments_Vw_Sum_Order_By>;
+  var_pop?: Maybe<Ts_Medias_Sentiments_Vw_Var_Pop_Order_By>;
+  var_samp?: Maybe<Ts_Medias_Sentiments_Vw_Var_Samp_Order_By>;
+  variance?: Maybe<Ts_Medias_Sentiments_Vw_Variance_Order_By>;
+};
+
+export type Ts_Medias_Sentiments_Vw_Avg_Fields = {
+   __typename?: 'ts_medias_sentiments_vw_avg_fields';
   dislike_count?: Maybe<Scalars['Float']>;
   like_count?: Maybe<Scalars['Float']>;
   media_id?: Maybe<Scalars['Float']>;
 };
 
-export type Ts_Medias_Sentiments_Var_Samp_Order_By = {
+export type Ts_Medias_Sentiments_Vw_Avg_Order_By = {
   dislike_count?: Maybe<Order_By>;
   like_count?: Maybe<Order_By>;
   media_id?: Maybe<Order_By>;
 };
 
-export type Ts_Medias_Sentiments_Variance_Fields = {
-   __typename?: 'ts_medias_sentiments_variance_fields';
+export type Ts_Medias_Sentiments_Vw_Bool_Exp = {
+  _and?: Maybe<Array<Maybe<Ts_Medias_Sentiments_Vw_Bool_Exp>>>;
+  _not?: Maybe<Ts_Medias_Sentiments_Vw_Bool_Exp>;
+  _or?: Maybe<Array<Maybe<Ts_Medias_Sentiments_Vw_Bool_Exp>>>;
+  dislike_count?: Maybe<Bigint_Comparison_Exp>;
+  like_count?: Maybe<Bigint_Comparison_Exp>;
+  media_id?: Maybe<Int_Comparison_Exp>;
+};
+
+export type Ts_Medias_Sentiments_Vw_Max_Fields = {
+   __typename?: 'ts_medias_sentiments_vw_max_fields';
+  dislike_count?: Maybe<Scalars['bigint']>;
+  like_count?: Maybe<Scalars['bigint']>;
+  media_id?: Maybe<Scalars['Int']>;
+};
+
+export type Ts_Medias_Sentiments_Vw_Max_Order_By = {
+  dislike_count?: Maybe<Order_By>;
+  like_count?: Maybe<Order_By>;
+  media_id?: Maybe<Order_By>;
+};
+
+export type Ts_Medias_Sentiments_Vw_Min_Fields = {
+   __typename?: 'ts_medias_sentiments_vw_min_fields';
+  dislike_count?: Maybe<Scalars['bigint']>;
+  like_count?: Maybe<Scalars['bigint']>;
+  media_id?: Maybe<Scalars['Int']>;
+};
+
+export type Ts_Medias_Sentiments_Vw_Min_Order_By = {
+  dislike_count?: Maybe<Order_By>;
+  like_count?: Maybe<Order_By>;
+  media_id?: Maybe<Order_By>;
+};
+
+export type Ts_Medias_Sentiments_Vw_Order_By = {
+  dislike_count?: Maybe<Order_By>;
+  like_count?: Maybe<Order_By>;
+  media_id?: Maybe<Order_By>;
+};
+
+export enum Ts_Medias_Sentiments_Vw_Select_Column {
+  DislikeCount = 'dislike_count',
+  LikeCount = 'like_count',
+  MediaId = 'media_id'
+}
+
+export type Ts_Medias_Sentiments_Vw_Stddev_Fields = {
+   __typename?: 'ts_medias_sentiments_vw_stddev_fields';
   dislike_count?: Maybe<Scalars['Float']>;
   like_count?: Maybe<Scalars['Float']>;
   media_id?: Maybe<Scalars['Float']>;
 };
 
-export type Ts_Medias_Sentiments_Variance_Order_By = {
+export type Ts_Medias_Sentiments_Vw_Stddev_Order_By = {
+  dislike_count?: Maybe<Order_By>;
+  like_count?: Maybe<Order_By>;
+  media_id?: Maybe<Order_By>;
+};
+
+export type Ts_Medias_Sentiments_Vw_Stddev_Pop_Fields = {
+   __typename?: 'ts_medias_sentiments_vw_stddev_pop_fields';
+  dislike_count?: Maybe<Scalars['Float']>;
+  like_count?: Maybe<Scalars['Float']>;
+  media_id?: Maybe<Scalars['Float']>;
+};
+
+export type Ts_Medias_Sentiments_Vw_Stddev_Pop_Order_By = {
+  dislike_count?: Maybe<Order_By>;
+  like_count?: Maybe<Order_By>;
+  media_id?: Maybe<Order_By>;
+};
+
+export type Ts_Medias_Sentiments_Vw_Stddev_Samp_Fields = {
+   __typename?: 'ts_medias_sentiments_vw_stddev_samp_fields';
+  dislike_count?: Maybe<Scalars['Float']>;
+  like_count?: Maybe<Scalars['Float']>;
+  media_id?: Maybe<Scalars['Float']>;
+};
+
+export type Ts_Medias_Sentiments_Vw_Stddev_Samp_Order_By = {
+  dislike_count?: Maybe<Order_By>;
+  like_count?: Maybe<Order_By>;
+  media_id?: Maybe<Order_By>;
+};
+
+export type Ts_Medias_Sentiments_Vw_Sum_Fields = {
+   __typename?: 'ts_medias_sentiments_vw_sum_fields';
+  dislike_count?: Maybe<Scalars['bigint']>;
+  like_count?: Maybe<Scalars['bigint']>;
+  media_id?: Maybe<Scalars['Int']>;
+};
+
+export type Ts_Medias_Sentiments_Vw_Sum_Order_By = {
+  dislike_count?: Maybe<Order_By>;
+  like_count?: Maybe<Order_By>;
+  media_id?: Maybe<Order_By>;
+};
+
+export type Ts_Medias_Sentiments_Vw_Var_Pop_Fields = {
+   __typename?: 'ts_medias_sentiments_vw_var_pop_fields';
+  dislike_count?: Maybe<Scalars['Float']>;
+  like_count?: Maybe<Scalars['Float']>;
+  media_id?: Maybe<Scalars['Float']>;
+};
+
+export type Ts_Medias_Sentiments_Vw_Var_Pop_Order_By = {
+  dislike_count?: Maybe<Order_By>;
+  like_count?: Maybe<Order_By>;
+  media_id?: Maybe<Order_By>;
+};
+
+export type Ts_Medias_Sentiments_Vw_Var_Samp_Fields = {
+   __typename?: 'ts_medias_sentiments_vw_var_samp_fields';
+  dislike_count?: Maybe<Scalars['Float']>;
+  like_count?: Maybe<Scalars['Float']>;
+  media_id?: Maybe<Scalars['Float']>;
+};
+
+export type Ts_Medias_Sentiments_Vw_Var_Samp_Order_By = {
+  dislike_count?: Maybe<Order_By>;
+  like_count?: Maybe<Order_By>;
+  media_id?: Maybe<Order_By>;
+};
+
+export type Ts_Medias_Sentiments_Vw_Variance_Fields = {
+   __typename?: 'ts_medias_sentiments_vw_variance_fields';
+  dislike_count?: Maybe<Scalars['Float']>;
+  like_count?: Maybe<Scalars['Float']>;
+  media_id?: Maybe<Scalars['Float']>;
+};
+
+export type Ts_Medias_Sentiments_Vw_Variance_Order_By = {
   dislike_count?: Maybe<Order_By>;
   like_count?: Maybe<Order_By>;
   media_id?: Maybe<Order_By>;
@@ -2183,12 +2939,14 @@ export type Uuid_Comparison_Exp = {
   _nin?: Maybe<Array<Scalars['uuid']>>;
 };
 
-export type InsertTsMediaDislikeMutationVariables = {
+export type InsertTsMediaSentimentsMutationVariables = {
   mediaId: Scalars['Int'];
+  uniqueDeviceId: Scalars['String'];
+  sentimentTypeId: Scalars['Int'];
 };
 
 
-export type InsertTsMediaDislikeMutation = (
+export type InsertTsMediaSentimentsMutation = (
   { __typename?: 'mutation_root' }
   & { insert_ts_medias_sentiments: Maybe<(
     { __typename?: 'ts_medias_sentiments_mutation_response' }
@@ -2196,14 +2954,16 @@ export type InsertTsMediaDislikeMutation = (
   )> }
 );
 
-export type InsertTsMediaLikeMutationVariables = {
+export type DeleteTsMediaSentimentsMutationVariables = {
   mediaId: Scalars['Int'];
+  uniqueDeviceId: Scalars['String'];
+  sentimentTypeId: Scalars['Int'];
 };
 
 
-export type InsertTsMediaLikeMutation = (
+export type DeleteTsMediaSentimentsMutation = (
   { __typename?: 'mutation_root' }
-  & { insert_ts_medias_sentiments: Maybe<(
+  & { delete_ts_medias_sentiments: Maybe<(
     { __typename?: 'ts_medias_sentiments_mutation_response' }
     & Pick<Ts_Medias_Sentiments_Mutation_Response, 'affected_rows'>
   )> }
@@ -2223,82 +2983,87 @@ export type GetTsTopTrendsQuery = (
 export type GetMediasByTopTrendsQueryVariables = {
   limit: Scalars['Int'];
   offset: Scalars['Int'];
+  uniqueDeviceId: Scalars['String'];
 };
 
 
 export type GetMediasByTopTrendsQuery = (
   { __typename?: 'query_root' }
   & { read_top_medias_by_top_trends: Array<(
-    { __typename?: 'ts_medias_by_top_trends_vw' }
-    & Pick<Ts_Medias_By_Top_Trends_Vw, 'id' | 'uuid' | 'external_id' | 'metadata' | 'media_source_name' | 'trend_name' | 'created_at'>
+    { __typename?: 'read_top_medias_by_top_trends_fn' }
+    & Pick<Read_Top_Medias_By_Top_Trends_Fn, 'id' | 'uuid' | 'external_id' | 'metadata' | 'media_source_name' | 'trend_name' | 'like_count' | 'dislike_count' | 'sentiment_type_id' | 'created_at'>
   )> }
 );
 
 
-export const InsertTsMediaDislikeDocument = gql`
-    mutation InsertTsMediaDislike($mediaId: Int!) {
-  insert_ts_medias_sentiments(objects: {media_id: $mediaId, dislike_count: 1}) {
+export const InsertTsMediaSentimentsDocument = gql`
+    mutation InsertTsMediaSentiments($mediaId: Int!, $uniqueDeviceId: String!, $sentimentTypeId: Int!) {
+  insert_ts_medias_sentiments(objects: {media_id: $mediaId, unique_device_id: $uniqueDeviceId, sentiment_type_id: $sentimentTypeId}) {
     affected_rows
   }
 }
     `;
-export type InsertTsMediaDislikeMutationFn = ApolloReactCommon.MutationFunction<InsertTsMediaDislikeMutation, InsertTsMediaDislikeMutationVariables>;
+export type InsertTsMediaSentimentsMutationFn = ApolloReactCommon.MutationFunction<InsertTsMediaSentimentsMutation, InsertTsMediaSentimentsMutationVariables>;
 
 /**
- * __useInsertTsMediaDislikeMutation__
+ * __useInsertTsMediaSentimentsMutation__
  *
- * To run a mutation, you first call `useInsertTsMediaDislikeMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useInsertTsMediaDislikeMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useInsertTsMediaSentimentsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInsertTsMediaSentimentsMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [insertTsMediaDislikeMutation, { data, loading, error }] = useInsertTsMediaDislikeMutation({
+ * const [insertTsMediaSentimentsMutation, { data, loading, error }] = useInsertTsMediaSentimentsMutation({
  *   variables: {
  *      mediaId: // value for 'mediaId'
+ *      uniqueDeviceId: // value for 'uniqueDeviceId'
+ *      sentimentTypeId: // value for 'sentimentTypeId'
  *   },
  * });
  */
-export function useInsertTsMediaDislikeMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<InsertTsMediaDislikeMutation, InsertTsMediaDislikeMutationVariables>) {
-        return ApolloReactHooks.useMutation<InsertTsMediaDislikeMutation, InsertTsMediaDislikeMutationVariables>(InsertTsMediaDislikeDocument, baseOptions);
+export function useInsertTsMediaSentimentsMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<InsertTsMediaSentimentsMutation, InsertTsMediaSentimentsMutationVariables>) {
+        return ApolloReactHooks.useMutation<InsertTsMediaSentimentsMutation, InsertTsMediaSentimentsMutationVariables>(InsertTsMediaSentimentsDocument, baseOptions);
       }
-export type InsertTsMediaDislikeMutationHookResult = ReturnType<typeof useInsertTsMediaDislikeMutation>;
-export type InsertTsMediaDislikeMutationResult = ApolloReactCommon.MutationResult<InsertTsMediaDislikeMutation>;
-export type InsertTsMediaDislikeMutationOptions = ApolloReactCommon.BaseMutationOptions<InsertTsMediaDislikeMutation, InsertTsMediaDislikeMutationVariables>;
-export const InsertTsMediaLikeDocument = gql`
-    mutation InsertTsMediaLike($mediaId: Int!) {
-  insert_ts_medias_sentiments(objects: {media_id: $mediaId, like_count: 1}) {
+export type InsertTsMediaSentimentsMutationHookResult = ReturnType<typeof useInsertTsMediaSentimentsMutation>;
+export type InsertTsMediaSentimentsMutationResult = ApolloReactCommon.MutationResult<InsertTsMediaSentimentsMutation>;
+export type InsertTsMediaSentimentsMutationOptions = ApolloReactCommon.BaseMutationOptions<InsertTsMediaSentimentsMutation, InsertTsMediaSentimentsMutationVariables>;
+export const DeleteTsMediaSentimentsDocument = gql`
+    mutation DeleteTsMediaSentiments($mediaId: Int!, $uniqueDeviceId: String!, $sentimentTypeId: Int!) {
+  delete_ts_medias_sentiments(where: {_and: {media_id: {_eq: $mediaId}, unique_device_id: {_eq: $uniqueDeviceId}, sentiment_type_id: {_eq: $sentimentTypeId}}}) {
     affected_rows
   }
 }
     `;
-export type InsertTsMediaLikeMutationFn = ApolloReactCommon.MutationFunction<InsertTsMediaLikeMutation, InsertTsMediaLikeMutationVariables>;
+export type DeleteTsMediaSentimentsMutationFn = ApolloReactCommon.MutationFunction<DeleteTsMediaSentimentsMutation, DeleteTsMediaSentimentsMutationVariables>;
 
 /**
- * __useInsertTsMediaLikeMutation__
+ * __useDeleteTsMediaSentimentsMutation__
  *
- * To run a mutation, you first call `useInsertTsMediaLikeMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useInsertTsMediaLikeMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useDeleteTsMediaSentimentsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteTsMediaSentimentsMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [insertTsMediaLikeMutation, { data, loading, error }] = useInsertTsMediaLikeMutation({
+ * const [deleteTsMediaSentimentsMutation, { data, loading, error }] = useDeleteTsMediaSentimentsMutation({
  *   variables: {
  *      mediaId: // value for 'mediaId'
+ *      uniqueDeviceId: // value for 'uniqueDeviceId'
+ *      sentimentTypeId: // value for 'sentimentTypeId'
  *   },
  * });
  */
-export function useInsertTsMediaLikeMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<InsertTsMediaLikeMutation, InsertTsMediaLikeMutationVariables>) {
-        return ApolloReactHooks.useMutation<InsertTsMediaLikeMutation, InsertTsMediaLikeMutationVariables>(InsertTsMediaLikeDocument, baseOptions);
+export function useDeleteTsMediaSentimentsMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<DeleteTsMediaSentimentsMutation, DeleteTsMediaSentimentsMutationVariables>) {
+        return ApolloReactHooks.useMutation<DeleteTsMediaSentimentsMutation, DeleteTsMediaSentimentsMutationVariables>(DeleteTsMediaSentimentsDocument, baseOptions);
       }
-export type InsertTsMediaLikeMutationHookResult = ReturnType<typeof useInsertTsMediaLikeMutation>;
-export type InsertTsMediaLikeMutationResult = ApolloReactCommon.MutationResult<InsertTsMediaLikeMutation>;
-export type InsertTsMediaLikeMutationOptions = ApolloReactCommon.BaseMutationOptions<InsertTsMediaLikeMutation, InsertTsMediaLikeMutationVariables>;
+export type DeleteTsMediaSentimentsMutationHookResult = ReturnType<typeof useDeleteTsMediaSentimentsMutation>;
+export type DeleteTsMediaSentimentsMutationResult = ApolloReactCommon.MutationResult<DeleteTsMediaSentimentsMutation>;
+export type DeleteTsMediaSentimentsMutationOptions = ApolloReactCommon.BaseMutationOptions<DeleteTsMediaSentimentsMutation, DeleteTsMediaSentimentsMutationVariables>;
 export const GetTsTopTrendsDocument = gql`
     query GetTsTopTrends {
   ts_top_trends_vw {
@@ -2333,14 +3098,17 @@ export type GetTsTopTrendsQueryHookResult = ReturnType<typeof useGetTsTopTrendsQ
 export type GetTsTopTrendsLazyQueryHookResult = ReturnType<typeof useGetTsTopTrendsLazyQuery>;
 export type GetTsTopTrendsQueryResult = ApolloReactCommon.QueryResult<GetTsTopTrendsQuery, GetTsTopTrendsQueryVariables>;
 export const GetMediasByTopTrendsDocument = gql`
-    query GetMediasByTopTrends($limit: Int!, $offset: Int!) {
-  read_top_medias_by_top_trends(args: {limit: $limit, offset: $offset}) {
+    query GetMediasByTopTrends($limit: Int!, $offset: Int!, $uniqueDeviceId: String!) {
+  read_top_medias_by_top_trends(args: {limit: $limit, offset: $offset, user_unique_device_id: $uniqueDeviceId}) {
     id
     uuid
     external_id
     metadata
     media_source_name
     trend_name
+    like_count
+    dislike_count
+    sentiment_type_id
     created_at
   }
 }
@@ -2360,6 +3128,7 @@ export const GetMediasByTopTrendsDocument = gql`
  *   variables: {
  *      limit: // value for 'limit'
  *      offset: // value for 'offset'
+ *      uniqueDeviceId: // value for 'uniqueDeviceId'
  *   },
  * });
  */
