@@ -1,5 +1,5 @@
 import color from 'color';
-import { black, white } from './colors';
+import { black, white, magenta } from './colors';
 import configureFonts from './fonts';
 import iconConfig from './icons';
 
@@ -10,7 +10,7 @@ const DefaultTheme: Theme = {
   roundness: 4,
   colors: {
     primary: black,
-    accent: '#03dac4',
+    accent: magenta,
     background: '#f6f6f6',
     surface: black,
     error: '#B00020',

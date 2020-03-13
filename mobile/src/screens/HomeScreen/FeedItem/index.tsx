@@ -1,14 +1,16 @@
 import React from 'react';
+import { StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import AdFeedWidget from '../AdFeedWidget';
 import InstagramMediaFeedWidget from '../InstagramMediaFeedWidget';
 import QuotableMediaFeedWidget from '../QuotableMediaFeedWidget';
 import MemeApiMediaFeedWidget from '../MemeApiMediaFeedWidget';
 import YoutubeMediaFeedWidget from '../YoutubeMediaFeedWidget';
+import Header from './Header';
 import { updateCache } from '../utils';
 import { useStore } from '../../../context/StoreContext';
-import { white } from '../../../themes/colors';
-
+import { useTheme } from '../../../themes';
 import {
   Read_Top_Medias_By_Top_Trends_Fn,
   useInsertTsMediaSentimentsMutation,
@@ -28,21 +30,27 @@ type Props = {
 };
 
 function FeedItem({ index, media }: Props) {
-  let content = null;
   const [handleInsertSentiment] = useInsertTsMediaSentimentsMutation();
   const [handleDeleteSentiment] = useDeleteTsMediaSentimentsMutation();
   const store = useStore();
+  const { colors } = useTheme();
 
-  let likeColor = white;
-  let dislikeColor = white;
-
-  if (media.sentiment_type_id === 1) {
-    likeColor = 'rgb(237, 73, 86)';
-  } else if (media.sentiment_type_id === 2) {
-    dislikeColor = 'rgb(237, 73, 86)';
+  // insert an ad.
+  const idx = index + 1;
+  if (idx % 6 === 0) {
+    return <AdFeedWidget />;
   }
 
+  // Get colors for sentiments.
+  let likeColor = colors.text;
+  let dislikeColor = colors.text;
+  if (media.sentiment_type_id === 1 || media.sentiment_type_id === 2) {
+    likeColor = colors.accent;
+  }
+
+  // handles a like or dislike press.
   const handleSentimentPress = (sentimentTypeId: number) => {
+    // variables passed to the gql query.
     const vars = {
       mediaId: media.id,
       uniqueDeviceId: store.uniqueDeviceId,
@@ -68,20 +76,13 @@ function FeedItem({ index, media }: Props) {
     });
   };
 
-  const sentimentsProps = {
-    likeColor,
-    dislikeColor,
-    handleSentimentPress,
-  };
+  let content = null;
+  let iconProps = {};
 
   switch (media.media_source_name) {
     case 'instagram':
-      content = (
-        <InstagramMediaFeedWidget
-          sentimentsProps={sentimentsProps}
-          media={media as InstagramMediaVw}
-        />
-      );
+      content = <InstagramMediaFeedWidget media={media as InstagramMediaVw} />;
+      iconProps = { name: 'instagram', type: 'feather' };
       break;
     case 'meme-api':
       content = <MemeApiMediaFeedWidget media={media as MemeApiMedia} />;
@@ -90,27 +91,67 @@ function FeedItem({ index, media }: Props) {
       content = <QuotableMediaFeedWidget media={media as QuotableMedia} />;
       break;
     case 'youtube':
-      content = (
-        <YoutubeMediaFeedWidget
-          sentimentsProps={sentimentsProps}
-          media={media as YoutubeMediaVw}
-        />
-      );
+      iconProps = { name: 'youtube', type: 'feather' };
+      content = <YoutubeMediaFeedWidget media={media as YoutubeMediaVw} />;
       break;
   }
 
-  // insert an ad.
-  const idx = index + 1;
-  if (idx % 5 === 0) {
-    content = (
-      <>
-        {content}
-        <AdFeedWidget />
-      </>
-    );
-  }
-
-  return content;
+  return (
+    <View
+      style={{
+        marginBottom: 5,
+        width: '100%',
+      }}
+    >
+      <Header iconProps={iconProps} media={media} />
+      {content}
+      {/* Footer */}
+      <View style={styles.sentiments}>
+        <FontAwesome5
+          name="heart"
+          style={[styles.sentimentIcon, { color: likeColor }]}
+          solid
+          onPress={() => handleSentimentPress(1)}
+        />
+        <Text style={[styles.sentimentCount, { color: likeColor }]}>
+          {media.like_count}
+        </Text>
+        <FontAwesome5
+          name="heart-broken"
+          style={[styles.sentimentIcon, { color: dislikeColor }]}
+          solid
+          onPress={() => handleSentimentPress(2)}
+        />
+        <Text style={[styles.sentimentCount, { color: dislikeColor }]}>
+          {media.dislike_count}
+        </Text>
+      </View>
+    </View>
+  );
 }
+
+interface IStyles {
+  sentiments: ViewStyle;
+  sentimentCount: TextStyle;
+  sentimentIcon: TextStyle;
+}
+
+const styles = StyleSheet.create<IStyles>({
+  sentiments: {
+    flexDirection: 'row',
+    marginTop: 5,
+    alignItems: 'center',
+    paddingHorizontal: 15,
+  },
+  sentimentCount: {
+    fontWeight: 'bold',
+    marginLeft: 5,
+    fontSize: 18,
+  },
+  sentimentIcon: {
+    fontSize: 24,
+    marginLeft: 10,
+  },
+});
 
 export default FeedItem;

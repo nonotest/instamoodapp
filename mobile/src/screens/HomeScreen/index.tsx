@@ -81,7 +81,7 @@ const HomeScreen: React.FC<Props> = () => {
             color={colors.text}
           />
         </View>
-        <View style={styles.moodListWrapper}>
+        <View style={styles.trendListWrapper}>
           <TrendsWidget />
         </View>
         {networkStatus === NetworkStatus.loading ? (
@@ -164,21 +164,23 @@ const HomeScreen: React.FC<Props> = () => {
 interface IStyles {
   appTitle: ViewStyle;
   appTitleText: TextStyle;
-  moodListWrapper: ViewStyle;
+  trendListWrapper: ViewStyle;
   screen: ViewStyle;
 }
 const styles = StyleSheet.create<IStyles>({
   appTitle: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 5,
   },
   appTitleText: {
     fontSize: 30,
     fontFamily: 'Bradley Hand',
   },
-  moodListWrapper: {
+  trendListWrapper: {
     height: 40,
-    marginTop: 10,
+    marginTop: 5,
   },
   screen: {
     flex: 1,

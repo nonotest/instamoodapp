@@ -13,7 +13,7 @@ function Trends() {
   if (error) return <Text>Error :(</Text>;
 
   return (
-    <ScrollView horizontal>
+    <ScrollView horizontal style={{ paddingHorizontal: 2 }}>
       {data.ts_top_trends_vw.map(({ id, hashtag }) => (
         <Button
           key={id}
