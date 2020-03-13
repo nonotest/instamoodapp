@@ -18,6 +18,10 @@ export const INSERT_TS_MEDIA_SENTIMENT = gql`
       }
     ) {
       affected_rows
+      returning {
+        media_id
+        sentiment_type_id
+      }
     }
   }
 `;
@@ -38,6 +42,10 @@ export const DELETE_TS_MEDIA_SENTIMENT = gql`
       }
     ) {
       affected_rows
+      returning {
+        media_id
+        sentiment_type_id
+      }
     }
   }
 `;

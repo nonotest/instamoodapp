@@ -2951,6 +2951,10 @@ export type InsertTsMediaSentimentsMutation = (
   & { insert_ts_medias_sentiments: Maybe<(
     { __typename?: 'ts_medias_sentiments_mutation_response' }
     & Pick<Ts_Medias_Sentiments_Mutation_Response, 'affected_rows'>
+    & { returning: Array<(
+      { __typename?: 'ts_medias_sentiments' }
+      & Pick<Ts_Medias_Sentiments, 'media_id' | 'sentiment_type_id'>
+    )> }
   )> }
 );
 
@@ -2966,6 +2970,10 @@ export type DeleteTsMediaSentimentsMutation = (
   & { delete_ts_medias_sentiments: Maybe<(
     { __typename?: 'ts_medias_sentiments_mutation_response' }
     & Pick<Ts_Medias_Sentiments_Mutation_Response, 'affected_rows'>
+    & { returning: Array<(
+      { __typename?: 'ts_medias_sentiments' }
+      & Pick<Ts_Medias_Sentiments, 'media_id' | 'sentiment_type_id'>
+    )> }
   )> }
 );
 
@@ -3000,6 +3008,10 @@ export const InsertTsMediaSentimentsDocument = gql`
     mutation InsertTsMediaSentiments($mediaId: Int!, $uniqueDeviceId: String!, $sentimentTypeId: Int!) {
   insert_ts_medias_sentiments(objects: {media_id: $mediaId, unique_device_id: $uniqueDeviceId, sentiment_type_id: $sentimentTypeId}) {
     affected_rows
+    returning {
+      media_id
+      sentiment_type_id
+    }
   }
 }
     `;
@@ -3034,6 +3046,10 @@ export const DeleteTsMediaSentimentsDocument = gql`
     mutation DeleteTsMediaSentiments($mediaId: Int!, $uniqueDeviceId: String!, $sentimentTypeId: Int!) {
   delete_ts_medias_sentiments(where: {_and: {media_id: {_eq: $mediaId}, unique_device_id: {_eq: $uniqueDeviceId}, sentiment_type_id: {_eq: $sentimentTypeId}}}) {
     affected_rows
+    returning {
+      media_id
+      sentiment_type_id
+    }
   }
 }
     `;
@@ -3099,7 +3115,7 @@ export type GetTsTopTrendsLazyQueryHookResult = ReturnType<typeof useGetTsTopTre
 export type GetTsTopTrendsQueryResult = ApolloReactCommon.QueryResult<GetTsTopTrendsQuery, GetTsTopTrendsQueryVariables>;
 export const GetMediasByTopTrendsDocument = gql`
     query GetMediasByTopTrends($limit: Int!, $offset: Int!, $uniqueDeviceId: String!) {
-  read_top_medias_by_top_trends(args: {limit: $limit, offset: $offset, user_unique_device_id: $uniqueDeviceId}) {
+  read_top_medias_by_top_trends(args: {limit: $limit, offset: $offset, user_unique_device_id: $uniqueDeviceId}) @connection(key: "read_top_medias_by_top_trends") {
     id
     uuid
     external_id

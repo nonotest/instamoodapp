@@ -118,18 +118,6 @@ const HomeScreen: React.FC<Props> = () => {
                     return previousResult;
                   }
 
-                  // const dups = [];
-                  // previousResult.read_top_medias_by_top_trends.forEach(
-                  //   element => {
-                  //     const dup = fetchMoreResult.read_top_medias_by_top_trends.find(
-                  //       el => el.uuid === element.uuid,
-                  //     );
-                  //     if (dup) {
-                  //       dups.push(dup);
-                  //     }
-                  //   },
-                  // );
-                  // console.log('Dups: ', dups);
                   return {
                     // Append the new feed results to the old one
                     read_top_medias_by_top_trends: previousResult.read_top_medias_by_top_trends.concat(
@@ -142,7 +130,7 @@ const HomeScreen: React.FC<Props> = () => {
             onEndReachedThreshold={0.5}
             keyExtractor={item => item.uuid}
             renderItem={({ index, item }) => (
-              <FeedItem index={index} item={item} />
+              <FeedItem index={index} media={item} />
             )}
             data={data.read_top_medias_by_top_trends}
             ListFooterComponent={
@@ -194,8 +182,21 @@ const styles = StyleSheet.create<IStyles>({
   },
   screen: {
     flex: 1,
-    padding: 10,
   },
 });
 
 export default HomeScreen;
+
+// Get Dups if needed.
+// const dups = [];
+// previousResult.read_top_medias_by_top_trends.forEach(
+//   element => {
+//     const dup = fetchMoreResult.read_top_medias_by_top_trends.find(
+//       el => el.uuid === element.uuid,
+//     );
+//     if (dup) {
+//       dups.push(dup);
+//     }
+//   },
+// );
+// console.log('Dups: ', dups);

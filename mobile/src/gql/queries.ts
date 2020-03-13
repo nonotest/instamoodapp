@@ -25,7 +25,7 @@ export const GET_MEDIAS_BY_TOP_TRENDS = gql`
         offset: $offset
         user_unique_device_id: $uniqueDeviceId
       }
-    ) {
+    ) @connection(key: "read_top_medias_by_top_trends") {
       id
       uuid
       external_id

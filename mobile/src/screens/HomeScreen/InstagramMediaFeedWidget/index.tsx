@@ -5,44 +5,24 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import { InstagramMediaVw } from '../../../core';
 import FirebaseDateWidget from '../../../components/FirebaseDateWidget/index';
-import { useStore } from '../../../context/StoreContext';
-import { white } from '../../../themes/colors';
-import {
-  useInsertTsMediaSentimentsMutation,
-  useDeleteTsMediaSentimentsMutation,
-} from '../../../generated/graphql';
 
 type Props = {
   media: InstagramMediaVw;
   trend?: any;
+  sentimentsProps: any;
 };
 
-function InstagramMediaFeedWidget({ media, trend }: Props) {
-  const store = useStore();
-  const [handleInsertSentiment] = useInsertTsMediaSentimentsMutation();
-  const [
-    handleDeleteSentiment,
-    deleteData,
-  ] = useDeleteTsMediaSentimentsMutation();
-
-  let likeColor = white;
-  let dislikeColor = white;
-  let likeHandler: any = handleInsertSentiment;
-  let dislikeHandler: any = handleInsertSentiment;
-
-  if (media.sentiment_type_id === 1) {
-    likeColor = 'rgb(237, 73, 86)';
-    likeHandler = handleDeleteSentiment;
-    dislikeHandler = () => alert('cant');
-  } else if (media.sentiment_type_id === 2) {
-    dislikeColor = 'rgb(237, 73, 86)';
-    dislikeHandler = handleDeleteSentiment;
-    likeHandler = () => alert('cant');
-  }
-
+function InstagramMediaFeedWidget({ media, sentimentsProps }: Props) {
   return (
     <View style={{ marginBottom: 5, width: '100%' }}>
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          paddingHorizontal: 3,
+          paddingBottom: 5,
+        }}
+      >
         <Icon
           name="instagram"
           type="feather"
@@ -82,6 +62,7 @@ function InstagramMediaFeedWidget({ media, trend }: Props) {
           source={{
             uri: media.metadata.url,
           }}
+          resizeMode="contain"
         />
       </View>
       <View
@@ -89,25 +70,18 @@ function InstagramMediaFeedWidget({ media, trend }: Props) {
           flexDirection: 'row',
           marginTop: 5,
           alignItems: 'center',
+          paddingHorizontal: 15,
         }}
       >
         <FontAwesome5
           name="heart"
-          style={{ color: likeColor, fontSize: 24 }}
+          style={{ color: sentimentsProps.likeColor, fontSize: 24 }}
           solid
-          onPress={async () => {
-            const ret = await likeHandler({
-              variables: {
-                mediaId: media.id,
-                uniqueDeviceId: store.uniqueDeviceId,
-                sentimentTypeId: 1,
-              },
-            });
-          }}
+          onPress={() => sentimentsProps.handleSentimentPress(1)}
         />
         <Text
           style={{
-            color: likeColor,
+            color: sentimentsProps.likeColor,
             marginLeft: 5,
             fontSize: 18,
             fontWeight: 'bold',
@@ -118,24 +92,16 @@ function InstagramMediaFeedWidget({ media, trend }: Props) {
         <FontAwesome5
           name="heart-broken"
           style={{
-            color: dislikeColor,
+            color: sentimentsProps.dislikeColor,
             fontSize: 24,
             marginLeft: 10,
           }}
           solid
-          onPress={() =>
-            dislikeHandler({
-              variables: {
-                mediaId: media.id,
-                uniqueDeviceId: store.uniqueDeviceId,
-                sentimentTypeId: 2,
-              },
-            })
-          }
+          onPress={() => sentimentsProps.handleSentimentPress(2)}
         />
         <Text
           style={{
-            color: dislikeColor,
+            color: sentimentsProps.dislikeColor,
             fontWeight: 'bold',
             marginLeft: 5,
             fontSize: 18,

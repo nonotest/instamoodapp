@@ -5,8 +5,15 @@ import InstagramMediaFeedWidget from '../InstagramMediaFeedWidget';
 import QuotableMediaFeedWidget from '../QuotableMediaFeedWidget';
 import MemeApiMediaFeedWidget from '../MemeApiMediaFeedWidget';
 import YoutubeMediaFeedWidget from '../YoutubeMediaFeedWidget';
+import { updateCache } from '../utils';
+import { useStore } from '../../../context/StoreContext';
+import { white } from '../../../themes/colors';
 
-import { Ts_Medias_By_Top_Trends_Vw } from '../../../generated/graphql';
+import {
+  Read_Top_Medias_By_Top_Trends_Fn,
+  useInsertTsMediaSentimentsMutation,
+  useDeleteTsMediaSentimentsMutation,
+} from '../../../generated/graphql';
 
 import {
   MemeApiMedia,
@@ -17,23 +24,78 @@ import {
 
 type Props = {
   index: number;
-  item: Ts_Medias_By_Top_Trends_Vw;
+  media: Read_Top_Medias_By_Top_Trends_Fn;
 };
 
-function FeedItem({ index, item }: Props) {
+function FeedItem({ index, media }: Props) {
   let content = null;
-  switch (item.media_source_name) {
+  const [handleInsertSentiment] = useInsertTsMediaSentimentsMutation();
+  const [handleDeleteSentiment] = useDeleteTsMediaSentimentsMutation();
+  const store = useStore();
+
+  let likeColor = white;
+  let dislikeColor = white;
+
+  if (media.sentiment_type_id === 1) {
+    likeColor = 'rgb(237, 73, 86)';
+  } else if (media.sentiment_type_id === 2) {
+    dislikeColor = 'rgb(237, 73, 86)';
+  }
+
+  const handleSentimentPress = (sentimentTypeId: number) => {
+    const vars = {
+      mediaId: media.id,
+      uniqueDeviceId: store.uniqueDeviceId,
+      sentimentTypeId: sentimentTypeId,
+    };
+
+    if (media.sentiment_type_id === null) {
+      // nothing exists.
+      return handleInsertSentiment({
+        variables: vars,
+        update: updateCache('insert'),
+      });
+    }
+
+    if (media.sentiment_type_id !== sentimentTypeId) {
+      return alert('TODO: Only like or dislike...');
+    }
+
+    // existing
+    return handleDeleteSentiment({
+      variables: vars,
+      update: updateCache('delete'),
+    });
+  };
+
+  const sentimentsProps = {
+    likeColor,
+    dislikeColor,
+    handleSentimentPress,
+  };
+
+  switch (media.media_source_name) {
     case 'instagram':
-      content = <InstagramMediaFeedWidget media={item as InstagramMediaVw} />;
+      content = (
+        <InstagramMediaFeedWidget
+          sentimentsProps={sentimentsProps}
+          media={media as InstagramMediaVw}
+        />
+      );
       break;
     case 'meme-api':
-      content = <MemeApiMediaFeedWidget media={item as MemeApiMedia} />;
+      content = <MemeApiMediaFeedWidget media={media as MemeApiMedia} />;
       break;
     case 'quotable':
-      content = <QuotableMediaFeedWidget media={item as QuotableMedia} />;
+      content = <QuotableMediaFeedWidget media={media as QuotableMedia} />;
       break;
     case 'youtube':
-      content = <YoutubeMediaFeedWidget media={item as YoutubeMediaVw} />;
+      content = (
+        <YoutubeMediaFeedWidget
+          sentimentsProps={sentimentsProps}
+          media={media as YoutubeMediaVw}
+        />
+      );
       break;
   }
 
