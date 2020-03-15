@@ -1,20 +1,20 @@
 import React, { useEffect, useReducer, useState } from 'react';
-import { SafeAreaView, StatusBar } from 'react-native';
+import { StatusBar } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { ApolloProvider } from '@apollo/react-hooks';
 
 import { ThemeProvider } from './themes';
-import HomeScreen from './screens/HomeScreen';
 import {
   StoreProvider,
   StoreProviderState,
   getInitialStore,
 } from './context/StoreContext';
-
 import makeApolloClient from './apollo';
-import { ApolloProvider } from '@apollo/react-hooks';
+import RootNavigator from './navigation';
 
 const App: () => React$Node = () => {
   const [client, setClient] = useState(null);
-  const [state, dispatch] = useReducer(storeReducer, getInitialStore());
+  const [state, _] = useReducer(storeReducer, getInitialStore());
 
   const fetchSession = async () => {
     // fetch session
@@ -36,18 +36,16 @@ const App: () => React$Node = () => {
   }
 
   return (
-    <>
+    <NavigationContainer>
       <StatusBar barStyle="dark-content" />
-      <SafeAreaView style={{ flex: 1 }}>
-        <ThemeProvider>
-          <StoreProvider value={state}>
-            <ApolloProvider client={client}>
-              <HomeScreen />
-            </ApolloProvider>
-          </StoreProvider>
-        </ThemeProvider>
-      </SafeAreaView>
-    </>
+      <ThemeProvider>
+        <StoreProvider value={state}>
+          <ApolloProvider client={client}>
+            <RootNavigator />
+          </ApolloProvider>
+        </StoreProvider>
+      </ThemeProvider>
+    </NavigationContainer>
   );
 };
 

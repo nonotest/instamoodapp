@@ -2,11 +2,11 @@ import React from 'react';
 import { ScrollView, Text } from 'react-native';
 import { Button } from 'react-native-elements';
 
-import { useGetTsTopTrendsQuery } from '../../../generated/graphql';
+import { useGetTopTrendsQuery } from '../../../generated/graphql';
 import { useTheme } from '../../../themes';
 
 function Trends() {
-  const { loading, error, data } = useGetTsTopTrendsQuery();
+  const { loading, error, data } = useGetTopTrendsQuery();
   const { colors, fonts } = useTheme();
 
   if (loading) return <Text>Loading...</Text>;

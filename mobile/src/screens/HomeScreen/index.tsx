@@ -4,21 +4,18 @@ import {
   FlatList,
   RefreshControl,
   StyleSheet,
-  TextStyle,
   View,
   ViewStyle,
 } from 'react-native';
-import { Icon } from 'react-native-elements';
+import {} from 'react-native-elements';
 import { NetworkStatus } from 'apollo-client';
 
-import MoodModalScreen from '../MoodModalScreen';
-import MoodSelectorModalScreen from '../MoodSelectorModalScreen';
 import SettingsModalScreen from '../SettingsModalScreen';
 import Text from '../../components/Typography/Text';
 import { useTheme } from '../../themes';
 import { useStore } from '../../context/StoreContext';
 
-import FeedItem, { MemomedFeedItem } from './FeedItem';
+import { MemomedFeedItem } from './FeedItem';
 import TrendsWidget from './TrendsWidget';
 import { useGetMediasByTopTrendsQuery } from '../../generated/graphql';
 
@@ -30,13 +27,10 @@ type Props = {};
 const HomeScreen: React.FC<Props> = () => {
   // Context State
   // const store = useStore();
-  const { colors, icons } = useTheme();
+  const { colors } = useTheme();
   const store = useStore();
   // Local State
   const [settingsModalVisible, setSettingsModalVisible] = useState(false);
-  const [moodSelectorModalVisible, setMoodSelectorModalVisible] = useState(
-    false,
-  );
 
   const {
     error,
@@ -52,14 +46,6 @@ const HomeScreen: React.FC<Props> = () => {
     },
     notifyOnNetworkStatusChange: true,
   });
-
-  // useEffect(() => {
-  //   if (store.userMoods.length === 0) {
-  //     setMoodSelectorModalVisible(true);
-  //   }
-  // }, []);
-  // if (data && data.read_top_medias_by_top_trends)
-  //   console.log('Render Length: ', data.read_top_medias_by_top_trends.length);
   if (!data || !data.read_top_medias_by_top_trends) {
     return null;
   }
@@ -74,15 +60,6 @@ const HomeScreen: React.FC<Props> = () => {
   return (
     <>
       <View style={[styles.screen, { backgroundColor: colors.primary }]}>
-        <View style={styles.appTitle}>
-          <Text style={styles.appTitleText}>Le Feed</Text>
-          <Icon
-            name="settings"
-            size={icons.regular.size}
-            onPress={() => setMoodSelectorModalVisible(true)}
-            color={colors.text}
-          />
-        </View>
         <View style={styles.trendListWrapper}>
           <TrendsWidget />
         </View>
@@ -105,7 +82,6 @@ const HomeScreen: React.FC<Props> = () => {
               if (networkStatus !== NetworkStatus.ready) {
                 return;
               }
-              return;
 
               fetchMore({
                 variables: {
@@ -154,9 +130,6 @@ const HomeScreen: React.FC<Props> = () => {
           <Text>Advertising</Text>
         </View>
       </View>
-      {/* {moodSelectorModalVisible === true && (
-        <MoodSelectorModalScreen setVisible={setMoodSelectorModalVisible} />
-      )} */}
 
       {settingsModalVisible === true && (
         <SettingsModalScreen setVisible={setSettingsModalVisible} />
@@ -167,7 +140,6 @@ const HomeScreen: React.FC<Props> = () => {
 
 interface IStyles {
   appTitle: ViewStyle;
-  appTitleText: TextStyle;
   trendListWrapper: ViewStyle;
   screen: ViewStyle;
 }
@@ -178,10 +150,7 @@ const styles = StyleSheet.create<IStyles>({
     alignItems: 'center',
     paddingHorizontal: 5,
   },
-  appTitleText: {
-    fontSize: 30,
-    fontFamily: 'Bradley Hand',
-  },
+
   trendListWrapper: {
     height: 40,
     marginTop: 5,

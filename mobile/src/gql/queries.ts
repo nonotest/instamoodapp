@@ -5,7 +5,7 @@ import gql from 'graphql-tag';
  */
 
 export const GET_TS_TOP_TRENDS = gql`
-  query GetTsTopTrends {
+  query GetTopTrends {
     ts_top_trends_vw {
       id
       hashtag
@@ -35,6 +35,36 @@ export const GET_MEDIAS_BY_TOP_TRENDS = gql`
       like_count
       dislike_count
       sentiment_type_id
+      created_at
+    }
+  }
+`;
+
+//
+export const GET_COMMENTS_FOR_MEDIA = gql`
+  query GetCommentsForMedia($mediaId: Int!)
+    @connection(key: "get_comments_for_media", filter: ["mediaId"]) {
+    ts_medias_comments(
+      where: { media_id: { _eq: $mediaId } }
+      order_by: { id: desc }
+    ) {
+      id
+      comment
+      unique_device_id
+      created_at
+    }
+  }
+`;
+
+export const GET_NEWER_COMMENTS_FOR_MEDIA = gql`
+  query GetNewerCommentsForMedia($mediaId: Int!, $lastId: Int!) {
+    ts_medias_comments(
+      where: { _and: { media_id: { _eq: $mediaId }, id: { _gt: $lastId } } }
+      order_by: { id: desc }
+    ) {
+      id
+      comment
+      unique_device_id
       created_at
     }
   }
