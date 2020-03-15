@@ -133,38 +133,38 @@ function CommentsScreen({ route, client }) {
             c => c.id === event.subscriptionData.data.ts_medias_comments[0].id,
           )
         ) {
-          return;
-        }
-        // new to add to apollo cache
-        const comments = event.subscriptionData.data.ts_medias_comments;
-        // if (comments[0].media_id !== media.id) {
-        //   // wrong stuff
-        //   return;
-        // }
-        let localData;
-        try {
-          localData = client.readQuery({
+        } else {
+          // new to add to apollo cache
+          const comments = event.subscriptionData.data.ts_medias_comments;
+          // if (comments[0].media_id !== media.id) {
+          //   // wrong stuff
+          //   return;
+          // }
+          let localData;
+          try {
+            localData = client.readQuery({
+              query: GetCommentsForMediaDocument,
+              variables: {
+                mediaId: media.id,
+              },
+            });
+          } catch (e) {
+            console.log({ e });
+            return;
+          }
+
+          const newData = comments.concat(localData.ts_medias_comments);
+
+          client.writeQuery({
             query: GetCommentsForMediaDocument,
             variables: {
               mediaId: media.id,
             },
+            data: {
+              ts_medias_comments: newData,
+            },
           });
-        } catch (e) {
-          console.log({ e });
-          return;
         }
-
-        const newData = comments.concat(localData.ts_medias_comments);
-
-        client.writeQuery({
-          query: GetCommentsForMediaDocument,
-          variables: {
-            mediaId: media.id,
-          },
-          data: {
-            ts_medias_comments: newData,
-          },
-        });
       }
     },
   });
