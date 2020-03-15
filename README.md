@@ -15,9 +15,9 @@
 4. [TODO] allow to interact with the posts (play video, like etc)
 5. [TODO] display ads every x posts and fixed at the bottom of the screen.
 
-| react-native                  | flutter                  |
-| ----------------------------- | ------------------------ |
-| ![](current-react-native.gif) | ![](current-flutter.gif) |
+| react-native          | flutter                  |
+| --------------------- | ------------------------ |
+| ![](react-native.gif) | ![](current-flutter.gif) |
 
 # How does it work ?
 
