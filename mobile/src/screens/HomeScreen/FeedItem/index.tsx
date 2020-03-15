@@ -35,7 +35,6 @@ function FeedItem({ index, media }: Props) {
   const [handleDeleteSentiment] = useDeleteTsMediaSentimentsMutation();
   const store = useStore();
   const { colors } = useTheme();
-  const [liked, setLiked] = useState(false);
 
   // insert an ad.
   const idx = index + 1;
@@ -118,7 +117,6 @@ function FeedItem({ index, media }: Props) {
         <LikeButton
           key={`like-${media.sentiment_type_id}`}
           onPress={() => handleSentimentPress(1)}
-          sentimentTypeId={media.sentiment_type_id}
           iconProps={{
             name: 'heart',
             style: [styles.sentimentIcon, { color: likeColor }],
@@ -130,7 +128,6 @@ function FeedItem({ index, media }: Props) {
         <LikeButton
           key={`dislike-${media.sentiment_type_id}`}
           onPress={() => handleSentimentPress(2)}
-          sentimentTypeId={media.sentiment_type_id}
           iconProps={{
             name: 'heart-broken',
             style: [styles.sentimentIcon, { color: dislikeColor }],

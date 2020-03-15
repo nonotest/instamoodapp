@@ -41,6 +41,43 @@ CREATE TABLE ts_medias_sentiments (
   deleted_at TIMESTAMPTZ NULL, 
   FOREIGN KEY (media_id) REFERENCES ts_medias (id)
 );
+
+
+CREATE VIEW ts_medias_by_top_trends_vw AS
+	SELECT
+		m.id,
+		m.external_id,
+		m.score,
+		m.uuid,
+		m.metadata,
+		m.created_at,
+		m.updated_at,
+		tt.name as trend_name,
+		ms.name as media_source_name
+	FROM
+		ts_medias m
+	INNER JOIN
+		ts_top_trends_vw tt ON m.trend_id = tt.id
+	INNER JOIN
+		ts_media_sources ms ON ms.id = m.media_source_id;
+
+
+CREATE VIEW ts_medias_sentiments_vw AS
+  SELECT ts_medias_sentiments.media_id,
+      COALESCE(count(
+          CASE
+              WHEN ts_medias_sentiments.sentiment_type_id = 1 THEN 1
+              ELSE NULL::integer
+          END), 0::bigint) AS like_count,
+      COALESCE(count(
+          CASE
+              WHEN ts_medias_sentiments.sentiment_type_id = 2 THEN 1
+              ELSE NULL::integer
+          END), 0::bigint) AS dislike_count
+    FROM ts_medias_sentiments
+    GROUP BY ts_medias_sentiments.media_id;
+
+
 -- TODO: convert to mat_view
 CREATE VIEW ts_top_trends_vw AS 
 SELECT 

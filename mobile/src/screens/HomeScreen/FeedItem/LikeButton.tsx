@@ -25,7 +25,7 @@ const {
 const easing = Easing.inOut(Easing.ease);
 const duration = 250;
 
-function LikeButton({ onPress, iconProps, sentimentTypeId }) {
+function LikeButton({ onPress, iconProps }) {
   // const state = new Value(State.UNDETERMINED);
   const stateRef = useRef(new Value(State.UNDETERMINED));
   const shouldSpring = new Value(0);
@@ -43,7 +43,7 @@ function LikeButton({ onPress, iconProps, sentimentTypeId }) {
           set(shouldSpring, 0),
         ),
         cond(eq(stateRef.current, State.END), [
-          delay(set(shouldSpring, 0), duration),
+          delay(set(shouldSpring, 0), 150),
         ]),
         cond(
           and(eq(shouldSpring, 1), neq(animation, 1)),
@@ -76,7 +76,7 @@ function LikeButton({ onPress, iconProps, sentimentTypeId }) {
 
   const scale = interpolate(animation, {
     inputRange: [0, 0.25, 1],
-    outputRange: [1, 0.9, 1.15],
+    outputRange: [1, 0.9, 1.25],
   });
 
   return (
