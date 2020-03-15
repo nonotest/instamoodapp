@@ -1,29 +1,19 @@
 import React from 'react';
-import { useQuery } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
 import { ScrollView, Text } from 'react-native';
 import { Button } from 'react-native-elements';
 
+import { useGetTsTopTrendsQuery } from '../../../generated/graphql';
 import { useTheme } from '../../../themes';
 
-const TRENDS = gql`
-  {
-    ts_top_trends_vw {
-      id
-      hashtag
-    }
-  }
-`;
-
 function Trends() {
-  const { loading, error, data } = useQuery(TRENDS);
+  const { loading, error, data } = useGetTsTopTrendsQuery();
   const { colors, fonts } = useTheme();
 
   if (loading) return <Text>Loading...</Text>;
   if (error) return <Text>Error :(</Text>;
 
   return (
-    <ScrollView horizontal>
+    <ScrollView horizontal style={{ paddingHorizontal: 2 }}>
       {data.ts_top_trends_vw.map(({ id, hashtag }) => (
         <Button
           key={id}

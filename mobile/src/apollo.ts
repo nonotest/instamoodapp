@@ -4,7 +4,7 @@ import { HttpLink } from 'apollo-link-http';
 import { onError } from 'apollo-link-error';
 import { ApolloLink } from 'apollo-link';
 
-const makeApolloClient = token => {
+const makeApolloClient = session => {
   return new ApolloClient({
     link: ApolloLink.from([
       onError(({ graphQLErrors, networkError }) => {
@@ -20,7 +20,7 @@ const makeApolloClient = token => {
         uri: 'http://localhost:8080/v1/graphql',
         // credentials: 'same-origin',
         headers: {
-          //   Authorization: `Bearer ${token}`,
+          ...session,
           'x-hasura-admin-secret': `myadminsecretkey`,
         },
       }),

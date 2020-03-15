@@ -1,35 +1,41 @@
-type MediaProps = {
-  id?: string;
-  insertedAt?: string;
-  mediaSourceName: string;
-  moodName: string;
-  internalId?: any;
-  uuid: string;
+// TODO:
+// hasura custom fields -> camelCase
+
+import { Read_Top_Medias_By_Top_Trends_Fn } from '../generated/graphql';
+
+export type YoutubeMediaVwBase = Omit<
+  Read_Top_Medias_By_Top_Trends_Fn,
+  'metadata'
+>;
+type YoutubeMediaVwMetadata = {
+  videoId: string;
+  username?: string;
+};
+export type YoutubeMediaVw = YoutubeMediaVwBase & {
+  metadata: YoutubeMediaVwMetadata;
 };
 
-export type YoutubeMedia = MediaProps & {
-  data: {
-    videoId: string;
-    username?: string;
-  };
+export type InstagramMediaVwBase = Omit<
+  Read_Top_Medias_By_Top_Trends_Fn,
+  'metadata'
+>;
+type InstagramMediaVwMetadata = {
+  userId?: number;
+  url: string;
+};
+export type InstagramMediaVw = InstagramMediaVwBase & {
+  metadata: InstagramMediaVwMetadata;
 };
 
-export type InstagramMedia = MediaProps & {
-  data: {
-    userId?: number;
-    url: string;
-  };
-};
-
-export type QuotableMedia = MediaProps & {
-  data: {
+export type QuotableMedia = Read_Top_Medias_By_Top_Trends_Fn & {
+  metadata: {
     content: string;
     author: string;
   };
 };
 
-export type MemeApiMedia = MediaProps & {
-  data: {
+export type MemeApiMedia = Read_Top_Medias_By_Top_Trends_Fn & {
+  metadata: {
     title: string;
     url: string;
   };
@@ -37,11 +43,12 @@ export type MemeApiMedia = MediaProps & {
 
 // id: new Date().getTime(),
 
-export type Media =
+export type MediaVw =
   | MemeApiMedia
-  | YoutubeMedia
-  | InstagramMedia
+  | YoutubeMediaVw
+  | InstagramMediaVw
   | QuotableMedia;
+
 export type MediaSource = {
   id: string;
   name: string;

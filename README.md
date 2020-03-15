@@ -18,3 +18,29 @@
 | react-native                  | flutter                  |
 | ----------------------------- | ------------------------ |
 | ![](current-react-native.gif) | ![](current-flutter.gif) |
+
+# How does it work ?
+
+1. Spin up the servers
+
+```
+# TODO: Add a step to seed the db (only the sources).
+docker-compose up
+```
+
+2. Generate ts types
+
+```
+docker exec -i -t server_node_1  /bin/ash
+yarn generate_hasura --watch
+```
+
+3. Import medias
+
+(still big wip)
+
+```
+docker exec -i -t server_go_1  /bin/ash
+cd feedme
+go run main.go instagram
+```

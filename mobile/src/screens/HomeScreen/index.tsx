@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState } from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -10,50 +10,20 @@ import {
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { NetworkStatus } from 'apollo-client';
-import { useQuery } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
 
-import { Mood, Media } from '../../core';
 import MoodModalScreen from '../MoodModalScreen';
 import MoodSelectorModalScreen from '../MoodSelectorModalScreen';
 import SettingsModalScreen from '../SettingsModalScreen';
-import { StoreProviderState } from '../../context/StoreContext';
 import Text from '../../components/Typography/Text';
 import { useTheme } from '../../themes';
+import { useStore } from '../../context/StoreContext';
 
-import FeedItem from './FeedItem';
+import FeedItem, { MemomedFeedItem } from './FeedItem';
 import TrendsWidget from './TrendsWidget';
+import { useGetMediasByTopTrendsQuery } from '../../generated/graphql';
 
-type Feed = {
-  read_top_medias_by_top_trends: Array<Media>;
-};
-
-const GET_MEDIAS = gql`
-  query GetMediasByTopTrendsQuery($limit: Int!, $offset: Int!) {
-    read_top_medias_by_top_trends(args: { limit: $limit, offset: $offset }) {
-      uuid
-      external_id
-      metadata
-      media_source_name
-      trend_name
-      created_at
-    }
-  }
-`;
 const MEDIAS_PER_PAGE_COUNT = 20;
 // const TOP_TRENDS_COUNT = 10
-
-// todo: move to utils
-const getMood = (
-  item: Media,
-  store: StoreProviderState,
-): Mood | undefined | null => {
-  if (!store.moods) {
-    return null;
-  }
-
-  return store.moods.find(s => s.name === item.moodName);
-};
 
 type Props = {};
 
@@ -61,30 +31,45 @@ const HomeScreen: React.FC<Props> = () => {
   // Context State
   // const store = useStore();
   const { colors, icons } = useTheme();
+  const store = useStore();
   // Local State
   const [settingsModalVisible, setSettingsModalVisible] = useState(false);
   const [moodSelectorModalVisible, setMoodSelectorModalVisible] = useState(
     false,
   );
 
-  const { error, data, refetch, fetchMore, networkStatus } = useQuery<Feed>(
-    GET_MEDIAS,
-    {
-      variables: {
-        limit: MEDIAS_PER_PAGE_COUNT,
-        offset: 0,
-      },
-      notifyOnNetworkStatusChange: true,
+  const {
+    error,
+    data,
+    refetch,
+    fetchMore,
+    networkStatus,
+  } = useGetMediasByTopTrendsQuery({
+    variables: {
+      limit: MEDIAS_PER_PAGE_COUNT,
+      offset: 0,
+      uniqueDeviceId: store.uniqueDeviceId,
     },
-  );
+    notifyOnNetworkStatusChange: true,
+  });
 
   // useEffect(() => {
   //   if (store.userMoods.length === 0) {
   //     setMoodSelectorModalVisible(true);
   //   }
   // }, []);
-  if (data && data.read_top_medias_by_top_trends)
-    console.log('Render Length: ', data.read_top_medias_by_top_trends.length);
+  // if (data && data.read_top_medias_by_top_trends)
+  //   console.log('Render Length: ', data.read_top_medias_by_top_trends.length);
+  if (!data || !data.read_top_medias_by_top_trends) {
+    return null;
+  }
+  if (error) {
+    return (
+      <View style={[styles.screen, { backgroundColor: colors.primary }]}>
+        <Text>Error</Text>
+      </View>
+    );
+  }
 
   return (
     <>
@@ -98,7 +83,7 @@ const HomeScreen: React.FC<Props> = () => {
             color={colors.text}
           />
         </View>
-        <View style={styles.moodListWrapper}>
+        <View style={styles.trendListWrapper}>
           <TrendsWidget />
         </View>
         {networkStatus === NetworkStatus.loading ? (
@@ -120,6 +105,7 @@ const HomeScreen: React.FC<Props> = () => {
               if (networkStatus !== NetworkStatus.ready) {
                 return;
               }
+              return;
 
               fetchMore({
                 variables: {
@@ -135,18 +121,6 @@ const HomeScreen: React.FC<Props> = () => {
                     return previousResult;
                   }
 
-                  // const dups = [];
-                  // previousResult.read_top_medias_by_top_trends.forEach(
-                  //   element => {
-                  //     const dup = fetchMoreResult.read_top_medias_by_top_trends.find(
-                  //       el => el.uuid === element.uuid,
-                  //     );
-                  //     if (dup) {
-                  //       dups.push(dup);
-                  //     }
-                  //   },
-                  // );
-                  // console.log('Dups: ', dups);
                   return {
                     // Append the new feed results to the old one
                     read_top_medias_by_top_trends: previousResult.read_top_medias_by_top_trends.concat(
@@ -159,11 +133,7 @@ const HomeScreen: React.FC<Props> = () => {
             onEndReachedThreshold={0.5}
             keyExtractor={item => item.uuid}
             renderItem={({ index, item }) => (
-              <FeedItem
-                index={index}
-                item={item}
-                mood={getMood(item, { moods: [] })}
-              />
+              <MemomedFeedItem index={index} media={item} />
             )}
             data={data.read_top_medias_by_top_trends}
             ListFooterComponent={
@@ -171,6 +141,7 @@ const HomeScreen: React.FC<Props> = () => {
                 <ActivityIndicator size="large" color="red" />
               )
             }
+            initialNumToRender={20}
           />
         )}
         <View
@@ -197,26 +168,41 @@ const HomeScreen: React.FC<Props> = () => {
 interface IStyles {
   appTitle: ViewStyle;
   appTitleText: TextStyle;
-  moodListWrapper: ViewStyle;
+  trendListWrapper: ViewStyle;
   screen: ViewStyle;
 }
 const styles = StyleSheet.create<IStyles>({
   appTitle: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 5,
   },
   appTitleText: {
     fontSize: 30,
     fontFamily: 'Bradley Hand',
   },
-  moodListWrapper: {
+  trendListWrapper: {
     height: 40,
-    marginTop: 10,
+    marginTop: 5,
   },
   screen: {
     flex: 1,
-    padding: 10,
   },
 });
 
 export default HomeScreen;
+
+// Get Dups if needed.
+// const dups = [];
+// previousResult.read_top_medias_by_top_trends.forEach(
+//   element => {
+//     const dup = fetchMoreResult.read_top_medias_by_top_trends.find(
+//       el => el.uuid === element.uuid,
+//     );
+//     if (dup) {
+//       dups.push(dup);
+//     }
+//   },
+// );
+// console.log('Dups: ', dups);
