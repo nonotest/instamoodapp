@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import { StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import AdFeedWidget from '../AdFeedWidget';
 import InstagramMediaFeedWidget from '../InstagramMediaFeedWidget';
@@ -11,6 +10,7 @@ import Header from './Header';
 import { updateCache } from '../utils';
 import { useStore } from '../../../context/StoreContext';
 import { useTheme } from '../../../themes';
+
 import {
   Read_Top_Medias_By_Top_Trends_Fn,
   useInsertTsMediaSentimentsMutation,
@@ -23,6 +23,7 @@ import {
   QuotableMedia,
   YoutubeMediaVw,
 } from '../../../core';
+import LikeButton from './LikeButton';
 
 type Props = {
   index: number;
@@ -34,6 +35,7 @@ function FeedItem({ index, media }: Props) {
   const [handleDeleteSentiment] = useDeleteTsMediaSentimentsMutation();
   const store = useStore();
   const { colors } = useTheme();
+  const [liked, setLiked] = useState(false);
 
   // insert an ad.
   const idx = index + 1;
@@ -44,37 +46,41 @@ function FeedItem({ index, media }: Props) {
   // Get colors for sentiments.
   let likeColor = colors.text;
   let dislikeColor = colors.text;
-  if (media.sentiment_type_id === 1 || media.sentiment_type_id === 2) {
+  if (media.sentiment_type_id === 1) {
     likeColor = colors.accent;
+  } else if (media.sentiment_type_id === 2) {
+    dislikeColor = colors.accent;
   }
-
   // handles a like or dislike press.
-  const handleSentimentPress = (sentimentTypeId: number) => {
-    // variables passed to the gql query.
-    const vars = {
-      mediaId: media.id,
-      uniqueDeviceId: store.uniqueDeviceId,
-      sentimentTypeId: sentimentTypeId,
-    };
+  const handleSentimentPress = useCallback(
+    (sentimentTypeId: number) => {
+      // variables passed to the gql query.
+      const vars = {
+        mediaId: media.id,
+        uniqueDeviceId: store.uniqueDeviceId,
+        sentimentTypeId: sentimentTypeId,
+      };
 
-    if (media.sentiment_type_id === null) {
-      // nothing exists.
-      return handleInsertSentiment({
+      if (media.sentiment_type_id === null) {
+        // nothing exists.
+        return handleInsertSentiment({
+          variables: vars,
+          update: updateCache('insert'),
+        });
+      }
+
+      if (media.sentiment_type_id !== sentimentTypeId) {
+        return alert('TODO: Only like or dislike...');
+      }
+
+      // existing
+      return handleDeleteSentiment({
         variables: vars,
-        update: updateCache('insert'),
+        update: updateCache('delete'),
       });
-    }
-
-    if (media.sentiment_type_id !== sentimentTypeId) {
-      return alert('TODO: Only like or dislike...');
-    }
-
-    // existing
-    return handleDeleteSentiment({
-      variables: vars,
-      update: updateCache('delete'),
-    });
-  };
+    },
+    [media.sentiment_type_id],
+  );
 
   let content = null;
   let iconProps = {};
@@ -82,7 +88,10 @@ function FeedItem({ index, media }: Props) {
   switch (media.media_source_name) {
     case 'instagram':
       content = <InstagramMediaFeedWidget media={media as InstagramMediaVw} />;
-      iconProps = { name: 'instagram', type: 'feather' };
+      iconProps = {
+        name: 'instagram',
+        type: 'feather',
+      };
       break;
     case 'meme-api':
       content = <MemeApiMediaFeedWidget media={media as MemeApiMedia} />;
@@ -91,31 +100,41 @@ function FeedItem({ index, media }: Props) {
       content = <QuotableMediaFeedWidget media={media as QuotableMedia} />;
       break;
     case 'youtube':
-      iconProps = { name: 'youtube', type: 'feather' };
+      iconProps = {
+        name: 'youtube',
+        type: 'feather',
+      };
       content = <YoutubeMediaFeedWidget media={media as YoutubeMediaVw} />;
       break;
   }
 
   return (
     <View style={styles.wrapper}>
+      {/* Pass media as context */}
       <Header iconProps={iconProps} media={media} />
       {content}
       {/* Footer */}
       <View style={styles.sentiments}>
-        <FontAwesome5
-          name="heart"
-          style={[styles.sentimentIcon, { color: likeColor }]}
-          solid
+        <LikeButton
+          key={`like-${media.sentiment_type_id}`}
           onPress={() => handleSentimentPress(1)}
+          sentimentTypeId={media.sentiment_type_id}
+          iconProps={{
+            name: 'heart',
+            style: [styles.sentimentIcon, { color: likeColor }],
+          }}
         />
         <Text style={[styles.sentimentCount, { color: likeColor }]}>
           {media.like_count}
         </Text>
-        <FontAwesome5
-          name="heart-broken"
-          style={[styles.sentimentIcon, { color: dislikeColor }]}
-          brand
+        <LikeButton
+          key={`dislike-${media.sentiment_type_id}`}
           onPress={() => handleSentimentPress(2)}
+          sentimentTypeId={media.sentiment_type_id}
+          iconProps={{
+            name: 'heart-broken',
+            style: [styles.sentimentIcon, { color: dislikeColor }],
+          }}
         />
         <Text style={[styles.sentimentCount, { color: dislikeColor }]}>
           {media.dislike_count}
@@ -155,3 +174,5 @@ const styles = StyleSheet.create<IStyles>({
 });
 
 export default FeedItem;
+
+export const MemomedFeedItem = React.memo(FeedItem);

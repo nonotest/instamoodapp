@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState } from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -18,7 +18,7 @@ import Text from '../../components/Typography/Text';
 import { useTheme } from '../../themes';
 import { useStore } from '../../context/StoreContext';
 
-import FeedItem from './FeedItem';
+import FeedItem, { MemomedFeedItem } from './FeedItem';
 import TrendsWidget from './TrendsWidget';
 import { useGetMediasByTopTrendsQuery } from '../../generated/graphql';
 
@@ -60,8 +60,10 @@ const HomeScreen: React.FC<Props> = () => {
   // }, []);
   // if (data && data.read_top_medias_by_top_trends)
   //   console.log('Render Length: ', data.read_top_medias_by_top_trends.length);
-
-  if (!data || !data.read_top_medias_by_top_trends || error) {
+  if (!data || !data.read_top_medias_by_top_trends) {
+    return null;
+  }
+  if (error) {
     return (
       <View style={[styles.screen, { backgroundColor: colors.primary }]}>
         <Text>Error</Text>
@@ -103,6 +105,7 @@ const HomeScreen: React.FC<Props> = () => {
               if (networkStatus !== NetworkStatus.ready) {
                 return;
               }
+              return;
 
               fetchMore({
                 variables: {
@@ -130,7 +133,7 @@ const HomeScreen: React.FC<Props> = () => {
             onEndReachedThreshold={0.5}
             keyExtractor={item => item.uuid}
             renderItem={({ index, item }) => (
-              <FeedItem index={index} media={item} />
+              <MemomedFeedItem index={index} media={item} />
             )}
             data={data.read_top_medias_by_top_trends}
             ListFooterComponent={
@@ -138,6 +141,7 @@ const HomeScreen: React.FC<Props> = () => {
                 <ActivityIndicator size="large" color="red" />
               )
             }
+            initialNumToRender={20}
           />
         )}
         <View

@@ -1,5 +1,6 @@
 import React from 'react';
-import { Image, View } from 'react-native';
+import { View } from 'react-native';
+import FastImage from 'react-native-fast-image';
 
 import { InstagramMediaVw } from '../../../core';
 
@@ -10,12 +11,13 @@ type Props = {
 function InstagramMediaFeedWidget({ media }: Props) {
   return (
     <View>
-      <Image
+      <FastImage
         style={{ width: '100%', height: 300 }}
         source={{
           uri: media.metadata.url,
         }}
         resizeMode="contain"
+        onError={() => console.log('err')}
       />
     </View>
   );
