@@ -44,3 +44,9 @@ docker exec -i -t server_go_1  /bin/ash
 cd feedme
 go run main.go instagram
 ```
+
+3. Environments
+
+- mobile app
+  .env is the default
+  .env.live is the live env
