@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Keyboard,
   Button,
@@ -98,6 +98,13 @@ function TextInputBar({ deviceId, media }) {
 
 const BAR_HEIGHT = 44;
 function CommentsScreen({ route, client }) {
+  useEffect(() => {
+    // we need to subscribe there lol
+    console.log('Re,render', {
+      route,
+    });
+  }, []);
+
   const { media } = route.params;
 
   const { uniqueDeviceId } = useStore();
@@ -107,6 +114,8 @@ function CommentsScreen({ route, client }) {
     },
   });
 
+  // todo: proper lifecycle:
+  // https://github.com/apollographql/react-apollo/issues/3577
   const {
     error: wsError,
     loading: wsLoading,
@@ -115,8 +124,23 @@ function CommentsScreen({ route, client }) {
       mediaId: media.id,
     },
     onSubscriptionData: event => {
+      console.log('Received event', { event });
       if (event.subscriptionData.data.ts_medias_comments.length > 0) {
+        // FIXME: this is probably linked to resub issues
+        if (
+          data &&
+          data.ts_medias_comments.find(
+            c => c.id === event.subscriptionData.data.ts_medias_comments[0].id,
+          )
+        ) {
+          return;
+        }
         // new to add to apollo cache
+        const comments = event.subscriptionData.data.ts_medias_comments;
+        // if (comments[0].media_id !== media.id) {
+        //   // wrong stuff
+        //   return;
+        // }
         let localData;
         try {
           localData = client.readQuery({
@@ -130,12 +154,13 @@ function CommentsScreen({ route, client }) {
           return;
         }
 
-        const comments = event.subscriptionData.data.ts_medias_comments;
-        const newData = localData.ts_medias_comments.concat(comments);
-        // merge
+        const newData = comments.concat(localData.ts_medias_comments);
 
         client.writeQuery({
           query: GetCommentsForMediaDocument,
+          variables: {
+            mediaId: media.id,
+          },
           data: {
             ts_medias_comments: newData,
           },

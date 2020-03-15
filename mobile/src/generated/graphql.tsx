@@ -3604,8 +3604,8 @@ export type GetMediasByTopTrendsQueryHookResult = ReturnType<typeof useGetMedias
 export type GetMediasByTopTrendsLazyQueryHookResult = ReturnType<typeof useGetMediasByTopTrendsLazyQuery>;
 export type GetMediasByTopTrendsQueryResult = ApolloReactCommon.QueryResult<GetMediasByTopTrendsQuery, GetMediasByTopTrendsQueryVariables>;
 export const GetCommentsForMediaDocument = gql`
-    query GetCommentsForMedia($mediaId: Int!) {
-  ts_medias_comments(where: {media_id: {_eq: $mediaId}}, order_by: {id: desc}) @connection(key: "get_comments_for_media") {
+    query GetCommentsForMedia($mediaId: Int!) @connection(key: "get_comments_for_media", filter: ["mediaId"]) {
+  ts_medias_comments(where: {media_id: {_eq: $mediaId}}, order_by: {id: desc}) {
     id
     comment
     unique_device_id

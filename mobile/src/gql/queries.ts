@@ -40,13 +40,14 @@ export const GET_MEDIAS_BY_TOP_TRENDS = gql`
   }
 `;
 
-// , filter: ["mediaId"]
+//
 export const GET_COMMENTS_FOR_MEDIA = gql`
-  query GetCommentsForMedia($mediaId: Int!) {
+  query GetCommentsForMedia($mediaId: Int!)
+    @connection(key: "get_comments_for_media", filter: ["mediaId"]) {
     ts_medias_comments(
       where: { media_id: { _eq: $mediaId } }
       order_by: { id: desc }
-    ) @connection(key: "get_comments_for_media") {
+    ) {
       id
       comment
       unique_device_id
