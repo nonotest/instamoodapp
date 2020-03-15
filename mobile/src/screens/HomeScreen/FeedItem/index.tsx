@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import { StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import { useNavigation } from '@react-navigation/native';
 
 import AdFeedWidget from '../AdFeedWidget';
 import InstagramMediaFeedWidget from '../InstagramMediaFeedWidget';
@@ -63,6 +64,7 @@ function FeedItem({ index, media }: Props) {
 
       if (media.sentiment_type_id === null) {
         // nothing exists.
+        // TODO: handle loading.error stuff
         return handleInsertSentiment({
           variables: vars,
           update: updateCache('insert'),
@@ -108,6 +110,8 @@ function FeedItem({ index, media }: Props) {
       break;
   }
 
+  const navigation = useNavigation();
+
   return (
     <View style={styles.wrapper}>
       {/* Pass media as context */}
@@ -140,6 +144,7 @@ function FeedItem({ index, media }: Props) {
         <FontAwesome5
           name="comment"
           style={[styles.sentimentIcon, { color: 'white' }]}
+          onPress={() => navigation.navigate('Comments', { media })}
         />
       </View>
     </View>

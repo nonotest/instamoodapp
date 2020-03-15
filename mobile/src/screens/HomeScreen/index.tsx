@@ -10,7 +10,6 @@ import {
 import {} from 'react-native-elements';
 import { NetworkStatus } from 'apollo-client';
 
-import MoodModalScreen from '../MoodModalScreen';
 import SettingsModalScreen from '../SettingsModalScreen';
 import Text from '../../components/Typography/Text';
 import { useTheme } from '../../themes';
@@ -28,13 +27,10 @@ type Props = {};
 const HomeScreen: React.FC<Props> = () => {
   // Context State
   // const store = useStore();
-  const { colors, icons } = useTheme();
+  const { colors } = useTheme();
   const store = useStore();
   // Local State
   const [settingsModalVisible, setSettingsModalVisible] = useState(false);
-  const [moodSelectorModalVisible, setMoodSelectorModalVisible] = useState(
-    false,
-  );
 
   const {
     error,
@@ -50,14 +46,6 @@ const HomeScreen: React.FC<Props> = () => {
     },
     notifyOnNetworkStatusChange: true,
   });
-
-  // useEffect(() => {
-  //   if (store.userMoods.length === 0) {
-  //     setMoodSelectorModalVisible(true);
-  //   }
-  // }, []);
-  // if (data && data.read_top_medias_by_top_trends)
-  //   console.log('Render Length: ', data.read_top_medias_by_top_trends.length);
   if (!data || !data.read_top_medias_by_top_trends) {
     return null;
   }
@@ -142,9 +130,6 @@ const HomeScreen: React.FC<Props> = () => {
           <Text>Advertising</Text>
         </View>
       </View>
-      {/* {moodSelectorModalVisible === true && (
-        <MoodSelectorModalScreen setVisible={setMoodSelectorModalVisible} />
-      )} */}
 
       {settingsModalVisible === true && (
         <SettingsModalScreen setVisible={setSettingsModalVisible} />

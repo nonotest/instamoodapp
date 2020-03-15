@@ -1,8 +1,8 @@
 import React from 'react';
 import { Icon } from 'react-native-elements';
-import { View, Text } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 
+import CommentsScreen from '../screens/CommentsScreen';
 import HomeScreen from '../screens/HomeScreen';
 
 const Stack = createStackNavigator();
@@ -16,6 +16,7 @@ function RootNavigator() {
           backgroundColor: 'black',
         },
         headerTintColor: '#fff',
+        headerBackTitle: null,
       }}
     >
       <Stack.Screen
@@ -38,13 +39,7 @@ function RootNavigator() {
           ),
         }}
       />
-      <Stack.Screen name="Comments">
-        {() => (
-          <View>
-            <Text>Some Comments</Text>
-          </View>
-        )}
-      </Stack.Screen>
+      <Stack.Screen name="Comments" component={CommentsScreen} />
     </Stack.Navigator>
   );
 }

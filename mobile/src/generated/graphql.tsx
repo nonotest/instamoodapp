@@ -63,16 +63,19 @@ export type Mutation_Root = {
   delete_read_top_medias_by_top_trends_fn?: Maybe<Read_Top_Medias_By_Top_Trends_Fn_Mutation_Response>;
   delete_ts_media_sources?: Maybe<Ts_Media_Sources_Mutation_Response>;
   delete_ts_medias?: Maybe<Ts_Medias_Mutation_Response>;
+  delete_ts_medias_comments?: Maybe<Ts_Medias_Comments_Mutation_Response>;
   delete_ts_medias_sentiments?: Maybe<Ts_Medias_Sentiments_Mutation_Response>;
   delete_ts_trends?: Maybe<Ts_Trends_Mutation_Response>;
   insert_read_top_medias_by_top_trends_fn?: Maybe<Read_Top_Medias_By_Top_Trends_Fn_Mutation_Response>;
   insert_ts_media_sources?: Maybe<Ts_Media_Sources_Mutation_Response>;
   insert_ts_medias?: Maybe<Ts_Medias_Mutation_Response>;
+  insert_ts_medias_comments?: Maybe<Ts_Medias_Comments_Mutation_Response>;
   insert_ts_medias_sentiments?: Maybe<Ts_Medias_Sentiments_Mutation_Response>;
   insert_ts_trends?: Maybe<Ts_Trends_Mutation_Response>;
   update_read_top_medias_by_top_trends_fn?: Maybe<Read_Top_Medias_By_Top_Trends_Fn_Mutation_Response>;
   update_ts_media_sources?: Maybe<Ts_Media_Sources_Mutation_Response>;
   update_ts_medias?: Maybe<Ts_Medias_Mutation_Response>;
+  update_ts_medias_comments?: Maybe<Ts_Medias_Comments_Mutation_Response>;
   update_ts_medias_sentiments?: Maybe<Ts_Medias_Sentiments_Mutation_Response>;
   update_ts_trends?: Maybe<Ts_Trends_Mutation_Response>;
 };
@@ -90,6 +93,11 @@ export type Mutation_RootDelete_Ts_Media_SourcesArgs = {
 
 export type Mutation_RootDelete_Ts_MediasArgs = {
   where: Ts_Medias_Bool_Exp;
+};
+
+
+export type Mutation_RootDelete_Ts_Medias_CommentsArgs = {
+  where: Ts_Medias_Comments_Bool_Exp;
 };
 
 
@@ -117,6 +125,12 @@ export type Mutation_RootInsert_Ts_Media_SourcesArgs = {
 export type Mutation_RootInsert_Ts_MediasArgs = {
   objects: Array<Ts_Medias_Insert_Input>;
   on_conflict?: Maybe<Ts_Medias_On_Conflict>;
+};
+
+
+export type Mutation_RootInsert_Ts_Medias_CommentsArgs = {
+  objects: Array<Ts_Medias_Comments_Insert_Input>;
+  on_conflict?: Maybe<Ts_Medias_Comments_On_Conflict>;
 };
 
 
@@ -163,6 +177,13 @@ export type Mutation_RootUpdate_Ts_MediasArgs = {
 };
 
 
+export type Mutation_RootUpdate_Ts_Medias_CommentsArgs = {
+  _inc?: Maybe<Ts_Medias_Comments_Inc_Input>;
+  _set?: Maybe<Ts_Medias_Comments_Set_Input>;
+  where: Ts_Medias_Comments_Bool_Exp;
+};
+
+
 export type Mutation_RootUpdate_Ts_Medias_SentimentsArgs = {
   _inc?: Maybe<Ts_Medias_Sentiments_Inc_Input>;
   _set?: Maybe<Ts_Medias_Sentiments_Set_Input>;
@@ -199,6 +220,9 @@ export type Query_Root = {
   ts_medias_by_pk?: Maybe<Ts_Medias>;
   ts_medias_by_top_trends_vw: Array<Ts_Medias_By_Top_Trends_Vw>;
   ts_medias_by_top_trends_vw_aggregate: Ts_Medias_By_Top_Trends_Vw_Aggregate;
+  ts_medias_comments: Array<Ts_Medias_Comments>;
+  ts_medias_comments_aggregate: Ts_Medias_Comments_Aggregate;
+  ts_medias_comments_by_pk?: Maybe<Ts_Medias_Comments>;
   ts_medias_sentiments: Array<Ts_Medias_Sentiments>;
   ts_medias_sentiments_aggregate: Ts_Medias_Sentiments_Aggregate;
   ts_medias_sentiments_by_pk?: Maybe<Ts_Medias_Sentiments>;
@@ -311,6 +335,29 @@ export type Query_RootTs_Medias_By_Top_Trends_Vw_AggregateArgs = {
   offset?: Maybe<Scalars['Int']>;
   order_by?: Maybe<Array<Ts_Medias_By_Top_Trends_Vw_Order_By>>;
   where?: Maybe<Ts_Medias_By_Top_Trends_Vw_Bool_Exp>;
+};
+
+
+export type Query_RootTs_Medias_CommentsArgs = {
+  distinct_on?: Maybe<Array<Ts_Medias_Comments_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Ts_Medias_Comments_Order_By>>;
+  where?: Maybe<Ts_Medias_Comments_Bool_Exp>;
+};
+
+
+export type Query_RootTs_Medias_Comments_AggregateArgs = {
+  distinct_on?: Maybe<Array<Ts_Medias_Comments_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Ts_Medias_Comments_Order_By>>;
+  where?: Maybe<Ts_Medias_Comments_Bool_Exp>;
+};
+
+
+export type Query_RootTs_Medias_Comments_By_PkArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -805,6 +852,9 @@ export type Subscription_Root = {
   ts_medias_by_pk?: Maybe<Ts_Medias>;
   ts_medias_by_top_trends_vw: Array<Ts_Medias_By_Top_Trends_Vw>;
   ts_medias_by_top_trends_vw_aggregate: Ts_Medias_By_Top_Trends_Vw_Aggregate;
+  ts_medias_comments: Array<Ts_Medias_Comments>;
+  ts_medias_comments_aggregate: Ts_Medias_Comments_Aggregate;
+  ts_medias_comments_by_pk?: Maybe<Ts_Medias_Comments>;
   ts_medias_sentiments: Array<Ts_Medias_Sentiments>;
   ts_medias_sentiments_aggregate: Ts_Medias_Sentiments_Aggregate;
   ts_medias_sentiments_by_pk?: Maybe<Ts_Medias_Sentiments>;
@@ -917,6 +967,29 @@ export type Subscription_RootTs_Medias_By_Top_Trends_Vw_AggregateArgs = {
   offset?: Maybe<Scalars['Int']>;
   order_by?: Maybe<Array<Ts_Medias_By_Top_Trends_Vw_Order_By>>;
   where?: Maybe<Ts_Medias_By_Top_Trends_Vw_Bool_Exp>;
+};
+
+
+export type Subscription_RootTs_Medias_CommentsArgs = {
+  distinct_on?: Maybe<Array<Ts_Medias_Comments_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Ts_Medias_Comments_Order_By>>;
+  where?: Maybe<Ts_Medias_Comments_Bool_Exp>;
+};
+
+
+export type Subscription_RootTs_Medias_Comments_AggregateArgs = {
+  distinct_on?: Maybe<Array<Ts_Medias_Comments_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Ts_Medias_Comments_Order_By>>;
+  where?: Maybe<Ts_Medias_Comments_Bool_Exp>;
+};
+
+
+export type Subscription_RootTs_Medias_Comments_By_PkArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -1645,6 +1718,282 @@ export type Ts_Medias_By_Top_Trends_Vw_Variance_Fields = {
 export type Ts_Medias_By_Top_Trends_Vw_Variance_Order_By = {
   id?: Maybe<Order_By>;
   score?: Maybe<Order_By>;
+};
+
+export type Ts_Medias_Comments = {
+   __typename?: 'ts_medias_comments';
+  comment?: Maybe<Scalars['String']>;
+  created_at: Scalars['timestamptz'];
+  deleted_at?: Maybe<Scalars['timestamptz']>;
+  id: Scalars['Int'];
+  media_id?: Maybe<Scalars['Int']>;
+  unique_device_id?: Maybe<Scalars['String']>;
+  updated_at: Scalars['timestamptz'];
+};
+
+export type Ts_Medias_Comments_Aggregate = {
+   __typename?: 'ts_medias_comments_aggregate';
+  aggregate?: Maybe<Ts_Medias_Comments_Aggregate_Fields>;
+  nodes: Array<Ts_Medias_Comments>;
+};
+
+export type Ts_Medias_Comments_Aggregate_Fields = {
+   __typename?: 'ts_medias_comments_aggregate_fields';
+  avg?: Maybe<Ts_Medias_Comments_Avg_Fields>;
+  count?: Maybe<Scalars['Int']>;
+  max?: Maybe<Ts_Medias_Comments_Max_Fields>;
+  min?: Maybe<Ts_Medias_Comments_Min_Fields>;
+  stddev?: Maybe<Ts_Medias_Comments_Stddev_Fields>;
+  stddev_pop?: Maybe<Ts_Medias_Comments_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Ts_Medias_Comments_Stddev_Samp_Fields>;
+  sum?: Maybe<Ts_Medias_Comments_Sum_Fields>;
+  var_pop?: Maybe<Ts_Medias_Comments_Var_Pop_Fields>;
+  var_samp?: Maybe<Ts_Medias_Comments_Var_Samp_Fields>;
+  variance?: Maybe<Ts_Medias_Comments_Variance_Fields>;
+};
+
+
+export type Ts_Medias_Comments_Aggregate_FieldsCountArgs = {
+  columns?: Maybe<Array<Ts_Medias_Comments_Select_Column>>;
+  distinct?: Maybe<Scalars['Boolean']>;
+};
+
+export type Ts_Medias_Comments_Aggregate_Order_By = {
+  avg?: Maybe<Ts_Medias_Comments_Avg_Order_By>;
+  count?: Maybe<Order_By>;
+  max?: Maybe<Ts_Medias_Comments_Max_Order_By>;
+  min?: Maybe<Ts_Medias_Comments_Min_Order_By>;
+  stddev?: Maybe<Ts_Medias_Comments_Stddev_Order_By>;
+  stddev_pop?: Maybe<Ts_Medias_Comments_Stddev_Pop_Order_By>;
+  stddev_samp?: Maybe<Ts_Medias_Comments_Stddev_Samp_Order_By>;
+  sum?: Maybe<Ts_Medias_Comments_Sum_Order_By>;
+  var_pop?: Maybe<Ts_Medias_Comments_Var_Pop_Order_By>;
+  var_samp?: Maybe<Ts_Medias_Comments_Var_Samp_Order_By>;
+  variance?: Maybe<Ts_Medias_Comments_Variance_Order_By>;
+};
+
+export type Ts_Medias_Comments_Arr_Rel_Insert_Input = {
+  data: Array<Ts_Medias_Comments_Insert_Input>;
+  on_conflict?: Maybe<Ts_Medias_Comments_On_Conflict>;
+};
+
+export type Ts_Medias_Comments_Avg_Fields = {
+   __typename?: 'ts_medias_comments_avg_fields';
+  id?: Maybe<Scalars['Float']>;
+  media_id?: Maybe<Scalars['Float']>;
+};
+
+export type Ts_Medias_Comments_Avg_Order_By = {
+  id?: Maybe<Order_By>;
+  media_id?: Maybe<Order_By>;
+};
+
+export type Ts_Medias_Comments_Bool_Exp = {
+  _and?: Maybe<Array<Maybe<Ts_Medias_Comments_Bool_Exp>>>;
+  _not?: Maybe<Ts_Medias_Comments_Bool_Exp>;
+  _or?: Maybe<Array<Maybe<Ts_Medias_Comments_Bool_Exp>>>;
+  comment?: Maybe<String_Comparison_Exp>;
+  created_at?: Maybe<Timestamptz_Comparison_Exp>;
+  deleted_at?: Maybe<Timestamptz_Comparison_Exp>;
+  id?: Maybe<Int_Comparison_Exp>;
+  media_id?: Maybe<Int_Comparison_Exp>;
+  unique_device_id?: Maybe<String_Comparison_Exp>;
+  updated_at?: Maybe<Timestamptz_Comparison_Exp>;
+};
+
+export enum Ts_Medias_Comments_Constraint {
+  TsMediasCommentsPkey = 'ts_medias_comments_pkey'
+}
+
+export type Ts_Medias_Comments_Inc_Input = {
+  id?: Maybe<Scalars['Int']>;
+  media_id?: Maybe<Scalars['Int']>;
+};
+
+export type Ts_Medias_Comments_Insert_Input = {
+  comment?: Maybe<Scalars['String']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
+  deleted_at?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['Int']>;
+  media_id?: Maybe<Scalars['Int']>;
+  unique_device_id?: Maybe<Scalars['String']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+};
+
+export type Ts_Medias_Comments_Max_Fields = {
+   __typename?: 'ts_medias_comments_max_fields';
+  comment?: Maybe<Scalars['String']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
+  deleted_at?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['Int']>;
+  media_id?: Maybe<Scalars['Int']>;
+  unique_device_id?: Maybe<Scalars['String']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+};
+
+export type Ts_Medias_Comments_Max_Order_By = {
+  comment?: Maybe<Order_By>;
+  created_at?: Maybe<Order_By>;
+  deleted_at?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  media_id?: Maybe<Order_By>;
+  unique_device_id?: Maybe<Order_By>;
+  updated_at?: Maybe<Order_By>;
+};
+
+export type Ts_Medias_Comments_Min_Fields = {
+   __typename?: 'ts_medias_comments_min_fields';
+  comment?: Maybe<Scalars['String']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
+  deleted_at?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['Int']>;
+  media_id?: Maybe<Scalars['Int']>;
+  unique_device_id?: Maybe<Scalars['String']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+};
+
+export type Ts_Medias_Comments_Min_Order_By = {
+  comment?: Maybe<Order_By>;
+  created_at?: Maybe<Order_By>;
+  deleted_at?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  media_id?: Maybe<Order_By>;
+  unique_device_id?: Maybe<Order_By>;
+  updated_at?: Maybe<Order_By>;
+};
+
+export type Ts_Medias_Comments_Mutation_Response = {
+   __typename?: 'ts_medias_comments_mutation_response';
+  affected_rows: Scalars['Int'];
+  returning: Array<Ts_Medias_Comments>;
+};
+
+export type Ts_Medias_Comments_Obj_Rel_Insert_Input = {
+  data: Ts_Medias_Comments_Insert_Input;
+  on_conflict?: Maybe<Ts_Medias_Comments_On_Conflict>;
+};
+
+export type Ts_Medias_Comments_On_Conflict = {
+  constraint: Ts_Medias_Comments_Constraint;
+  update_columns: Array<Ts_Medias_Comments_Update_Column>;
+  where?: Maybe<Ts_Medias_Comments_Bool_Exp>;
+};
+
+export type Ts_Medias_Comments_Order_By = {
+  comment?: Maybe<Order_By>;
+  created_at?: Maybe<Order_By>;
+  deleted_at?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  media_id?: Maybe<Order_By>;
+  unique_device_id?: Maybe<Order_By>;
+  updated_at?: Maybe<Order_By>;
+};
+
+export enum Ts_Medias_Comments_Select_Column {
+  Comment = 'comment',
+  CreatedAt = 'created_at',
+  DeletedAt = 'deleted_at',
+  Id = 'id',
+  MediaId = 'media_id',
+  UniqueDeviceId = 'unique_device_id',
+  UpdatedAt = 'updated_at'
+}
+
+export type Ts_Medias_Comments_Set_Input = {
+  comment?: Maybe<Scalars['String']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
+  deleted_at?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['Int']>;
+  media_id?: Maybe<Scalars['Int']>;
+  unique_device_id?: Maybe<Scalars['String']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+};
+
+export type Ts_Medias_Comments_Stddev_Fields = {
+   __typename?: 'ts_medias_comments_stddev_fields';
+  id?: Maybe<Scalars['Float']>;
+  media_id?: Maybe<Scalars['Float']>;
+};
+
+export type Ts_Medias_Comments_Stddev_Order_By = {
+  id?: Maybe<Order_By>;
+  media_id?: Maybe<Order_By>;
+};
+
+export type Ts_Medias_Comments_Stddev_Pop_Fields = {
+   __typename?: 'ts_medias_comments_stddev_pop_fields';
+  id?: Maybe<Scalars['Float']>;
+  media_id?: Maybe<Scalars['Float']>;
+};
+
+export type Ts_Medias_Comments_Stddev_Pop_Order_By = {
+  id?: Maybe<Order_By>;
+  media_id?: Maybe<Order_By>;
+};
+
+export type Ts_Medias_Comments_Stddev_Samp_Fields = {
+   __typename?: 'ts_medias_comments_stddev_samp_fields';
+  id?: Maybe<Scalars['Float']>;
+  media_id?: Maybe<Scalars['Float']>;
+};
+
+export type Ts_Medias_Comments_Stddev_Samp_Order_By = {
+  id?: Maybe<Order_By>;
+  media_id?: Maybe<Order_By>;
+};
+
+export type Ts_Medias_Comments_Sum_Fields = {
+   __typename?: 'ts_medias_comments_sum_fields';
+  id?: Maybe<Scalars['Int']>;
+  media_id?: Maybe<Scalars['Int']>;
+};
+
+export type Ts_Medias_Comments_Sum_Order_By = {
+  id?: Maybe<Order_By>;
+  media_id?: Maybe<Order_By>;
+};
+
+export enum Ts_Medias_Comments_Update_Column {
+  Comment = 'comment',
+  CreatedAt = 'created_at',
+  DeletedAt = 'deleted_at',
+  Id = 'id',
+  MediaId = 'media_id',
+  UniqueDeviceId = 'unique_device_id',
+  UpdatedAt = 'updated_at'
+}
+
+export type Ts_Medias_Comments_Var_Pop_Fields = {
+   __typename?: 'ts_medias_comments_var_pop_fields';
+  id?: Maybe<Scalars['Float']>;
+  media_id?: Maybe<Scalars['Float']>;
+};
+
+export type Ts_Medias_Comments_Var_Pop_Order_By = {
+  id?: Maybe<Order_By>;
+  media_id?: Maybe<Order_By>;
+};
+
+export type Ts_Medias_Comments_Var_Samp_Fields = {
+   __typename?: 'ts_medias_comments_var_samp_fields';
+  id?: Maybe<Scalars['Float']>;
+  media_id?: Maybe<Scalars['Float']>;
+};
+
+export type Ts_Medias_Comments_Var_Samp_Order_By = {
+  id?: Maybe<Order_By>;
+  media_id?: Maybe<Order_By>;
+};
+
+export type Ts_Medias_Comments_Variance_Fields = {
+   __typename?: 'ts_medias_comments_variance_fields';
+  id?: Maybe<Scalars['Float']>;
+  media_id?: Maybe<Scalars['Float']>;
+};
+
+export type Ts_Medias_Comments_Variance_Order_By = {
+  id?: Maybe<Order_By>;
+  media_id?: Maybe<Order_By>;
 };
 
 export enum Ts_Medias_Constraint {
@@ -2977,10 +3326,29 @@ export type DeleteTsMediaSentimentsMutation = (
   )> }
 );
 
-export type GetTsTopTrendsQueryVariables = {};
+export type InsertTsMediaCommentsMutationVariables = {
+  mediaId: Scalars['Int'];
+  uniqueDeviceId: Scalars['String'];
+  comment: Scalars['String'];
+};
 
 
-export type GetTsTopTrendsQuery = (
+export type InsertTsMediaCommentsMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_ts_medias_comments: Maybe<(
+    { __typename?: 'ts_medias_comments_mutation_response' }
+    & Pick<Ts_Medias_Comments_Mutation_Response, 'affected_rows'>
+    & { returning: Array<(
+      { __typename?: 'ts_medias_comments' }
+      & Pick<Ts_Medias_Comments, 'media_id' | 'comment'>
+    )> }
+  )> }
+);
+
+export type GetTopTrendsQueryVariables = {};
+
+
+export type GetTopTrendsQuery = (
   { __typename?: 'query_root' }
   & { ts_top_trends_vw: Array<(
     { __typename?: 'ts_top_trends_vw' }
@@ -3000,6 +3368,46 @@ export type GetMediasByTopTrendsQuery = (
   & { read_top_medias_by_top_trends: Array<(
     { __typename?: 'read_top_medias_by_top_trends_fn' }
     & Pick<Read_Top_Medias_By_Top_Trends_Fn, 'id' | 'uuid' | 'external_id' | 'metadata' | 'media_source_name' | 'trend_name' | 'like_count' | 'dislike_count' | 'sentiment_type_id' | 'created_at'>
+  )> }
+);
+
+export type GetCommentsForMediaQueryVariables = {
+  mediaId: Scalars['Int'];
+};
+
+
+export type GetCommentsForMediaQuery = (
+  { __typename?: 'query_root' }
+  & { ts_medias_comments: Array<(
+    { __typename?: 'ts_medias_comments' }
+    & Pick<Ts_Medias_Comments, 'id' | 'comment' | 'unique_device_id' | 'created_at'>
+  )> }
+);
+
+export type GetNewerCommentsForMediaQueryVariables = {
+  mediaId: Scalars['Int'];
+  lastId: Scalars['Int'];
+};
+
+
+export type GetNewerCommentsForMediaQuery = (
+  { __typename?: 'query_root' }
+  & { ts_medias_comments: Array<(
+    { __typename?: 'ts_medias_comments' }
+    & Pick<Ts_Medias_Comments, 'id' | 'comment' | 'unique_device_id' | 'created_at'>
+  )> }
+);
+
+export type SubscribeCommentsForMediaSubscriptionVariables = {
+  mediaId: Scalars['Int'];
+};
+
+
+export type SubscribeCommentsForMediaSubscription = (
+  { __typename?: 'subscription_root' }
+  & { ts_medias_comments: Array<(
+    { __typename?: 'ts_medias_comments' }
+    & Pick<Ts_Medias_Comments, 'id' | 'comment' | 'unique_device_id' | 'created_at'>
   )> }
 );
 
@@ -3080,8 +3488,46 @@ export function useDeleteTsMediaSentimentsMutation(baseOptions?: ApolloReactHook
 export type DeleteTsMediaSentimentsMutationHookResult = ReturnType<typeof useDeleteTsMediaSentimentsMutation>;
 export type DeleteTsMediaSentimentsMutationResult = ApolloReactCommon.MutationResult<DeleteTsMediaSentimentsMutation>;
 export type DeleteTsMediaSentimentsMutationOptions = ApolloReactCommon.BaseMutationOptions<DeleteTsMediaSentimentsMutation, DeleteTsMediaSentimentsMutationVariables>;
-export const GetTsTopTrendsDocument = gql`
-    query GetTsTopTrends {
+export const InsertTsMediaCommentsDocument = gql`
+    mutation InsertTsMediaComments($mediaId: Int!, $uniqueDeviceId: String!, $comment: String!) {
+  insert_ts_medias_comments(objects: {media_id: $mediaId, unique_device_id: $uniqueDeviceId, comment: $comment}) {
+    affected_rows
+    returning {
+      media_id
+      comment
+    }
+  }
+}
+    `;
+export type InsertTsMediaCommentsMutationFn = ApolloReactCommon.MutationFunction<InsertTsMediaCommentsMutation, InsertTsMediaCommentsMutationVariables>;
+
+/**
+ * __useInsertTsMediaCommentsMutation__
+ *
+ * To run a mutation, you first call `useInsertTsMediaCommentsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInsertTsMediaCommentsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [insertTsMediaCommentsMutation, { data, loading, error }] = useInsertTsMediaCommentsMutation({
+ *   variables: {
+ *      mediaId: // value for 'mediaId'
+ *      uniqueDeviceId: // value for 'uniqueDeviceId'
+ *      comment: // value for 'comment'
+ *   },
+ * });
+ */
+export function useInsertTsMediaCommentsMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<InsertTsMediaCommentsMutation, InsertTsMediaCommentsMutationVariables>) {
+        return ApolloReactHooks.useMutation<InsertTsMediaCommentsMutation, InsertTsMediaCommentsMutationVariables>(InsertTsMediaCommentsDocument, baseOptions);
+      }
+export type InsertTsMediaCommentsMutationHookResult = ReturnType<typeof useInsertTsMediaCommentsMutation>;
+export type InsertTsMediaCommentsMutationResult = ApolloReactCommon.MutationResult<InsertTsMediaCommentsMutation>;
+export type InsertTsMediaCommentsMutationOptions = ApolloReactCommon.BaseMutationOptions<InsertTsMediaCommentsMutation, InsertTsMediaCommentsMutationVariables>;
+export const GetTopTrendsDocument = gql`
+    query GetTopTrends {
   ts_top_trends_vw {
     id
     hashtag
@@ -3090,29 +3536,29 @@ export const GetTsTopTrendsDocument = gql`
     `;
 
 /**
- * __useGetTsTopTrendsQuery__
+ * __useGetTopTrendsQuery__
  *
- * To run a query within a React component, call `useGetTsTopTrendsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetTsTopTrendsQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * To run a query within a React component, call `useGetTopTrendsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTopTrendsQuery` returns an object from Apollo Client that contains loading, error, and data properties 
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetTsTopTrendsQuery({
+ * const { data, loading, error } = useGetTopTrendsQuery({
  *   variables: {
  *   },
  * });
  */
-export function useGetTsTopTrendsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetTsTopTrendsQuery, GetTsTopTrendsQueryVariables>) {
-        return ApolloReactHooks.useQuery<GetTsTopTrendsQuery, GetTsTopTrendsQueryVariables>(GetTsTopTrendsDocument, baseOptions);
+export function useGetTopTrendsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetTopTrendsQuery, GetTopTrendsQueryVariables>) {
+        return ApolloReactHooks.useQuery<GetTopTrendsQuery, GetTopTrendsQueryVariables>(GetTopTrendsDocument, baseOptions);
       }
-export function useGetTsTopTrendsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetTsTopTrendsQuery, GetTsTopTrendsQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<GetTsTopTrendsQuery, GetTsTopTrendsQueryVariables>(GetTsTopTrendsDocument, baseOptions);
+export function useGetTopTrendsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetTopTrendsQuery, GetTopTrendsQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<GetTopTrendsQuery, GetTopTrendsQueryVariables>(GetTopTrendsDocument, baseOptions);
         }
-export type GetTsTopTrendsQueryHookResult = ReturnType<typeof useGetTsTopTrendsQuery>;
-export type GetTsTopTrendsLazyQueryHookResult = ReturnType<typeof useGetTsTopTrendsLazyQuery>;
-export type GetTsTopTrendsQueryResult = ApolloReactCommon.QueryResult<GetTsTopTrendsQuery, GetTsTopTrendsQueryVariables>;
+export type GetTopTrendsQueryHookResult = ReturnType<typeof useGetTopTrendsQuery>;
+export type GetTopTrendsLazyQueryHookResult = ReturnType<typeof useGetTopTrendsLazyQuery>;
+export type GetTopTrendsQueryResult = ApolloReactCommon.QueryResult<GetTopTrendsQuery, GetTopTrendsQueryVariables>;
 export const GetMediasByTopTrendsDocument = gql`
     query GetMediasByTopTrends($limit: Int!, $offset: Int!, $uniqueDeviceId: String!) {
   read_top_medias_by_top_trends(args: {limit: $limit, offset: $offset, user_unique_device_id: $uniqueDeviceId}) @connection(key: "read_top_medias_by_top_trends") {
@@ -3157,3 +3603,108 @@ export function useGetMediasByTopTrendsLazyQuery(baseOptions?: ApolloReactHooks.
 export type GetMediasByTopTrendsQueryHookResult = ReturnType<typeof useGetMediasByTopTrendsQuery>;
 export type GetMediasByTopTrendsLazyQueryHookResult = ReturnType<typeof useGetMediasByTopTrendsLazyQuery>;
 export type GetMediasByTopTrendsQueryResult = ApolloReactCommon.QueryResult<GetMediasByTopTrendsQuery, GetMediasByTopTrendsQueryVariables>;
+export const GetCommentsForMediaDocument = gql`
+    query GetCommentsForMedia($mediaId: Int!) {
+  ts_medias_comments(where: {media_id: {_eq: $mediaId}}, order_by: {id: desc}) @connection(key: "get_comments_for_media") {
+    id
+    comment
+    unique_device_id
+    created_at
+  }
+}
+    `;
+
+/**
+ * __useGetCommentsForMediaQuery__
+ *
+ * To run a query within a React component, call `useGetCommentsForMediaQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCommentsForMediaQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCommentsForMediaQuery({
+ *   variables: {
+ *      mediaId: // value for 'mediaId'
+ *   },
+ * });
+ */
+export function useGetCommentsForMediaQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetCommentsForMediaQuery, GetCommentsForMediaQueryVariables>) {
+        return ApolloReactHooks.useQuery<GetCommentsForMediaQuery, GetCommentsForMediaQueryVariables>(GetCommentsForMediaDocument, baseOptions);
+      }
+export function useGetCommentsForMediaLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetCommentsForMediaQuery, GetCommentsForMediaQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<GetCommentsForMediaQuery, GetCommentsForMediaQueryVariables>(GetCommentsForMediaDocument, baseOptions);
+        }
+export type GetCommentsForMediaQueryHookResult = ReturnType<typeof useGetCommentsForMediaQuery>;
+export type GetCommentsForMediaLazyQueryHookResult = ReturnType<typeof useGetCommentsForMediaLazyQuery>;
+export type GetCommentsForMediaQueryResult = ApolloReactCommon.QueryResult<GetCommentsForMediaQuery, GetCommentsForMediaQueryVariables>;
+export const GetNewerCommentsForMediaDocument = gql`
+    query GetNewerCommentsForMedia($mediaId: Int!, $lastId: Int!) {
+  ts_medias_comments(where: {_and: {media_id: {_eq: $mediaId}, id: {_gt: $lastId}}}, order_by: {id: desc}) {
+    id
+    comment
+    unique_device_id
+    created_at
+  }
+}
+    `;
+
+/**
+ * __useGetNewerCommentsForMediaQuery__
+ *
+ * To run a query within a React component, call `useGetNewerCommentsForMediaQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetNewerCommentsForMediaQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetNewerCommentsForMediaQuery({
+ *   variables: {
+ *      mediaId: // value for 'mediaId'
+ *      lastId: // value for 'lastId'
+ *   },
+ * });
+ */
+export function useGetNewerCommentsForMediaQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetNewerCommentsForMediaQuery, GetNewerCommentsForMediaQueryVariables>) {
+        return ApolloReactHooks.useQuery<GetNewerCommentsForMediaQuery, GetNewerCommentsForMediaQueryVariables>(GetNewerCommentsForMediaDocument, baseOptions);
+      }
+export function useGetNewerCommentsForMediaLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetNewerCommentsForMediaQuery, GetNewerCommentsForMediaQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<GetNewerCommentsForMediaQuery, GetNewerCommentsForMediaQueryVariables>(GetNewerCommentsForMediaDocument, baseOptions);
+        }
+export type GetNewerCommentsForMediaQueryHookResult = ReturnType<typeof useGetNewerCommentsForMediaQuery>;
+export type GetNewerCommentsForMediaLazyQueryHookResult = ReturnType<typeof useGetNewerCommentsForMediaLazyQuery>;
+export type GetNewerCommentsForMediaQueryResult = ApolloReactCommon.QueryResult<GetNewerCommentsForMediaQuery, GetNewerCommentsForMediaQueryVariables>;
+export const SubscribeCommentsForMediaDocument = gql`
+    subscription subscribeCommentsForMedia($mediaId: Int!) {
+  ts_medias_comments(where: {media_id: {_eq: $mediaId}}, order_by: {created_at: desc}, limit: 1) {
+    id
+    comment
+    unique_device_id
+    created_at
+  }
+}
+    `;
+
+/**
+ * __useSubscribeCommentsForMediaSubscription__
+ *
+ * To run a query within a React component, call `useSubscribeCommentsForMediaSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useSubscribeCommentsForMediaSubscription` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSubscribeCommentsForMediaSubscription({
+ *   variables: {
+ *      mediaId: // value for 'mediaId'
+ *   },
+ * });
+ */
+export function useSubscribeCommentsForMediaSubscription(baseOptions?: ApolloReactHooks.SubscriptionHookOptions<SubscribeCommentsForMediaSubscription, SubscribeCommentsForMediaSubscriptionVariables>) {
+        return ApolloReactHooks.useSubscription<SubscribeCommentsForMediaSubscription, SubscribeCommentsForMediaSubscriptionVariables>(SubscribeCommentsForMediaDocument, baseOptions);
+      }
+export type SubscribeCommentsForMediaSubscriptionHookResult = ReturnType<typeof useSubscribeCommentsForMediaSubscription>;
+export type SubscribeCommentsForMediaSubscriptionResult = ApolloReactCommon.SubscriptionResult<SubscribeCommentsForMediaSubscription>;
