@@ -50,4 +50,24 @@ export const DELETE_TS_MEDIA_SENTIMENT = gql`
   }
 `;
 
-const test = '';
+export const INSERT_TS_MEDIA_COMMENT = gql`
+  mutation InsertTsMediaComments(
+    $mediaId: Int!
+    $uniqueDeviceId: String!
+    $comment: String!
+  ) {
+    insert_ts_medias_comments(
+      objects: {
+        media_id: $mediaId
+        unique_device_id: $uniqueDeviceId
+        comment: $comment
+      }
+    ) {
+      affected_rows
+      returning {
+        media_id
+        comment
+      }
+    }
+  }
+`;

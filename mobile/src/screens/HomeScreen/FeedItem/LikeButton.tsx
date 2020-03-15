@@ -1,14 +1,12 @@
-import React, { useEffect, useRef, useCallback } from 'react';
+import React, { useRef } from 'react';
 import Animated, { Easing } from 'react-native-reanimated';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { State, TapGestureHandler } from 'react-native-gesture-handler';
-import { useMemoOne } from 'use-memo-one';
 import { contains, delay, timing, onGestureEvent } from 'react-native-redash';
 
 const {
   Value,
-  debug,
-  onChange,
+
   call,
   eq,
   set,
@@ -16,7 +14,6 @@ const {
   interpolate,
   useCode,
   neq,
-  event,
 
   block,
   cond,

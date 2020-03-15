@@ -1,5 +1,6 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import AdFeedWidget from '../AdFeedWidget';
 import InstagramMediaFeedWidget from '../InstagramMediaFeedWidget';
@@ -136,6 +137,10 @@ function FeedItem({ index, media }: Props) {
         <Text style={[styles.sentimentCount, { color: dislikeColor }]}>
           {media.dislike_count}
         </Text>
+        <FontAwesome5
+          name="comment"
+          style={[styles.sentimentIcon, { color: 'white' }]}
+        />
       </View>
     </View>
   );
@@ -158,10 +163,10 @@ const styles = StyleSheet.create<IStyles>({
   sentimentCount: {
     fontWeight: 'bold',
     marginLeft: 5,
-    fontSize: 18,
+    fontSize: 16,
   },
   sentimentIcon: {
-    fontSize: 24,
+    fontSize: 22,
     marginLeft: 10,
   },
   wrapper: {

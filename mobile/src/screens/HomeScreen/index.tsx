@@ -4,21 +4,19 @@ import {
   FlatList,
   RefreshControl,
   StyleSheet,
-  TextStyle,
   View,
   ViewStyle,
 } from 'react-native';
-import { Icon } from 'react-native-elements';
+import {} from 'react-native-elements';
 import { NetworkStatus } from 'apollo-client';
 
 import MoodModalScreen from '../MoodModalScreen';
-import MoodSelectorModalScreen from '../MoodSelectorModalScreen';
 import SettingsModalScreen from '../SettingsModalScreen';
 import Text from '../../components/Typography/Text';
 import { useTheme } from '../../themes';
 import { useStore } from '../../context/StoreContext';
 
-import FeedItem, { MemomedFeedItem } from './FeedItem';
+import { MemomedFeedItem } from './FeedItem';
 import TrendsWidget from './TrendsWidget';
 import { useGetMediasByTopTrendsQuery } from '../../generated/graphql';
 
@@ -74,15 +72,6 @@ const HomeScreen: React.FC<Props> = () => {
   return (
     <>
       <View style={[styles.screen, { backgroundColor: colors.primary }]}>
-        <View style={styles.appTitle}>
-          <Text style={styles.appTitleText}>Le Feed</Text>
-          <Icon
-            name="settings"
-            size={icons.regular.size}
-            onPress={() => setMoodSelectorModalVisible(true)}
-            color={colors.text}
-          />
-        </View>
         <View style={styles.trendListWrapper}>
           <TrendsWidget />
         </View>
@@ -105,7 +94,6 @@ const HomeScreen: React.FC<Props> = () => {
               if (networkStatus !== NetworkStatus.ready) {
                 return;
               }
-              return;
 
               fetchMore({
                 variables: {
@@ -167,7 +155,6 @@ const HomeScreen: React.FC<Props> = () => {
 
 interface IStyles {
   appTitle: ViewStyle;
-  appTitleText: TextStyle;
   trendListWrapper: ViewStyle;
   screen: ViewStyle;
 }
@@ -178,10 +165,7 @@ const styles = StyleSheet.create<IStyles>({
     alignItems: 'center',
     paddingHorizontal: 5,
   },
-  appTitleText: {
-    fontSize: 30,
-    fontFamily: 'Bradley Hand',
-  },
+
   trendListWrapper: {
     height: 40,
     marginTop: 5,
