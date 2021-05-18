@@ -5503,10 +5503,10 @@ react-native-elements@^1.2.7:
     react-native-ratings "^6.3.0"
     react-native-status-bar-height "^2.2.0"
 
-react-native-fast-image@^8.1.4:
-  version "8.1.4"
-  resolved "https://registry.yarnpkg.com/react-native-fast-image/-/react-native-fast-image-8.1.4.tgz#74eb4de22732f88a5bb0f053525ae8b50e02189d"
-  integrity sha512-gaY9zosRrSiA+y+bCO77sOitQFeAJTGbhQfCkG5MktLMdsRNLH/s+qyesWBr9iRafTMUkhXoJOsfT9lGAPiicg==
+react-native-fast-image@^8.3.0:
+  version "8.3.0"
+  resolved "https://registry.yarnpkg.com/react-native-fast-image/-/react-native-fast-image-8.3.0.tgz#5821fac5e8759b3a87628600522eb72c579b0b9f"
+  integrity sha512-b0uhUEXKuIWY1WFai30i4LR99kF8OKoOjl6Yqcnc/bydkuE1r7oj0eUNifa7jwD4Pdpeff+uGMrEz27UMap0yQ==
 
 react-native-gesture-handler@^1.6.0:
   version "1.6.0"
