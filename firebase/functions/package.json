@@ -20,7 +20,7 @@
     "firebase-tools": "^7.12.1",
     "global": "^4.4.0",
     "lured": "^1.0.3",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^3.1.1",
     "redis": "^2.8.0"
   },
   "devDependencies": {
